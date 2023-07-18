@@ -1,7 +1,9 @@
+sys.path.append("xgmodel.py")
 import xgmodel
 from xgmodel import calculate_xG
 from xgmodel import xgfix
 
+sys.path.append("psxgmodel.py")
 import psxgmodel
 from psxgmodel import calculate_PSxG
 from psxgmodel import psxgfix
