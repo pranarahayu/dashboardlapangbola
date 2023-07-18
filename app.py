@@ -26,9 +26,6 @@ with tab1:
         with col3:
             temp0 = fixt1[fixt1['GW']==pekan].reset_index(drop=True)
             match = st.selectbox('Select Match', pd.unique(temp0['Match']), key='2')
-            
-        df1 = pd.read_excel('/content/gdrive/MyDrive/Liga Indonesia 2023/Match/20230709_Liga1Indonesia_PBO_PSJ.xlsx', skiprows=[0])
-        st.write(df1)
     
     with fstats:
         fstats.subheader('Test 2')
