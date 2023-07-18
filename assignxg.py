@@ -1,3 +1,5 @@
+import sys
+
 sys.path.append("xgmodel.py")
 import xgmodel
 from xgmodel import calculate_xG
