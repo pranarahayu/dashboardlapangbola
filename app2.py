@@ -1,12 +1,14 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import os
+import glob
 
 st.set_page_config(page_title='Lapangbola Statistical Dashboard')
 st.title('Lapangbola Statistical Dashboard')
 st.markdown('Created by: Prana - R&D Division Lapangbola.com')
 
-fixt1 = pd.read_excel('fixtureliga1_23.xlsx')
+fixt1 = pd.read_excel('/app/dashboardlapangbola/data/fixtureliga1_23.xlsx')
 fixt1['GW'] = fixt1['GW'].astype(int)
 
 tab1, tab2, tab3 = st.tabs(['**Competitions**', '**Teams**', '**Players**'])
@@ -24,6 +26,13 @@ with tab1:
         with col3:
             temp0 = fixt1[fixt1['GW']==pekan].reset_index(drop=True)
             match = st.selectbox('Select Match', pd.unique(temp0['Match']), key='2')
+
+        timeline_name = 'Pekan '+str(pekan)+'/'+temp0['Date']+'_timeline_Liga1Indonesia_'+temp0['Home']+'_'+temp0['Away']+'.xlsx'
+        report_name = temp0['Date']+'_Liga1Indonesia_'+temp0['Home']+'_'+temp0['Away']+'.xlsx'
+
+        df1 = pd.read_excel('/content/gdrive/MyDrive/Liga Indonesia 2023/Timelines/Match Timeline/'+timeline_name)
+        st.write(df)
+    
     with fstats:
         fstats.subheader('Test 2')
 
