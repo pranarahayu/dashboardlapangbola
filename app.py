@@ -26,11 +26,9 @@ with tab1:
         with col3:
             temp0 = fixt1[fixt1['GW']==pekan].reset_index(drop=True)
             match = st.selectbox('Select Match', pd.unique(temp0['Match']), key='2')
-
-        timeline_name = 'Pekan '+str(pekan)+'/'+temp0['Date']+'_timeline_Liga1Indonesia_'+temp0['Home']+'_'+temp0['Away']+'.xlsx'
+            
         report_name = temp0['Date']+'_Liga1Indonesia_'+temp0['Home']+'_'+temp0['Away']+'.xlsx'
-
-        df1 = pd.read_excel('/content/gdrive/MyDrive/Liga Indonesia 2023/Timelines/Match Timeline/'+timeline_name)
+        df1 = pd.read_excel('/content/gdrive/MyDrive/Liga Indonesia 2023/Match/'+report_name)
         st.write(df)
     
     with fstats:
