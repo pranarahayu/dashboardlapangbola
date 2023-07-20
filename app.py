@@ -163,13 +163,12 @@ with tab1:
     
     with fstats:
         table, teams, players = st.tabs(['Standing & Top Stats', 'Team Stats', 'Player Stats'])
-        with table:
         with teams:
             col1, col2, col3 = st.columns(3)
             with col1:
                 komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2', 'Piala Indonesia'], key='3')
             with col2:
-                komp = st.selectbox('Select Gameweek', range(1,35), key='4')
+                komp = st.multiselect('Select Gameweek', range(1,35), key='4')
             with col3:
                 komp = st.selectbox('Select Venue', ['Home', 'Away'], key='5')
         with players:
