@@ -168,9 +168,22 @@ with tab1:
             with col1:
                 komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2', 'Piala Indonesia'], key='3')
             with col2:
-                komp = st.multiselect('Select Gameweek', range(1,35), key='4')
+                gw = st.multiselect('Select Gameweek', range(1,35), key='4')
             with col3:
-                komp = st.selectbox('Select Venue', ['Home', 'Away'], key='5')
+                venue = st.multiselect('Select Venue', ['Home', 'Away'], key='5')
+        with players:
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2', 'Piala Indonesia'], key='6')
+                month = st.selectbox('Select Month', ['January', 'February'], key='10')
+            with col2:
+                gw = st.multiselect('Select Gameweek', range(1,35), key='7')
+                age = st.multiselect('Select Age Group', ['U-23', 'Senior'], key='11')
+            with col3:
+                pos = st.selectbox('Select Positions', ['Goalkeeper', 'Center Back', 'Fullback'], key='8')
+                nat = st.selectbox('Select Nationality', ['Local', 'Foreign'], key='12')   
+           with col4:
+                team = st.selectbox('Select Clubs', pd.unique(fixt['Home']), key='9')
             
 
 with tab2:
