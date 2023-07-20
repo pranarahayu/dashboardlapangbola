@@ -171,8 +171,6 @@ with tab1:
                 komp = st.multiselect('Select Gameweek', range(1,35), key='4')
             with col3:
                 komp = st.selectbox('Select Venue', ['Home', 'Away'], key='5')
-        with players:
-            tab2.captions('Team Statistics')
             
 
 with tab2:
