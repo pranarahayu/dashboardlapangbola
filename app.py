@@ -182,7 +182,7 @@ with tab1:
             with col3:
                 pos = st.selectbox('Select Positions', ['Goalkeeper', 'Center Back', 'Fullback'], key='8')
                 nat = st.selectbox('Select Nationality', ['Local', 'Foreign'], key='12')   
-           with col4:
+            with col4:
                 team = st.selectbox('Select Clubs', pd.unique(fixt['Home']), key='9')
             
 
