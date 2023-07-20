@@ -164,7 +164,6 @@ with tab1:
     with fstats:
         table, teams, players = st.tabs(['Standing & Top Stats', 'Team Stats', 'Player Stats'])
         with table:
-            st.caption('Team Statistics')
         with teams:
             col1, col2, col3 = st.columns(3)
             with col1:
