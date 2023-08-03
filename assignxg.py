@@ -379,11 +379,11 @@ def data_team(data, komp, gw, venue, cat):
   ip = ['Team', 'Total Pass', 'Pass', 'Pass Accuracy', 'Chances Created',
         'Pass per Shot', 'Crosses', 'Cross', 'Successful Cross Ratio', 'Dribbles', 'Dribble']
   
-  op = ['Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions',
+  op = ['Team', 'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions',
         'Blocks', 'Aerial Duels', 'Aerial Won', 'Aerial Won Ratio', 'Saves',
         'Goals Conceded', 'Shots Allowed']
   
-  misc = ['Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
+  misc = ['Team', 'Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
           'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside']
   
   if (cat == 'Goal Threat'):
