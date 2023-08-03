@@ -165,14 +165,16 @@ with tab1:
     with fstats:
         table, teams, players = st.tabs(['Standing & Top Stats', 'Team Stats', 'Player Stats'])
         with teams:
-            col1, col2, col3 = st.columns(3)
+            col1, col2, col3, col4 = st.columns(4)
             with col1:
                 komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2', 'Piala Indonesia'], key='3')
             with col2:
                 gw = st.multiselect('Select Gameweek', range(1,35), key='4')
             with col3:
                 venue = st.multiselect('Select Venue', ['Home', 'Away'], key='5')
-            show_tim_data = data_team(fulldata, komp, gw, venue)
+            with col4:
+                cat = st.selectbox('Select Category', ['Goal Threat', 'in Possession', 'out of Possession', 'Misc'], key='13')
+            show_tim_data = data_team(fulldata, komp, gw, venue, cat)
             st.write(show_tim_data)
         with players:
             col1, col2, col3, col4 = st.columns(4)
