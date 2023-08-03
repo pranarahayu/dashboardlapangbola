@@ -47,6 +47,7 @@ def load_data(sheets_url):
     xlsx_url = sheets_url.replace("/edit#gid=", "/export?format=xlsx&gid=")
     return pd.read_excel(xlsx_url)
 
+fulldata = load_data(st.secrets["rekapdata"])
 shots_data = load_data(st.secrets["data_shots"])
 fixt1 = load_data(st.secrets["fixture"])
 fixt1['GW'] = fixt1['GW'].astype(int)
