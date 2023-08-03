@@ -50,7 +50,7 @@ def load_data(sheets_url):
 shots_data = load_data(st.secrets["data_shots"])
 fixt1 = load_data(st.secrets["fixture"])
 fixt1['GW'] = fixt1['GW'].astype(int)
-fulldata = load_data(st.secrets["data_full"])
+fulldata = load_data(st.secrets["rekapdata"])
 
 tab1, tab2, tab3 = st.tabs(['**Competitions**', '**Teams**', '**Players**'])
 
