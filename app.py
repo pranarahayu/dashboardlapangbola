@@ -172,7 +172,7 @@ with tab1:
                 gw = st.multiselect('Select Gameweek', range(1,35), key='4')
             with col3:
                 venue = st.multiselect('Select Venue', ['Home', 'Away'], key='5')
-            show_tim_data = data_team(fulldata)
+            show_tim_data = data_team(fulldata, komp, gw, venue)
             st.write(show_tim_data)
         with players:
             col1, col2, col3, col4 = st.columns(4)
