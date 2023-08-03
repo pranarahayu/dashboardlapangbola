@@ -21,6 +21,7 @@ sys.path.append("assignxg.py")
 import assignxg
 from assignxg import assign_xg
 from assignxg import assign_psxg
+from assignxg import data_team
 
 github_url = 'https://github.com/google/fonts/blob/main/ofl/poppins/Poppins-Bold.ttf'
 url = github_url + '?raw=true'
@@ -48,8 +49,8 @@ def load_data(sheets_url):
 
 shots_data = load_data(st.secrets["data_shots"])
 fixt1 = load_data(st.secrets["fixture"])
-#fixt1 = pd.read_excel('/app/dashboardlapangbola/data/fixtureliga1_23.xlsx')
 fixt1['GW'] = fixt1['GW'].astype(int)
+fulldata = load_data(st.secrets["datafull"])
 
 tab1, tab2, tab3 = st.tabs(['**Competitions**', '**Teams**', '**Players**'])
 
@@ -171,6 +172,8 @@ with tab1:
                 gw = st.multiselect('Select Gameweek', range(1,35), key='4')
             with col3:
                 venue = st.multiselect('Select Venue', ['Home', 'Away'], key='5')
+            show_tim_data = data_team(fulldata)
+            st.write(show_tim_data)
         with players:
             col1, col2, col3, col4 = st.columns(4)
             with col1:
