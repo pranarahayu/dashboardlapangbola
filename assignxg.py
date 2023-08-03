@@ -323,7 +323,7 @@ def data_team(data, komp, gw, venue, cat):
 
   df['Shots'] = df['Shot on']+df['Shot off']+df['Shot Blocked']
   df['Goals'] = df['Penalty Goal']+df['Goal']
-  df['Penalties Given'] = df['Penalty Goal']+df['Penalty Missed']
+  df['Penalties Awarded'] = df['Penalty Goal']+df['Penalty Missed']
   df['Shots - Inside Box'] = df['Shot on - Inside Box']+df['Shot off - Inside Box']+df['Shot Blocked - Inside Box']
   df['Shots - Outside Box'] = df['Shot on - Outside Box']+df['Shot off - Outside Box']+df['Shot Blocked - Outside Box']
   df['Goals - Inside Box'] = df['Penalty Goal']+df['Goal - Inside Box']
@@ -342,7 +342,7 @@ def data_team(data, komp, gw, venue, cat):
 
   df = df[['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked',
            'Shots - Inside Box', 'Shots - Outside Box',
-           'Goals', 'Penalties Given', 'Penalty Goal',
+           'Goals', 'Penalties Awarded', 'Penalty Goal',
            'Goals - Inside Box', 'Goal - Outside Box', 'Goals - Open Play',
            'Goals - Set Pieces', 'Goal - Corner Kick', 'Total Pass', 'Pass',
            'Chances Created', 'Crosses', 'Cross', 'Dribbles', 'Dribble',
@@ -363,7 +363,7 @@ def data_team(data, komp, gw, venue, cat):
   df2['Goals'] = df2['Goals'] + df2['Goal - Own Goal']
 
   df2 = df2[['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shot on Target Ratio',
-             'Shots - Inside Box', 'Shots - Outside Box', 'Goals', 'Penalties Given', 'Penalty Goal',
+             'Shots - Inside Box', 'Shots - Outside Box', 'Goals', 'Penalties Awarded', 'Penalty Goal',
              'Goals - Inside Box', 'Goal - Outside Box', 'Goals - Open Play', 'Goals - Set Pieces',
              'Goal - Corner Kick', 'Goal - Own Goal', 'Total Pass', 'Pass', 'Pass Accuracy',
              'Chances Created', 'Pass per Shot', 'Crosses', 'Cross', 'Successful Cross Ratio',
@@ -373,7 +373,7 @@ def data_team(data, komp, gw, venue, cat):
              'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside']]
 
   gt = ['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shot on Target Ratio', 'Shots - Inside Box',
-        'Shots - Outside Box', 'Goals', 'Penalties Given', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box',
+        'Shots - Outside Box', 'Goals', 'Penalties Awarded', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box',
         'Goals - Open Play', 'Goals - Set Pieces', 'Goal - Corner Kick', 'Goal - Own Goal']
   
   ip = ['Team', 'Total Pass', 'Pass', 'Pass Accuracy', 'Chances Created',
