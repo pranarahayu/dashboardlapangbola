@@ -308,7 +308,7 @@ def add_conc(data):
 
   return df_clean
 
-def data_team(data, komp, gw, venue):
+def data_team(data, komp, gw, venue, cat):
   df = data.copy()
   df_og = data.copy()
   gw_list = gw
@@ -336,26 +336,63 @@ def data_team(data, komp, gw, venue):
   df['Tackles'] = df['Tackle']+df['Tackle Fail']
   df['Defensive Actions'] = df['Tackles']+df['Intercept']+df['Clearance']+df['Recovery']
   df['Saves'] = df['Save']+df['Penalty Save']
+  df['Blocks'] = df['Block']+df['Block Cross']
+  df['Aerial Duels'] = df['Aerial Won']+df['Aerial Lost']
+  df['Errors'] = df['Error Goal - Error Led to Chance'] + df['Error Goal - Error Led to Goal']
 
-  df = df[['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shots - Inside Box', 'Shots - Outside Box',
-           'Goals', 'Penalties Given', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box', 'Goals - Open Play',
-           'Goals - Set Pieces', 'Goal - Corner Kick', 'Total Pass', 'Pass', 'Chances Created', 'Crosses',
-           'Cross', 'Dribbles', 'Dribble', 'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions', 'Saves']]
+  df = df[['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked',
+           'Shots - Inside Box', 'Shots - Outside Box',
+           'Goals', 'Penalties Given', 'Penalty Goal',
+           'Goals - Inside Box', 'Goal - Outside Box', 'Goals - Open Play',
+           'Goals - Set Pieces', 'Goal - Corner Kick', 'Total Pass', 'Pass',
+           'Chances Created', 'Crosses', 'Cross', 'Dribbles', 'Dribble',
+           'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions',
+           'Blocks', 'Aerial Duels', 'Aerial Won', 'Saves',
+           'Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
+           'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside']]
   df = df.groupby('Team', as_index=False).sum()
   df['Conversion Ratio'] = round(df['Goals']/df['Shots'],2)
   df['Shot on Target Ratio'] = round(df['Shot on']/df['Shots'],2)
   df['Successful Cross Ratio'] = round(df['Cross']/df['Crosses'],2)
   df['Pass per Shot'] = round(df['Total Pass']/df['Shots'],2)
   df['Pass Accuracy'] = round(df['Pass']/df['Total Pass'],2)
+  df['Aerial Won Ratio'] = round(df['Aerial Won']/df['Aerial Duels'],2)
 
   df1 = pd.merge(df, dfog, on='Team', how='left')
   df2 = pd.merge(df1, dfconc, on='Team', how='left')
   df2['Goals'] = df2['Goals'] + df2['Goal - Own Goal']
 
-  df2 = df2[['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shot on Target Ratio', 'Shots - Inside Box',
-             'Shots - Outside Box', 'Goals', 'Penalties Given', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box',
-             'Goals - Open Play', 'Goals - Set Pieces', 'Goal - Corner Kick', 'Goal - Own Goal', 'Total Pass', 'Pass', 'Pass Accuracy',
-             'Chances Created', 'Pass per Shot', 'Crosses', 'Cross', 'Successful Cross Ratio', 'Dribbles', 'Dribble',
-             'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions', 'Saves', 'Goals Conceded', 'Shots Allowed']]
+  df2 = df2[['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shot on Target Ratio',
+             'Shots - Inside Box', 'Shots - Outside Box', 'Goals', 'Penalties Given', 'Penalty Goal',
+             'Goals - Inside Box', 'Goal - Outside Box', 'Goals - Open Play', 'Goals - Set Pieces',
+             'Goal - Corner Kick', 'Goal - Own Goal', 'Total Pass', 'Pass', 'Pass Accuracy',
+             'Chances Created', 'Pass per Shot', 'Crosses', 'Cross', 'Successful Cross Ratio',
+             'Dribbles', 'Dribble', 'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions',
+             'Blocks', 'Aerial Duels', 'Aerial Won', 'Aerial Won Ratio', 'Saves', 'Goals Conceded', 'Shots Allowed',
+             'Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
+             'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside']]
+
+  gt = ['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shot on Target Ratio', 'Shots - Inside Box',
+        'Shots - Outside Box', 'Goals', 'Penalties Given', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box',
+        'Goals - Open Play', 'Goals - Set Pieces', 'Goal - Corner Kick', 'Goal - Own Goal']
+  
+  ip = ['Team', 'Total Pass', 'Pass', 'Pass Accuracy', 'Chances Created',
+        'Pass per Shot', 'Crosses', 'Cross', 'Successful Cross Ratio', 'Dribbles', 'Dribble']
+  
+  op = ['Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions',
+        'Blocks', 'Aerial Duels', 'Aerial Won', 'Aerial Won Ratio', 'Saves',
+        'Goals Conceded', 'Shots Allowed']
+  
+  misc = ['Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
+          'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside']
+  
+  if (cat == 'Goal Threat'):
+    df2 = df2[gt]
+  elif (cat == 'in Possession'):
+    df2 = df2[ip]
+  elif (cat == 'out of Possession'):
+    df2 = df2[op]
+  else:
+    df2 = df2[misc]
 
   return df2
