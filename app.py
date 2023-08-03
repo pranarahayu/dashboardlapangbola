@@ -13,7 +13,7 @@ from matplotlib.offsetbox import (OffsetImage, AnnotationBbox)
 import matplotlib.font_manager as fm
 from matplotlib.patches import FancyBboxPatch
 
-st.set_page_config(page_title='Lapangbola Statistical Dashboard')
+st.set_page_config(page_title='Lapangbola Statistical Dashboard', layout='wide')
 st.title('Lapangbola Statistical Dashboard')
 st.markdown('Created by: Prana - R&D Division Lapangbola.com')
 
