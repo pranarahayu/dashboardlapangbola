@@ -324,33 +324,38 @@ def data_team(data, komp, gw, venue):
   df['Shots'] = df['Shot on']+df['Shot off']+df['Shot Blocked']
   df['Goals'] = df['Penalty Goal']+df['Goal']
   df['Penalties Given'] = df['Penalty Goal']+df['Penalty Missed']
-  df['Conversion Ratio'] = round(df['Goals']/df['Shots'],2)
-  df['Shot on Target Ratio'] = round(df['Shot on']/df['Shots'],2)
   df['Shots - Inside Box'] = df['Shot on - Inside Box']+df['Shot off - Inside Box']+df['Shot Blocked - Inside Box']
   df['Shots - Outside Box'] = df['Shot on - Outside Box']+df['Shot off - Outside Box']+df['Shot Blocked - Outside Box']
   df['Goals - Inside Box'] = df['Penalty Goal']+df['Goal - Inside Box']
   df['Goals - Open Play'] = df['Goal - Open Play']+df['Goal - Counter Attack']
   df['Goals - Set Pieces'] = df['Goal - Set-Piece Free Kick']+df['Goal - Throw in']+df['Goal - Corner Kick']
   df['Total Pass'] = df['Pass']+df['Pass Fail']
-  df['Pass Accuracy'] = round(df['Pass']/df['Total Pass'],2)
   df['Chances Created'] = df['Key Pass']+df['Assist']
-  df['Pass per Shot'] = round(df['Total Pass']/df['Shots'],2)
   df['Crosses'] = df['Cross']+df['Cross Fail']
   df['Dribbles'] = df['Dribble']+df['Dribble Fail']
-  df['Successful Cross Ratio'] = round(df['Cross']/df['Crosses'],2)
   df['Tackles'] = df['Tackle']+df['Tackle Fail']
   df['Defensive Actions'] = df['Tackles']+df['Intercept']+df['Clearance']+df['Recovery']
   df['Saves'] = df['Save']+df['Penalty Save']
 
-  df = df[['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shot on Target Ratio', 'Shots - Inside Box',
-           'Shots - Outside Box', 'Goals', 'Penalties Given', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box',
-           'Goals - Open Play', 'Goals - Set Pieces', 'Goal - Corner Kick', 'Total Pass', 'Pass', 'Pass Accuracy',
-           'Chances Created', 'Pass per Shot', 'Crosses', 'Cross', 'Successful Cross Ratio', 'Dribbles', 'Dribble',
-           'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions', 'Saves']]
+  df = df[['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shots - Inside Box', 'Shots - Outside Box',
+           'Goals', 'Penalties Given', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box', 'Goals - Open Play',
+           'Goals - Set Pieces', 'Goal - Corner Kick', 'Total Pass', 'Pass', 'Chances Created', 'Crosses',
+           'Cross', 'Dribbles', 'Dribble', 'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions', 'Saves']]
   df = df.groupby('Team', as_index=False).sum()
+  df['Conversion Ratio'] = round(df['Goals']/df['Shots'],2)
+  df['Shot on Target Ratio'] = round(df['Shot on']/df['Shots'],2)
+  df['Successful Cross Ratio'] = round(df['Cross']/df['Crosses'],2)
+  df['Pass per Shot'] = round(df['Total Pass']/df['Shots'],2)
+  df['Pass Accuracy'] = round(df['Pass']/df['Total Pass'],2)
 
   df1 = pd.merge(df, dfog, on='Team', how='left')
   df2 = pd.merge(df1, dfconc, on='Team', how='left')
   df2['Goals'] = df2['Goals'] + df2['Goal - Own Goal']
+
+  df2 = df2[['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shot on Target Ratio', 'Shots - Inside Box',
+             'Shots - Outside Box', 'Goals', 'Penalties Given', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box',
+             'Goals - Open Play', 'Goals - Set Pieces', 'Goal - Corner Kick', 'Goal - Own Goal', 'Total Pass', 'Pass', 'Pass Accuracy',
+             'Chances Created', 'Pass per Shot', 'Crosses', 'Cross', 'Successful Cross Ratio', 'Dribbles', 'Dribble',
+             'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions', 'Saves', 'Goals Conceded', 'Shots Allowed']]
 
   return df2
