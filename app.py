@@ -41,15 +41,15 @@ reg = fm.FontProperties(fname=f.name)
 path_eff = [path_effects.Stroke(linewidth=2, foreground='#ffffff'),
             path_effects.Normal()]
 
-fixt1 = pd.read_excel('/app/dashboardlapangbola/data/fixtureliga1_23.xlsx')
-fixt1['GW'] = fixt1['GW'].astype(int)
-
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
     xlsx_url = sheets_url.replace("/edit#gid=", "/export?format=xlsx&gid=")
     return pd.read_excel(xlsx_url)
 
 shots_data = load_data(st.secrets["data_shots"])
+fixt1 = load_data(st.secrets["fixture"])
+#fixt1 = pd.read_excel('/app/dashboardlapangbola/data/fixtureliga1_23.xlsx')
+fixt1['GW'] = fixt1['GW'].astype(int)
 
 tab1, tab2, tab3 = st.tabs(['**Competitions**', '**Teams**', '**Players**'])
 
