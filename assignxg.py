@@ -280,3 +280,77 @@ def assign_psxg(data):
   fixdata['PSxG'] = psxg['PSxG']
 
   return fixdata
+
+def add_og(data):
+  df = data.copy()
+  dfog = df[['Match', 'Team', 'Opponent', 'Own Goal']]
+  dfog = dfog.groupby(['Match', 'Team', 'Opponent'], as_index=False).sum()
+  dfog['Team'] = dfog['Opponent']
+  dfog['Goal - Own Goal'] = dfog['Own Goal']
+  df_clean = dfog[['Team', 'Goal - Own Goal']]
+  df_clean = df_clean.groupby('Team', as_index=False).sum()
+  return df_clean
+
+def add_conc(data):
+  df = data.copy()
+  conc = df[['Opponent','Goal','Penalty Goal','Shot on','Shot off','Shot Blocked']]
+  conc['Goals Conceded'] = conc['Goal']+conc['Penalty Goal']
+  conc['Shots Allowed'] = conc['Shot on']+conc['Shot off']+conc['Shot Blocked']
+  conc = conc[['Opponent','Goals Conceded','Shots Allowed']].rename(columns={'Opponent':'Team'})
+  df_clean1 = conc.groupby('Team', as_index=False).sum()
+
+  dfog = df[['Team','Own Goal']]
+  df_clean2 = dfog.groupby('Team', as_index=False).sum()
+
+  df_clean = pd.merge(df_clean1, df_clean2, on='Team', how='left')
+  df_clean['Goals Conceded'] = df_clean['Goals Conceded']+df_clean['Own Goal']
+  df_clean = df_clean[['Team','Goals Conceded','Shots Allowed']]
+
+  return df_clean
+
+def data_team(data, komp, gw, venue):
+  df = data.copy()
+  df_og = data.copy()
+  gw_list = gw
+  vn_list = venue
+
+  df = df[df['Kompetisi']==komp]
+  df = df[df['Home/Away'].isin(vn_list)]
+  df = df[df['Gameweek'].isin(gw_list)]
+
+  dfog = add_og(df)
+  dfconc = add_conc(df)
+
+  df['Shots'] = df['Shot on']+df['Shot off']+df['Shot Blocked']
+  df['Goals'] = df['Penalty Goal']+df['Goal']
+  df['Penalties Given'] = df['Penalty Goal']+df['Penalty Missed']
+  df['Conversion Ratio'] = round(df['Goals']/df['Shots'],2)
+  df['Shot on Target Ratio'] = round(df['Shot on']/df['Shots'],2)
+  df['Shots - Inside Box'] = df['Shot on - Inside Box']+df['Shot off - Inside Box']+df['Shot Blocked - Inside Box']
+  df['Shots - Outside Box'] = df['Shot on - Outside Box']+df['Shot off - Outside Box']+df['Shot Blocked - Outside Box']
+  df['Goals - Inside Box'] = df['Penalty Goal']+df['Goal - Inside Box']
+  df['Goals - Open Play'] = df['Goal - Open Play']+df['Goal - Counter Attack']
+  df['Goals - Set Pieces'] = df['Goal - Set-Piece Free Kick']+df['Goal - Throw in']+df['Goal - Corner Kick']
+  df['Total Pass'] = df['Pass']+df['Pass Fail']
+  df['Pass Accuracy'] = round(df['Pass']/df['Total Pass'],2)
+  df['Chances Created'] = df['Key Pass']+df['Assist']
+  df['Pass per Shot'] = round(df['Total Pass']/df['Shots'],2)
+  df['Crosses'] = df['Cross']+df['Cross Fail']
+  df['Dribbles'] = df['Dribble']+df['Dribble Fail']
+  df['Successful Cross Ratio'] = round(df['Cross']/df['Crosses'],2)
+  df['Tackles'] = df['Tackle']+df['Tackle Fail']
+  df['Defensive Actions'] = df['Tackles']+df['Intercept']+df['Clearance']+df['Recovery']
+  df['Saves'] = df['Save']+df['Penalty Save']
+
+  df = df[['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shot on Target Ratio', 'Shots - Inside Box',
+           'Shots - Outside Box', 'Goals', 'Penalties Given', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box',
+           'Goals - Open Play', 'Goals - Set Pieces', 'Goal - Corner Kick', 'Total Pass', 'Pass', 'Pass Accuracy',
+           'Chances Created', 'Pass per Shot', 'Crosses', 'Cross', 'Successful Cross Ratio', 'Dribbles', 'Dribble',
+           'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions', 'Saves']]
+  df = df.groupby('Team', as_index=False).sum()
+
+  df1 = pd.merge(df, dfog, on='Team', how='left')
+  df2 = pd.merge(df1, dfconc, on='Team', how='left')
+  df2['Goals'] = df2['Goals'] + df2['Goal - Own Goal']
+
+  return df2
