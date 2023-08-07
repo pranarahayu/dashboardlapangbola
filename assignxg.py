@@ -308,15 +308,21 @@ def add_conc(data):
 
   return df_clean
 
-def data_team(data, komp, gw, venue, cat):
+def data_team(data, komp, month, gw, venue, cat):
   df = data.copy()
   df_og = data.copy()
   gw_list = gw
   vn_list = venue
+  mn_list = month
+
+  from datetime import date
+  df['Date'] = pd.to_datetime(df.Date)
+  df['Month'] = df['Date'].dt.strftime('%B')
 
   df = df[df['Kompetisi']==komp]
   df = df[df['Home/Away'].isin(vn_list)]
   df = df[df['Gameweek'].isin(gw_list)]
+  df = df[df['Month'].isin(mn_list)]
 
   dfog = add_og(df)
   dfconc = add_conc(df)
