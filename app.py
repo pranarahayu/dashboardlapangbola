@@ -51,6 +51,9 @@ shots_data = load_data(st.secrets["data_shots"])
 fixt1 = load_data(st.secrets["fixture"])
 fixt1['GW'] = fixt1['GW'].astype(int)
 fulldata = load_data(st.secrets["testaja"])
+from datetime import date
+fulldata['Date'] = pd.to_datetime(fulldata.Date)
+fulldata['Month'] = fulldata['Date'].dt.strftime('%B')
 
 tab1, tab2, tab3 = st.tabs(['**Competitions**', '**Teams**', '**Players**'])
 
@@ -165,16 +168,20 @@ with tab1:
     with fstats:
         table, teams, players = st.tabs(['Standing & Top Stats', 'Team Stats', 'Player Stats'])
         with teams:
-            col1, col2, col3, col4 = st.columns(4)
+            col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
                 komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2', 'Piala Indonesia'], key='3')
+            with col5:
+                month = st.selectbox('Select Competition', pd.unique(temp_full['Month']), key='14')
             with col2:
-                gw = st.multiselect('Select Gameweek', range(1,35), key='4')
+                temp_full = fulldata[fulldata['Month'].isin(month)]
+                venue = st.multiselect('Select Venue', pd.unique(temp_full['Home/Away']), key='5')
             with col3:
-                venue = st.multiselect('Select Venue', ['Home', 'Away'], key='5')
+                temp_full = temp_full[temp_full['Home/Away'].isin(venue)]
+                gw = st.multiselect('Select Gameweek', pd.unique(temp_full['Gameweek']), key='4')
             with col4:
                 cat = st.selectbox('Select Category', ['Goal Threat', 'in Possession', 'out of Possession', 'Misc'], key='13')
-            show_tim_data = data_team(fulldata, komp, gw, venue, cat)
+            show_tim_data = data_team(fulldata, komp, month, gw, venue, cat)
             st.write(show_tim_data)
         with players:
             col1, col2, col3, col4 = st.columns(4)
