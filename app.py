@@ -171,15 +171,15 @@ with tab1:
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
                 komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2', 'Piala Indonesia'], key='3')
-            with col5:
-                month = st.multiselect('Select Competition', pd.unique(fulldata['Month']), key='14')
             with col2:
+                month = st.multiselect('Select Month', pd.unique(fulldata['Month']), key='14')
+            with col3:
                 temp_full = fulldata[fulldata['Month'].isin(month)]
                 venue = st.multiselect('Select Venue', pd.unique(temp_full['Home/Away']), key='5')
-            with col3:
+            with col4:
                 temp_full = temp_full[temp_full['Home/Away'].isin(venue)]
                 gw = st.multiselect('Select Gameweek', pd.unique(temp_full['Gameweek']), key='4')
-            with col4:
+            with col5:
                 cat = st.selectbox('Select Category', ['Goal Threat', 'in Possession', 'out of Possession', 'Misc'], key='13')
             show_tim_data = data_team(fulldata, komp, month, gw, venue, cat)
             st.write(show_tim_data)
