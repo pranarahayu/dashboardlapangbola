@@ -172,7 +172,7 @@ with tab1:
             with col1:
                 komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2', 'Piala Indonesia'], key='3')
             with col5:
-                month = st.selectbox('Select Competition', pd.unique(temp_full['Month']), key='14')
+                month = st.selectbox('Select Competition', pd.unique(fulldata['Month']), key='14')
             with col2:
                 temp_full = fulldata[fulldata['Month'].isin(month)]
                 venue = st.multiselect('Select Venue', pd.unique(temp_full['Home/Away']), key='5')
