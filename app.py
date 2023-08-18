@@ -58,7 +58,7 @@ df2 = load_data(st.secrets["datapemain"])
 from datetime import date
 df1['Date'] = pd.to_datetime(df1.Date)
 df1['Month'] = df1['Date'].dt.strftime('%B')
-df = pd.merge(df1, df2.drop(['Player ID'], axis=1), on='Name', how='left')
+df = pd.merge(df1, df2.drop(['Name'], axis=1), on='Player ID', how='left')
 fulldata = get_detail(df)
 mlist = get_list(df)
 
