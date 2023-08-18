@@ -211,11 +211,11 @@ with tab1:
                 temp_pull = temp_pull[temp_pull['Month'].isin(month)]
                 venue = st.multiselect('Select Venue', pd.unique(temp_pull['Home/Away']), key='9')
                 temp_pull = temp_pull[temp_pull['Home/Away'].isin(venue)]
-                gw = st.multiselect('Select Gameweek', pd.unique(temp_pull['Gameweek']), key='13')
+                gw = st.multiselect('Select Gameweek', pd.unique(temp_pull['Gameweek']), key='17')
             with col5:
                 mins = st.number_input('Input minimum mins. played', min_value=0,
-                                       max_value=90*max(full_data['Gameweek']), step=90, key=14)
-                metrik = st.multiselect('Select Metrics', mlist, key='15')
+                                       max_value=90*max(full_data['Gameweek']), step=90, key=18)
+                metrik = st.multiselect('Select Metrics', mlist, key='19')
             cat = st.selectbox('Select Category', ['Total', 'per 90'], key='16')
             if (cat == 'per 90'):
                 show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat=='p90')
