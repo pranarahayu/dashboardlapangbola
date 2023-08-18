@@ -22,6 +22,9 @@ import assignxg
 from assignxg import assign_xg
 from assignxg import assign_psxg
 from assignxg import data_team
+from assignxg import data_player
+from assignxg import get_list
+from assignxg import get_detail
 
 github_url = 'https://github.com/google/fonts/blob/main/ofl/poppins/Poppins-Bold.ttf'
 url = github_url + '?raw=true'
@@ -50,10 +53,14 @@ def load_data(sheets_url):
 shots_data = load_data(st.secrets["data_shots"])
 fixt1 = load_data(st.secrets["fixture"])
 fixt1['GW'] = fixt1['GW'].astype(int)
-fulldata = load_data(st.secrets["testaja"])
+df1 = load_data(st.secrets["testaja"])
+df2 = load_data(st.secrets["datapemain"])
 from datetime import date
-fulldata['Date'] = pd.to_datetime(fulldata.Date)
-fulldata['Month'] = fulldata['Date'].dt.strftime('%B')
+df1['Date'] = pd.to_datetime(df1.Date)
+df1['Month'] = df1['Date'].dt.strftime('%B')
+df = pd.merge(df1, df2.drop(['Player ID'], axis=1), on='Name', how='left')
+fulldata = get_detail(df)
+mlist = get_list(df)
 
 tab1, tab2, tab3 = st.tabs(['**Competitions**', '**Teams**', '**Players**'])
 
@@ -170,9 +177,10 @@ with tab1:
         with teams:
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
-                komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2', 'Piala Indonesia'], key='3')
+                komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='3')
             with col2:
-                month = st.multiselect('Select Month', pd.unique(fulldata['Month']), key='14')
+                temp_full = fulldata[fulldata['Competition']==komp)]
+                month = st.multiselect('Select Month', pd.unique(temp_full['Month']), key='14')
             with col3:
                 temp_full = fulldata[fulldata['Month'].isin(month)]
                 venue = st.multiselect('Select Venue', pd.unique(temp_full['Home/Away']), key='5')
@@ -184,18 +192,37 @@ with tab1:
             show_tim_data = data_team(fulldata, komp, month, gw, venue, cat)
             st.write(show_tim_data)
         with players:
-            col1, col2, col3, col4 = st.columns(4)
+            col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
-                komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2', 'Piala Indonesia'], key='6')
-                month = st.selectbox('Select Month', ['January', 'February'], key='10')
+                komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='6')
+                temp_pull = fulldata[fulldata['Competition']==komp)]
+                team = st.selectbox('Select Teams', pd.unique(temp_pull['Team']), key='10')
             with col2:
-                gw = st.multiselect('Select Gameweek', range(1,35), key='7')
-                age = st.multiselect('Select Age Group', ['U-23', 'Senior'], key='11')
+                temp_pull = temp_pull[temp_pull['Team'].isin(team))]
+                pos = st.multiselect('Select Positions', pd.unique(temp_pull['Positions']), key='7')
+                temp_pull = temp_pull[temp_pull['Position'].isin(pos))]
+                age = st.multiselect('Select Age Group', pd.unique(temp_pull['Age Group']), key='11')
             with col3:
-                pos = st.selectbox('Select Positions', ['Goalkeeper', 'Center Back', 'Fullback'], key='8')
-                nat = st.selectbox('Select Nationality', ['Local', 'Foreign'], key='12')   
+                temp_pull = temp_pull[temp_pull['Age Group'].isin(age))]
+                nat = st.selectbox('Select Nationality', pd.unique(temp_pull['Nat. Status']), key='8')
+                temp_pull = temp_pull[temp_pull['Nat. Status'].isin(nat))]
+                month = st.selectbox('Select Month', pd.unique(temp_pull['Month']), key='12')   
             with col4:
-                team = st.selectbox('Select Clubs', pd.unique(fixt1['Home']), key='9')
+                temp_pull = temp_pull[temp_pull['Month'].isin(month))]
+                venue = st.selectbox('Select Venue', pd.unique(temp_pull['Home/Away']), key='9')
+                temp_pull = temp_pull[temp_pull['Home/Away'].isin(venue))]
+                gw = st.multiselect('Select Gameweek', pd.unique(temp_pull['Gameweek']), key='13')
+            with col5:
+                mins = st.number_input('Input minimum mins. played', min_value=0,
+                                       max_value=90*max(full_data['Gameweek']), step=90, key=14)
+                metrik = st.multiselect('Select Metrics', mlist, key='15')
+            cat = st.selectbox('Select Category', ['Total', 'per 90'], key='16')
+            if (cat == 'per 90'):
+                show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat=='p90')
+                st.write(show_player_data)
+            else:
+                show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat=='total')
+                st.write(show_player_data)
             
 
 with tab2:
