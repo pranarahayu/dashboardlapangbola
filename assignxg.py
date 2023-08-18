@@ -484,6 +484,9 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   df = df[df['Home/Away'].isin(vn_list)]
   df = df[df['Gameweek'].isin(gw_list)]
   df = df[df['Month'].isin(mn_list)]
+  df = df[df['Age Group'].isin(ag_list)]
+  df = df[df['Position'].isin(ps_list)]
+  df = df[df['Nat. Status'].isin(nt_list)]
 
   df['Shots'] = df['Shot on']+df['Shot off']+df['Shot Blocked']
   df['Goals'] = df['Penalty Goal']+df['Goal']
@@ -504,7 +507,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   df['Aerial Duels'] = df['Aerial Won']+df['Aerial Lost']
   df['Errors'] = df['Error Goal - Error Led to Chance'] + df['Error Goal - Error Led to Goal']
 
-  jatuh = ['No','Team ID','Name','Position (in match)','Gameweek','Team','Opponent','Match','Home/Away','Venue',
+  jatuh = ['No','Team ID','Player ID','Position (in match)','Gameweek','Team','Opponent','Match','Home/Away','Venue',
            'Date','Result','Starter/Subs','Subs','Player Rating','Ball Possession','Pass Team','Kick In','Unnamed: 296',
            'Unnamed: 297','Unnamed: 298','Unnamed: 299','Unnamed: 300','Unnamed: 301','Unnamed: 302','Unnamed: 303',
            'Fantasy Assist','Fantasy Assist - Penalty','Fantasy Assist - Free kick','Fantasy Assist - Goal by rebound',
@@ -512,7 +515,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
            'Month','Nickname','DoB','Position','Nationality','Nat. Status','Age Group']
 
   df = df.drop(jatuh, axis=1)
-  df = df.groupby('Player ID', as_index=False).sum()
+  df = df.groupby('Name', as_index=False).sum()
   df['Conversion Ratio'] = round(df['Goals']/df['Shots'],2)
   df['Shot on Target Ratio'] = round(df['Shot on']/df['Shots'],2)
   df['Successful Cross Ratio'] = round(df['Cross']/df['Crosses'],2)
@@ -521,17 +524,15 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   df['Aerial Won Ratio'] = round(df['Aerial Won']/df['Aerial Duels'],2)
 
   datafull = df[df['MoP'] >= mins]
-  datafull = datafull[datafull['Age Group'].isin(ag_list)]
-  datafull = datafull[datafull['Position'].isin(ps_list)]
-  datafull = datafull[datafull['Nat. Status'].isin(nt_list)]
   datafull = datafull[mt_list]
 
   def p90_Calculator(variable_value):
     p90_value = round((((variable_value/df['MoP']))*90),2)
     return p90_value
-
-  p90 = df.apply(p90_Calculator)
-  p90['Player ID'] = df['Player ID']
+    
+  temp = df.drop(['Name'], axis=1)
+  p90 = temp.apply(p90_Calculator)
+  p90['Name'] = df['Name']
   p90['MoP'] = df['MoP']
   p90['Conversion Ratio'] = df['Conversion Ratio']
   p90['Shot on Target Ratio'] = df['Shot on Target Ratio']
