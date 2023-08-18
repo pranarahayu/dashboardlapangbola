@@ -507,7 +507,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   df['Aerial Duels'] = df['Aerial Won']+df['Aerial Lost']
   df['Errors'] = df['Error Goal - Error Led to Chance'] + df['Error Goal - Error Led to Goal']
 
-  jatuh = ['No','Team ID','Player ID','Position (in match)','Gameweek','Team','Opponent','Match','Home/Away','Venue',
+  jatuh = ['No','Team ID','Player ID','Position (in match)','Gameweek','Opponent','Match','Home/Away','Venue',
            'Date','Result','Starter/Subs','Subs','Player Rating','Ball Possession','Pass Team','Kick In','Unnamed: 296',
            'Unnamed: 297','Unnamed: 298','Unnamed: 299','Unnamed: 300','Unnamed: 301','Unnamed: 302','Unnamed: 303',
            'Fantasy Assist','Fantasy Assist - Penalty','Fantasy Assist - Free kick','Fantasy Assist - Goal by rebound',
@@ -515,7 +515,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
            'Month','Nickname','DoB','Position','Nationality','Nat. Status','Age Group']
 
   df = df.drop(jatuh, axis=1)
-  df = df.groupby('Name', as_index=False).sum()
+  df = df.groupby(['Name','Team'], as_index=False).sum()
   df['Conversion Ratio'] = round(df['Goals']/df['Shots'],2)
   df['Shot on Target Ratio'] = round(df['Shot on']/df['Shots'],2)
   df['Successful Cross Ratio'] = round(df['Cross']/df['Crosses'],2)
@@ -530,9 +530,10 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
     p90_value = round((((variable_value/df['MoP']))*90),2)
     return p90_value
     
-  temp = df.drop(['Name'], axis=1)
+  temp = df.drop(['Name', 'Team'], axis=1)
   p90 = temp.apply(p90_Calculator)
   p90['Name'] = df['Name']
+  p90['Team'] = df['Team']
   p90['MoP'] = df['MoP']
   p90['Conversion Ratio'] = df['Conversion Ratio']
   p90['Shot on Target Ratio'] = df['Shot on Target Ratio']
