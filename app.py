@@ -217,12 +217,8 @@ with tab1:
                                        max_value=90*max(fulldata['Gameweek']), step=90, key=18)
                 metrik = st.multiselect('Select Metrics', mlist, key='19')
             cat = st.selectbox('Select Category', ['Total', 'per 90'], key='16')
-            if (cat == 'per 90'):
-                show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat='p90')
-                st.write(show_player_data)
-            else:
-                show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat='total')
-                st.write(show_player_data)
+            show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat)
+            st.write(show_player_data)
             
 
 with tab2:
