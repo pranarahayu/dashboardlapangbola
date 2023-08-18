@@ -199,7 +199,7 @@ with tab1:
                 team = st.multiselect('Select Teams', pd.unique(temp_pull['Team']), key='10')
             with col2:
                 temp_pull = temp_pull[temp_pull['Team'].isin(team)]
-                pos = st.multiselect('Select Positions', pd.unique(temp_pull['Positions']), key='7')
+                pos = st.multiselect('Select Positions', pd.unique(temp_pull['Position']), key='7')
                 temp_pull = temp_pull[temp_pull['Position'].isin(pos)]
                 age = st.multiselect('Select Age Group', pd.unique(temp_pull['Age Group']), key='11')
             with col3:
