@@ -179,7 +179,7 @@ with tab1:
             with col1:
                 komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='3')
             with col2:
-                temp_full = fulldata[fulldata['Competition']==komp]
+                temp_full = fulldata[fulldata['Kompetisi']==komp]
                 month = st.multiselect('Select Month', pd.unique(temp_full['Month']), key='14')
             with col3:
                 temp_full = fulldata[fulldata['Month'].isin(month)]
@@ -195,7 +195,7 @@ with tab1:
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
                 komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='6')
-                temp_pull = fulldata[fulldata['Competition']==komp]
+                temp_pull = fulldata[fulldata['Kompetisi']==komp]
                 team = st.selectbox('Select Teams', pd.unique(temp_pull['Team']), key='10')
             with col2:
                 temp_pull = temp_pull[temp_pull['Team'].isin(team)]
