@@ -477,9 +477,10 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   nt_list = nat
   ps_list = pos
   mt_list = metrik
+  tm_list = team
 
   df = df[df['Kompetisi']==komp]
-  df = df[df['Team']==team]
+  df = df[df['Team'].isin(tm_list)]
   df = df[df['Home/Away'].isin(vn_list)]
   df = df[df['Gameweek'].isin(gw_list)]
   df = df[df['Month'].isin(mn_list)]
