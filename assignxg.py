@@ -523,7 +523,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   df['Pass Accuracy'] = round(df['Pass']/df['Total Pass'],2)
   df['Aerial Won Ratio'] = round(df['Aerial Won']/df['Aerial Duels'],2)
 
-  datafull = df[df['MoP'] >= mins].reset_index(drop=true)
+  datafull = df[df['MoP'] >= mins].reset_index(drop=True)
   datafull = datafull[mt_list]
 
   def p90_Calculator(variable_value):
@@ -542,7 +542,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   p90['Pass Accuracy'] = df['Pass Accuracy']
   p90['Aerial Won Ratio'] = df['Aerial Won Ratio']
 
-  data90 = p90[p90['MoP'] >= mins].reset_index(drop=true)
+  data90 = p90[p90['MoP'] >= mins].reset_index(drop=True)
   data90 = data90[mt_list]
 
   if (cat=='per 90'):
