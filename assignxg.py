@@ -424,7 +424,7 @@ def get_list(data):
   df['Aerial Duels'] = df['Aerial Won']+df['Aerial Lost']
   df['Errors'] = df['Error Goal - Error Led to Chance'] + df['Error Goal - Error Led to Goal']
 
-  jatuh = ['No','MoP','Player ID','Team ID','Name','Position (in match)','Gameweek','Team','Opponent','Match','Home/Away','Venue',
+  jatuh = ['No','MoP','Player ID','Team ID','Position (in match)','Gameweek','Opponent','Match','Home/Away','Venue',
          'Date','Result','Starter/Subs','Subs','Player Rating','Ball Possession','Pass Team','Kick In','Unnamed: 296','DoB',
          'Unnamed: 297','Unnamed: 298','Unnamed: 299','Unnamed: 300','Unnamed: 301','Unnamed: 302','Unnamed: 303','Nationality',
          'Fantasy Assist','Fantasy Assist - Penalty','Fantasy Assist - Free kick','Fantasy Assist - Goal by rebound','Position',
