@@ -545,7 +545,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   data90 = data90[data90['Nat. Status'].isin(nt_list)]
   data90 = data90[mt_list]
 
-  if (cat=='p90'):
+  if (cat=='per 90'):
     return data90
-  else:
+  elif (cat=='Total'):
     return datafull
