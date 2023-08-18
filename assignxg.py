@@ -542,9 +542,6 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   p90['Aerial Won Ratio'] = df['Aerial Won Ratio']
 
   data90 = p90[p90['MoP'] >= mins]
-  data90 = data90[data90['Age Group'].isin(ag_list)]
-  data90 = data90[data90['Position'].isin(ps_list)]
-  data90 = data90[data90['Nat. Status'].isin(nt_list)]
   data90 = data90[mt_list]
 
   if (cat=='per 90'):
