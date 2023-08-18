@@ -198,19 +198,19 @@ with tab1:
                 temp_pull = fulldata[fulldata['Competition']==komp]
                 team = st.selectbox('Select Teams', pd.unique(temp_pull['Team']), key='10')
             with col2:
-                temp_pull = temp_pull[temp_pull['Team'].isin(team))]
+                temp_pull = temp_pull[temp_pull['Team'].isin(team)]
                 pos = st.multiselect('Select Positions', pd.unique(temp_pull['Positions']), key='7')
-                temp_pull = temp_pull[temp_pull['Position'].isin(pos))]
+                temp_pull = temp_pull[temp_pull['Position'].isin(pos)]
                 age = st.multiselect('Select Age Group', pd.unique(temp_pull['Age Group']), key='11')
             with col3:
-                temp_pull = temp_pull[temp_pull['Age Group'].isin(age))]
+                temp_pull = temp_pull[temp_pull['Age Group'].isin(age)]
                 nat = st.selectbox('Select Nationality', pd.unique(temp_pull['Nat. Status']), key='8')
-                temp_pull = temp_pull[temp_pull['Nat. Status'].isin(nat))]
+                temp_pull = temp_pull[temp_pull['Nat. Status'].isin(nat)]
                 month = st.selectbox('Select Month', pd.unique(temp_pull['Month']), key='12')   
             with col4:
-                temp_pull = temp_pull[temp_pull['Month'].isin(month))]
+                temp_pull = temp_pull[temp_pull['Month'].isin(month)]
                 venue = st.selectbox('Select Venue', pd.unique(temp_pull['Home/Away']), key='9')
-                temp_pull = temp_pull[temp_pull['Home/Away'].isin(venue))]
+                temp_pull = temp_pull[temp_pull['Home/Away'].isin(venue)]
                 gw = st.multiselect('Select Gameweek', pd.unique(temp_pull['Gameweek']), key='13')
             with col5:
                 mins = st.number_input('Input minimum mins. played', min_value=0,
