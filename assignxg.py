@@ -407,7 +407,7 @@ def get_list(data):
   df = data.copy()
   df['Shots'] = df['Shot on']+df['Shot off']+df['Shot Blocked']
   df['Goals'] = df['Penalty Goal']+df['Goal']
-  df['Goals Cont.] = df['Goals']+df['Assist']
+  df['Goals Cont.'] = df['Goals']+df['Assist']
   df['Penalties Given'] = df['Penalty Goal']+df['Penalty Missed']
   df['Shots - Inside Box'] = df['Shot on - Inside Box']+df['Shot off - Inside Box']+df['Shot Blocked - Inside Box']
   df['Shots - Outside Box'] = df['Shot on - Outside Box']+df['Shot off - Outside Box']+df['Shot Blocked - Outside Box']
@@ -491,7 +491,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
 
   df['Shots'] = df['Shot on']+df['Shot off']+df['Shot Blocked']
   df['Goals'] = df['Penalty Goal']+df['Goal']
-  df['Goals Cont.] = df['Goals']+df['Assist']
+  df['Goals Cont.'] = df['Goals']+df['Assist']
   df['Penalties Given'] = df['Penalty Goal']+df['Penalty Missed']
   df['Shots - Inside Box'] = df['Shot on - Inside Box']+df['Shot off - Inside Box']+df['Shot Blocked - Inside Box']
   df['Shots - Outside Box'] = df['Shot on - Outside Box']+df['Shot off - Outside Box']+df['Shot Blocked - Outside Box']
