@@ -407,6 +407,7 @@ def get_list(data):
   df = data.copy()
   df['Shots'] = df['Shot on']+df['Shot off']+df['Shot Blocked']
   df['Goals'] = df['Penalty Goal']+df['Goal']
+  df['Goals Cont.] = df['Goals']+df['Assist']
   df['Penalties Given'] = df['Penalty Goal']+df['Penalty Missed']
   df['Shots - Inside Box'] = df['Shot on - Inside Box']+df['Shot off - Inside Box']+df['Shot Blocked - Inside Box']
   df['Shots - Outside Box'] = df['Shot on - Outside Box']+df['Shot off - Outside Box']+df['Shot Blocked - Outside Box']
@@ -424,7 +425,7 @@ def get_list(data):
   df['Aerial Duels'] = df['Aerial Won']+df['Aerial Lost']
   df['Errors'] = df['Error Goal - Error Led to Chance'] + df['Error Goal - Error Led to Goal']
 
-  jatuh = ['No','MoP','Player ID','Team ID','Position (in match)','Gameweek','Opponent','Match','Home/Away','Venue',
+  jatuh = ['No','Player ID','Team ID','Position (in match)','Gameweek','Opponent','Match','Home/Away','Venue',
          'Date','Result','Starter/Subs','Subs','Player Rating','Ball Possession','Pass Team','Kick In','Unnamed: 296','DoB',
          'Unnamed: 297','Unnamed: 298','Unnamed: 299','Unnamed: 300','Unnamed: 301','Unnamed: 302','Unnamed: 303','Nationality',
          'Fantasy Assist','Fantasy Assist - Penalty','Fantasy Assist - Free kick','Fantasy Assist - Goal by rebound','Position',
@@ -490,6 +491,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
 
   df['Shots'] = df['Shot on']+df['Shot off']+df['Shot Blocked']
   df['Goals'] = df['Penalty Goal']+df['Goal']
+  df['Goals Cont.] = df['Goals']+df['Assist']
   df['Penalties Given'] = df['Penalty Goal']+df['Penalty Missed']
   df['Shots - Inside Box'] = df['Shot on - Inside Box']+df['Shot off - Inside Box']+df['Shot Blocked - Inside Box']
   df['Shots - Outside Box'] = df['Shot on - Outside Box']+df['Shot off - Outside Box']+df['Shot Blocked - Outside Box']
