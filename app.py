@@ -218,6 +218,8 @@ with tab1:
                 metrik = st.multiselect('Select Metrics', mlist, key='19')
             cat = st.selectbox('Select Category', ['Total', 'per 90'], key='16')
             show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat)
+            tempx = tempx[['Name', 'Position', 'Nationality']]
+            show_player_data = pd.merge(show_player_data, tempx, on='Name', how='left')
             st.write(show_player_data)
             
 
