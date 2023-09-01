@@ -225,7 +225,7 @@ with tab1:
             @st.cache
             def convert_df(df):
                 return df.to_csv().encode('utf-8')
-            csv = convert_df(rec_p.head(50))
+            csv = convert_df(show_player_data)
     
             st.download_button(label='Download Data', data=csv, file_name='Stats_Full.csv', mime='text/csv',)
             
