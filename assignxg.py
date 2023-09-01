@@ -528,7 +528,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
 
   temp = db[['Name', 'Position', 'Nationality']]
   dfx = pd.merge(df, temp, on='Name', how='left')
-  datafull = dfx[dxf['MoP'] >= mins].reset_index(drop=True)
+  datafull = dfx[dfx['MoP'] >= mins].reset_index(drop=True)
   datafull = datafull[mt_list]
 
   def p90_Calculator(variable_value):
