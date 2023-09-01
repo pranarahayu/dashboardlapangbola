@@ -469,8 +469,9 @@ def get_detail(data):
 
   return db
 
-def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat):
+def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat, data2):
   df = data.copy()
+  db = data2.copy()
   gw_list = gw
   vn_list = venue
   mn_list = month
@@ -526,6 +527,8 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   df['Aerial Won Ratio'] = round(df['Aerial Won']/df['Aerial Duels'],2)
 
   datafull = df[df['MoP'] >= mins].reset_index(drop=True)
+  temp = db[['Name', 'Position', 'Nationality']]
+  datafull = pd.merge(datafull, temp, on='Name', how='left')
   datafull = datafull[mt_list]
 
   def p90_Calculator(variable_value):
@@ -545,6 +548,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   p90['Aerial Won Ratio'] = df['Aerial Won Ratio']
 
   data90 = p90[p90['MoP'] >= mins].reset_index(drop=True)
+  data90 = pd.merge(data90, temp, on='Name', how='left')
   data90 = data90[mt_list]
 
   if (cat=='per 90'):
