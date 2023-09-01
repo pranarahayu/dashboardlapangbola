@@ -221,6 +221,13 @@ with tab1:
             tempx = df2[['Name', 'Position', 'Nationality']]
             show_player_data = pd.merge(show_player_data, tempx, on='Name', how='left')
             st.write(show_player_data)
+
+            @st.cache
+            def convert_df(df):
+                return df.to_csv().encode('utf-8')
+            csv = convert_df(rec_p.head(50))
+    
+            st.download_button(label='Download Data', data=csv, file_name='Stats_Full.csv', mime='text/csv',)
             
 
 with tab2:
