@@ -452,10 +452,10 @@ def get_detail(data):
 
   #adding age group based on the player's age
   def age_group(row):
-    if row['DoB'] < dt.datetime(2001,1,1):
-      return 'U23'
-    else:
+    if row['DoB'] < dt.datetime(2000,1,1):
       return 'Senior'
+    else:
+      return 'U23'
   db['Age Group'] = db.apply(lambda row: age_group(row), axis=1)
 
   #adding nationality status
