@@ -191,6 +191,14 @@ with tab1:
                 cat = st.selectbox('Select Category', ['Goal Threat', 'in Possession', 'out of Possession', 'Misc'], key='13')
             show_tim_data = data_team(fulldata, komp, month, gw, venue, cat)
             st.write(show_tim_data)
+
+            @st.cache
+            def convert_df(df):
+                return df.to_csv().encode('utf-8')
+            csv = convert_df(show_tim_data)
+    
+            st.download_button(label='Download Data', data=csv, file_name='Stats_Tim_Full.csv', mime='text/csv',)
+            
         with players:
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
@@ -225,7 +233,7 @@ with tab1:
                 return df.to_csv().encode('utf-8')
             csv = convert_df(show_player_data)
     
-            st.download_button(label='Download Data', data=csv, file_name='Stats_Full.csv', mime='text/csv',)
+            st.download_button(label='Download Data', data=csv, file_name='Stats_Pemain_Full.csv', mime='text/csv',)
             
 
 with tab2:
