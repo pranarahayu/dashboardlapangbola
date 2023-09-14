@@ -182,7 +182,7 @@ with tab1:
                 temp_full = fulldata[fulldata['Kompetisi']==komp]
                 month = st.multiselect('Select Month', pd.unique(temp_full['Month']), key='14')
             with col3:
-                temp_full = fulldata[fulldata['Month'].isin(month)]
+                temp_full = temp_full[temp_full['Month'].isin(month)]
                 venue = st.multiselect('Select Venue', pd.unique(temp_full['Home/Away']), key='5')
             with col4:
                 temp_full = temp_full[temp_full['Home/Away'].isin(venue)]
