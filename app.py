@@ -5,7 +5,7 @@ import numpy as np
 from tempfile import NamedTemporaryFile
 import urllib
 
-from mplsoccer import Pitch, VerticalPitch, PyPizza, FontManager
+from mplsoccer import Pitch, VerticalPitch
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as path_effects
 import matplotlib.patches as patches
