@@ -88,7 +88,7 @@ with tab1:
                         st.metric(label="Clean Sheets", value=histodata['Clean Sheet'].sum())
                 else:
                     with col1:
-                        st.metric(label="Goals", value=curdata2['Goal'].sum())
+                        st.metric(label="Goals", value=int(curdata2['Goal'].sum()))
                     with col2:
                         st.metric(label="Assists", value=curdata2['Assist'].sum())
                     with col3:
@@ -96,9 +96,9 @@ with tab1:
                     with col4:
                         st.metric(label="Red Cards", value=curdata2['Red Card'].sum())
                     with col5:
-                        st.metric(label="Concededs", value=curdata2['Conceded'].sum())
+                        st.metric(label="Concededs", value=int(curdata2['Conceded'].sum()))
                     with col6:
-                        st.metric(label="Clean Sheets", value=curdata2['Clean Sheet'].sum())
+                        st.metric(label="Clean Sheets", value=int(curdata2['Clean Sheet'].sum()))
             else:
                 if (season == 'All Season'):
                     with col1:
