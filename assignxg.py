@@ -555,3 +555,59 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
     return data90
   elif (cat=='Total'):
     return datafull
+
+def get_cs(data):
+  uk = data.copy()
+  uk = df[['Match', 'Result']]
+  uk = uk.groupby(['Match', 'Result'], as_index=False).nunique()
+
+  uk['Home'] = uk['Match'].str.split(' -').str[0]
+  uk['Away'] = uk['Match'].str.split('- ').str[1]
+  uk['FTHG'] = uk['Result'].str.split(' -').str[0]
+  uk['FTAG'] = uk['Result'].str.split('- ').str[1]
+  uk['FTHG'] = uk['FTHG'].astype(int)
+  uk['FTAG'] = uk['FTAG'].astype(int)
+
+  hcs = []
+  acs = []
+  for i in range(len(uk)):
+    if (uk['FTAG'][i] == 0) and (uk['FTHG'][i] == 0):
+      hcsit = 1
+      acsit = 1
+    elif (uk['FTAG'][i] == 0) and (uk['FTHG'][i] != 0):
+      hcsit = 1
+      acsit = 0
+    elif (uk['FTAG'][i] != 0) and (uk['FTHG'][i] == 0):
+      hcsit = 0
+      acsit = 1
+    else:
+      hcsit = 0
+      acsit = 0
+    hcs.append(hcsit)
+    acs.append(acsit)
+  uk['CSH'] = hcs
+  uk['CSA'] = acs
+  ukh = uk[['Home','FTHG','FTAG','CSH']]
+  ukh = ukh.groupby('Home', as_index=False).sum().rename(columns={'Home':'Team','FTHG':'Goal',
+                                                                  'FTAG':'Conceded','CSH':'Clean Sheet'})
+
+  uka = uk[['Away','FTAG','FTHG','CSA']]
+  uka = uka.groupby('Away', as_index=False).sum().rename(columns={'Away':'Team','FTAG':'Goal',
+                                                                  'FTHG':'Conceded','CSA':'Clean Sheet'})
+
+  csdata = pd.concat([ukh, uka]).groupby('Team').sum().reset_index()
+
+  return csdata
+
+def milestone(data, data2):
+  hist = data.copy()
+  df = data2.copy()
+  
+  csdata = get_cs(df)
+  df = df[['Team','Assist','Yellow Card','Red Card']]
+  df = df.groupby(['Team'], as_index=False).sum()
+  df2 = pd.merge(df, csdata, on='Team', how='left')
+
+  mstone = pd.concat([hist, df2]).groupby('Team').sum().reset_index()
+
+  return mstone
