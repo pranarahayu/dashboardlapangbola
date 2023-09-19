@@ -25,7 +25,7 @@ from assignxg import data_player
 from assignxg import get_list
 from assignxg import get_detail
 from assignxg import get_cs
-from assignxg import milestones
+from assignxg import milestone
 
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
