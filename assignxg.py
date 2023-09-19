@@ -363,6 +363,8 @@ def data_team(data, komp, month, gw, venue, cat):
   df['Pass per Shot'] = round(df['Total Pass']/df['Shots'],2)
   df['Pass Accuracy'] = round(df['Pass']/df['Total Pass'],2)
   df['Aerial Won Ratio'] = round(df['Aerial Won']/df['Aerial Duels'],2)
+  df['Goal Kick Grounded Ratio'] = round(df['Goal Kick - No Sub-action']/df['Goal Kick'],2)
+  df['Long Ball Ratio'] = round(df['Pass - Long Ball']/df['Pass'],2)
 
   df1 = pd.merge(df, dfog, on='Team', how='left')
   df2 = pd.merge(df1, dfconc, on='Team', how='left')
@@ -376,7 +378,8 @@ def data_team(data, komp, month, gw, venue, cat):
              'Dribbles', 'Dribble', 'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions',
              'Blocks', 'Aerial Duels', 'Aerial Won', 'Aerial Won Ratio', 'Saves', 'Goals Conceded', 'Shots Allowed',
              'Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
-             'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside']]
+             'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside', 'Goal Kick Grounded Ratio', 'Long Ball Ratio',
+             'Goal Kick - Goal Kick Launch', 'Goal Kick - No Sub-action']]
 
   gt = ['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shot on Target Ratio', 'Shots - Inside Box',
         'Shots - Outside Box', 'Goals', 'Penalties Awarded', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box',
@@ -390,7 +393,8 @@ def data_team(data, komp, month, gw, venue, cat):
         'Goals Conceded', 'Shots Allowed']
   
   misc = ['Team', 'Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
-          'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside']
+          'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside', 'Goal Kick Grounded Ratio',
+          'Long Ball Ratio', 'Goal Kick - Goal Kick Launch', 'Goal Kick - No Sub-action']
   
   if (cat == 'Goal Threat'):
     df2 = df2[gt]
@@ -438,6 +442,8 @@ def get_list(data):
   df['Pass per Shot'] = round(df['Total Pass']/df['Shots'],2)
   df['Pass Accuracy'] = round(df['Pass']/df['Total Pass'],2)
   df['Aerial Won Ratio'] = round(df['Aerial Won']/df['Aerial Duels'],2)
+  df['Goal Kick Grounded Ratio'] = round(df['Goal Kick - No Sub-action']/df['Goal Kick'],2)
+  df['Long Ball Ratio'] = round(df['Pass - Long Ball']/df['Pass'],2)
 
   metrik = list(df)
   return metrik
@@ -525,6 +531,8 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   df['Pass per Shot'] = round(df['Total Pass']/df['Shots'],2)
   df['Pass Accuracy'] = round(df['Pass']/df['Total Pass'],2)
   df['Aerial Won Ratio'] = round(df['Aerial Won']/df['Aerial Duels'],2)
+  df['Goal Kick Grounded Ratio'] = round(df['Goal Kick - No Sub-action']/df['Goal Kick'],2)
+  df['Long Ball Ratio'] = round(df['Pass - Long Ball']/df['Pass'],2)
 
   temp = db[['Name', 'Position', 'Nationality']]
   dfx = pd.merge(df, temp, on='Name', how='left')
@@ -546,6 +554,8 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   p90['Pass per Shot'] = df['Pass per Shot']
   p90['Pass Accuracy'] = df['Pass Accuracy']
   p90['Aerial Won Ratio'] = df['Aerial Won Ratio']
+  p90['Goal Kick Grounded Ratio'] = df['Goal Kick Grounded Ratio']
+  p90['Long Ball Ratio'] = df['Long Ball Ratio']
 
   p902 = pd.merge(p90, temp, on='Name', how='left')
   data90 = p902[p902['MoP'] >= mins].reset_index(drop=True)
