@@ -72,30 +72,30 @@ with tab1:
             if all_teams:
                 if (season == 'All Season'):
                     with col1:
-                        st.metric(label="Goals", value=list((histodata['Goal']).reset_index(drop=True))[0])
+                        st.metric(label="Goals", value=histodata['Goal'].sum()
                     with col2:
-                        st.metric(label="Assists", value=list((histodata['Assist']).reset_index(drop=True))[0])
+                        st.metric(label="Assists", value=histodata['Assist'].sum()
                     with col3:
-                        st.metric(label="Yellow Cards", value=list((histodata['Yellow Card']).reset_index(drop=True))[0])
+                        st.metric(label="Yellow Cards", value=histodata['Yellow Card'].sum()
                     with col4:
-                        st.metric(label="Red Cards", value=list((histodata['Red Card']).reset_index(drop=True))[0])
+                        st.metric(label="Red Cards", value=histodata['Red Card'].sum()
                     with col5:
-                        st.metric(label="Concededs", value=list((histodata['Conceded']).reset_index(drop=True))[0])
+                        st.metric(label="Concededs", value=histodata['Conceded'].sum()
                     with col6:
-                        st.metric(label="Clean Sheets", value=list((histodata['Clean Sheet']).reset_index(drop=True))[0])
+                        st.metric(label="Clean Sheets", value=histodata['Clean Sheet'].sum()
                 else:
                     with col1:
-                        st.metric(label="Goals", value=list((curdata2['Goal']).reset_index(drop=True))[0])
+                        st.metric(label="Goals", value=curdata2['Goal'].sum()
                     with col2:
-                        st.metric(label="Assists", value=list((curdata2['Assist']).reset_index(drop=True))[0])
+                        st.metric(label="Assists", value=curdata2['Assist'].sum()
                     with col3:
-                        st.metric(label="Yellow Cards", value=list((curdata2['Yellow Card']).reset_index(drop=True))[0])
+                        st.metric(label="Yellow Cards", value=curdata2['Yellow Card'].sum()
                     with col4:
-                        st.metric(label="Red Cards", value=list((curdata2['Red Card']).reset_index(drop=True))[0])
+                        st.metric(label="Red Cards", value=curdata2['Red Card'].sum()
                     with col5:
-                        st.metric(label="Concededs", value=list((curdata2['Conceded']).reset_index(drop=True))[0])
+                        st.metric(label="Concededs", value=curdata2['Conceded'].sum()
                     with col6:
-                        st.metric(label="Clean Sheets", value=list((curdata2['Clean Sheet']).reset_index(drop=True))[0])
+                        st.metric(label="Clean Sheets", value=curdata2['Clean Sheet'].sum()
             else:
                 if (season == 'All Season'):
                     with col1:
