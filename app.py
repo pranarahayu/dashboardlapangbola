@@ -62,7 +62,7 @@ with tab1:
                 team = st.selectbox('Select Team', pd.unique(histdata['Team']), key='99')
             with col2:
                 season = st.selectbox('Select Season(s)',['All Season', 'This Season'], key='98')
-            col1, col2, col3, col4, col5, col6 = st.columns(3)
+            col1, col2, col3, col4, col5, col6 = st.columns(6)
             with col1:
                 st.metric(label="Goals", value=list((histodata[histodata['Team']==team]['Goal']).reset_index(drop=True))[0],
                           delta=-0.5)
