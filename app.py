@@ -44,8 +44,7 @@ df1['Month'] = df1['Date'].dt.strftime('%B')
 df = pd.merge(df1, df2.drop(['Name'], axis=1), on='Player ID', how='left')
 fulldata = get_detail(df)
 mlist = get_list(df)
-not_temp = df1[df1['Kompetisi']=='Liga 1']
-histodata = milestone(not_temp)
+histodata = milestone(histdata, df1[df1['Kompetisi']=='Liga 1'])
 
 tab1, tab2, tab3 = st.tabs(['**Competitions**', '**Teams**', '**Players**'])
 
