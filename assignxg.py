@@ -355,7 +355,8 @@ def data_team(data, komp, month, gw, venue, cat):
            'Tackles', 'Intercept', 'Clearance', 'Recovery', 'Defensive Actions',
            'Blocks', 'Aerial Duels', 'Aerial Won', 'Saves',
            'Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
-           'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside']]
+           'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside', 'Goal Kick - Goal Kick Launch',
+           'Goal Kick - No Sub-action', 'Goal Kick']]
   df = df.groupby('Team', as_index=False).sum()
   df['Conversion Ratio'] = round(df['Goals']/df['Shots'],2)
   df['Shot on Target Ratio'] = round(df['Shot on']/df['Shots'],2)
