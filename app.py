@@ -64,7 +64,8 @@ with tab1:
                 season = st.selectbox('Select Season(s)',['All Season', 'This Season'], key='98')
             col1, col2, col3 = st.columns(3)
             with col1:
-                st.metric(label="Gas price", value=4, delta=-0.5)
+                st.metric(label="Goals", value=list((test[test['Team']==team]['Goal']).reset_index(drop=True))[0],
+                          delta=-0.5)
         with teams:
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
