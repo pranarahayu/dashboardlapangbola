@@ -568,7 +568,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
     return datafull
 
 def get_cs(data):
-  uk = data.copy()
+  df = data.copy()
   uk = df[['Match', 'Result']]
   uk = uk.groupby(['Match', 'Result'], as_index=False).nunique()
 
