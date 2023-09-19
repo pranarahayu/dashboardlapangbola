@@ -83,7 +83,7 @@ with tab1:
                 with col6:
                     st.metric(label="Clean Sheets", value=list((histodata['Clean Sheet']).reset_index(drop=True))[0])
             else:
-                if (season = 'All Season'):
+                if (season == 'All Season'):
                     with col1:
                         st.metric(label="Goals", value=list((histodata[histodata['Team']==team]['Goal']).reset_index(drop=True))[0])
                     with col2:
