@@ -64,10 +64,13 @@ with tab1:
         with table:
             col1, col2 = st.columns(2)
             with col1:
-                team = st.selectbox('Select Team', pd.unique(histdata['Team']), key='99')
-                all_teams = st.checkbox('Select All Teams')
-            with col2:
                 season = st.selectbox('Select Season(s)',['All Season', 'This Season'], key='98')
+            with col2:
+                if (season == 'All Season')
+                    team = st.selectbox('Select Team', pd.unique(histdata['Team']), key='99')
+                else:
+                    team = st.selectbox('Select Team', pd.unique(not_temp['Team']), key='99')
+                all_teams = st.checkbox('Select All Teams')
             col1, col2, col3, col4, col5, col6 = st.columns(6)
             if all_teams:
                 if (season == 'All Season'):
