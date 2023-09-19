@@ -62,11 +62,21 @@ with tab1:
                 team = st.selectbox('Select Team', pd.unique(histdata['Team']), key='99')
             with col2:
                 season = st.selectbox('Select Season(s)',['All Season', 'This Season'], key='98')
-            col1, col2, col3 = st.columns(3)
+            col1, col2, col3, col4, col5, col6 = st.columns(3)
             with col1:
                 st.metric(label="Goals", value=list((histodata[histodata['Team']==team]['Goal']).reset_index(drop=True))[0],
                           delta=-0.5)
+            with col2:
                 st.metric(label="Assists", value=list((histodata[histodata['Team']==team]['Assist']).reset_index(drop=True))[0])
+            with col3:
+                st.metric(label="Yellow Cards", value=list((histodata[histodata['Team']==team]['Yellow Card']).reset_index(drop=True))[0])
+            with col4:
+                st.metric(label="Red Cards", value=list((histodata[histodata['Team']==team]['Red Card']).reset_index(drop=True))[0],
+                          delta=-0.5)
+            with col5:
+                st.metric(label="Concededs", value=list((histodata[histodata['Team']==team]['Conceded']).reset_index(drop=True))[0])
+            with col6:
+                st.metric(label="Clean Sheets", value=list((histodata[histodata['Team']==team]['Clean Sheet']).reset_index(drop=True))[0])
         with teams:
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
