@@ -24,6 +24,8 @@ from assignxg import data_team
 from assignxg import data_player
 from assignxg import get_list
 from assignxg import get_detail
+from assignxg import get_cs
+from assignxg import milestones
 
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
@@ -35,6 +37,7 @@ fixt1 = load_data(st.secrets["fixture"])
 fixt1['GW'] = fixt1['GW'].astype(int)
 df1 = load_data(st.secrets["testaja"])
 df2 = load_data(st.secrets["datapemain"])
+histdata = load_data(st.secrets["hist"])
 from datetime import date
 df1['Date'] = pd.to_datetime(df1.Date)
 df1['Month'] = df1['Date'].dt.strftime('%B')
@@ -49,9 +52,15 @@ with tab1:
     st.markdown('Untuk melihat statistik tiap pertandingan dan statistik full liga selama satu musim penuh.')
     mstats, fstats = st.tabs(['Match Stats', 'Full Stats'])
     with mstats:
-        table, teams, players = st.tabs(['Attempts Map', 'Heat Map', 'Match Stats'])
+        a, b, c = st.tabs(['Attempts Map', 'Heat Map', 'Match Stats'])
     with fstats:
         table, teams, players = st.tabs(['Standing & Top Stats', 'Team Stats', 'Player Stats'])
+        with table:
+            col1, col2 = st.columns(2)
+            with col1:
+                team = st.selectbox('Select Team', pd.unique(histdata['Team']), key='99')
+            with col2:
+                season = st.selectbox('Select Season(s)',['All Season', 'This Season'], key='98')
         with teams:
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
