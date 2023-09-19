@@ -60,7 +60,7 @@ with tab1:
     with mstats:
         a, b, c = st.tabs(['Attempts Map', 'Heat Map', 'Match Stats'])
     with fstats:
-        table, teams, players = st.tabs(['Standing & Top Stats', 'Team Stats', 'Player Stats'])
+        table, teams, players = st.tabs(['Standing & Milestones', 'Team Stats', 'Player Stats'])
         with table:
             col1, col2 = st.columns(2)
             with col1:
@@ -127,6 +127,10 @@ with tab1:
                     with col6:
                         st.metric(label="Clean Sheets", value=int(list((curdata2[curdata2['Team']==team]['Clean Sheet']).reset_index(drop=True))[0]))
             st.markdown('''<style>
+                [data-testid="stMetricLabel"] > div:nth-child(1) {justify-content: center;}
+                [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
+                [data-testid="stMetricLabel"] > div:nth-child(1) {justify-content: center;}
+                [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
                 [data-testid="stMetricLabel"] > div:nth-child(1) {justify-content: center;}
                 [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
                 </style>''', unsafe_allow_html=True)
