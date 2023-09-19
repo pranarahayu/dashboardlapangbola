@@ -66,7 +66,7 @@ with tab1:
             with col1:
                 st.metric(label="Goals", value=list((histodata[histodata['Team']==team]['Goal']).reset_index(drop=True))[0],
                           delta=-0.5)
-                st.metric(label="Goals", value=list((histodata[histodata['Team']==team]['Assist']).reset_index(drop=True))[0],
+                st.metric(label="Assists", value=list((histodata[histodata['Team']==team]['Assist']).reset_index(drop=True))[0],
                           delta=-0.5)
         with teams:
             col1, col2, col3, col4, col5 = st.columns(5)
