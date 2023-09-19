@@ -395,7 +395,7 @@ def data_team(data, komp, month, gw, venue, cat):
   
   misc = ['Team', 'Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
           'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside', 'Goal Kick Grounded Ratio',
-          'Long Ball Ratio', 'Goal Kick - Goal Kick Launch', 'Goal Kick - No Sub-action']
+          'Goal Kick - Goal Kick Launch', 'Goal Kick - No Sub-action']
   
   if (cat == 'Goal Threat'):
     df2 = df2[gt]
