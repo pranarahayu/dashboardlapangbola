@@ -115,7 +115,7 @@ with tab1:
                         st.metric(label="Clean Sheets", value=list((histodata[histodata['Team']==team]['Clean Sheet']).reset_index(drop=True))[0])
                 else:
                     with col1:
-                        st.metric(label="Goals", value=list((curdata2[curdata2['Team']==team]['Goal']).reset_index(drop=True))[0])
+                        st.metric(label="Goals", value=int(list((curdata2[curdata2['Team']==team]['Goal']).reset_index(drop=True))[0]))
                     with col2:
                         st.metric(label="Assists", value=list((curdata2[curdata2['Team']==team]['Assist']).reset_index(drop=True))[0])
                     with col3:
@@ -123,9 +123,9 @@ with tab1:
                     with col4:
                         st.metric(label="Red Cards", value=list((curdata2[curdata2['Team']==team]['Red Card']).reset_index(drop=True))[0])
                     with col5:
-                        st.metric(label="Concededs", value=list((curdata2[curdata2['Team']==team]['Conceded']).reset_index(drop=True))[0])
+                        st.metric(label="Concededs", value=int(list((curdata2[curdata2['Team']==team]['Conceded']).reset_index(drop=True))[0]))
                     with col6:
-                        st.metric(label="Clean Sheets", value=list((curdata2[curdata2['Team']==team]['Clean Sheet']).reset_index(drop=True))[0])
+                        st.metric(label="Clean Sheets", value=int(list((curdata2[curdata2['Team']==team]['Clean Sheet']).reset_index(drop=True))[0]))
             st.markdown('''<style>
                 [data-testid="stMetricLabel"] > div:nth-child(1) {justify-content: center;}
                 [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
