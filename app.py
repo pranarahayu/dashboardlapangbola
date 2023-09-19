@@ -69,7 +69,7 @@ with tab1:
                 if (season == 'All Season'):
                     team = st.selectbox('Select Team', pd.unique(histdata['Team']), key='99')
                 else:
-                    team = st.selectbox('Select Team', pd.unique(not_temp['Team']), key='99')
+                    team = st.selectbox('Select Team', pd.unique(no_temp['Team']), key='99')
                 all_teams = st.checkbox('Select All Teams')
             col1, col2, col3, col4, col5, col6 = st.columns(6)
             if all_teams:
