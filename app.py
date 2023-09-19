@@ -44,7 +44,12 @@ df1['Month'] = df1['Date'].dt.strftime('%B')
 df = pd.merge(df1, df2.drop(['Name'], axis=1), on='Player ID', how='left')
 fulldata = get_detail(df)
 mlist = get_list(df)
-histodata = milestone(histdata, df1[df1['Kompetisi']=='Liga 1'])
+no_temp = df1[df1['Kompetisi']=='Liga 1']
+histodata = milestone(histdata, no_temp)
+csdata = get_cs(no_temp)
+curdata = df1[['Team','Assist','Yellow Card','Red Card']]
+curdata = curdata.groupby(['Team'], as_index=False).sum()
+curdata2 = pd.merge(curdata, csdata, on='Team', how='left')
 
 tab1, tab2, tab3 = st.tabs(['**Competitions**', '**Teams**', '**Players**'])
 
@@ -60,23 +65,54 @@ with tab1:
             col1, col2 = st.columns(2)
             with col1:
                 team = st.selectbox('Select Team', pd.unique(histdata['Team']), key='99')
+                all_teams = st.checkbox('Select All Teams')
             with col2:
                 season = st.selectbox('Select Season(s)',['All Season', 'This Season'], key='98')
             col1, col2, col3, col4, col5, col6 = st.columns(6)
-            with col1:
-                st.metric(label="Goals", value=list((histodata[histodata['Team']==team]['Goal']).reset_index(drop=True))[0],
-                          delta=-0.5)
-            with col2:
-                st.metric(label="Assists", value=list((histodata[histodata['Team']==team]['Assist']).reset_index(drop=True))[0])
-            with col3:
-                st.metric(label="Yellow Cards", value=list((histodata[histodata['Team']==team]['Yellow Card']).reset_index(drop=True))[0])
-            with col4:
-                st.metric(label="Red Cards", value=list((histodata[histodata['Team']==team]['Red Card']).reset_index(drop=True))[0],
-                          delta=-0.5)
-            with col5:
-                st.metric(label="Concededs", value=list((histodata[histodata['Team']==team]['Conceded']).reset_index(drop=True))[0])
-            with col6:
-                st.metric(label="Clean Sheets", value=list((histodata[histodata['Team']==team]['Clean Sheet']).reset_index(drop=True))[0])
+            if all_teams:
+                with col1:
+                    st.metric(label="Goals", value=list((histodata['Goal']).reset_index(drop=True))[0])
+                with col2:
+                    st.metric(label="Assists", value=list((histodata['Assist']).reset_index(drop=True))[0])
+                with col3:
+                    st.metric(label="Yellow Cards", value=list((histodata['Yellow Card']).reset_index(drop=True))[0])
+                with col4:
+                    st.metric(label="Red Cards", value=list((histodata['Red Card']).reset_index(drop=True))[0])
+                with col5:
+                    st.metric(label="Concededs", value=list((histodata['Conceded']).reset_index(drop=True))[0])
+                with col6:
+                    st.metric(label="Clean Sheets", value=list((histodata['Clean Sheet']).reset_index(drop=True))[0])
+            else:
+                if (season = 'All Season'):
+                    with col1:
+                        st.metric(label="Goals", value=list((histodata[histodata['Team']==team]['Goal']).reset_index(drop=True))[0])
+                    with col2:
+                        st.metric(label="Assists", value=list((histodata[histodata['Team']==team]['Assist']).reset_index(drop=True))[0])
+                    with col3:
+                        st.metric(label="Yellow Cards", value=list((histodata[histodata['Team']==team]['Yellow Card']).reset_index(drop=True))[0])
+                    with col4:
+                        st.metric(label="Red Cards", value=list((histodata[histodata['Team']==team]['Red Card']).reset_index(drop=True))[0])
+                    with col5:
+                        st.metric(label="Concededs", value=list((histodata[histodata['Team']==team]['Conceded']).reset_index(drop=True))[0])
+                    with col6:
+                        st.metric(label="Clean Sheets", value=list((histodata[histodata['Team']==team]['Clean Sheet']).reset_index(drop=True))[0])
+                else:
+                    with col1:
+                        st.metric(label="Goals", value=list((curdata2[curdata2['Team']==team]['Goal']).reset_index(drop=True))[0])
+                    with col2:
+                        st.metric(label="Assists", value=list((curdata2[curdata2['Team']==team]['Assist']).reset_index(drop=True))[0])
+                    with col3:
+                        st.metric(label="Yellow Cards", value=list((curdata2[curdata2['Team']==team]['Yellow Card']).reset_index(drop=True))[0])
+                    with col4:
+                        st.metric(label="Red Cards", value=list((curdata2[curdata2['Team']==team]['Red Card']).reset_index(drop=True))[0])
+                    with col5:
+                        st.metric(label="Concededs", value=list((curdata2[curdata2['Team']==team]['Conceded']).reset_index(drop=True))[0])
+                    with col6:
+                        st.metric(label="Clean Sheets", value=list((curdata2[curdata2['Team']==team]['Clean Sheet']).reset_index(drop=True))[0])
+            st.markdown('''<style>
+                [data-testid="stMetricLabel"] > div:nth-child(1) {justify-content: center;}
+                [data-testid="stMetricValue"] > div:nth-child(1) {justify-content: center;}
+                </style>''', unsafe_allow_html=True)
         with teams:
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
