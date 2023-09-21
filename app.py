@@ -26,8 +26,6 @@ from assignxg import get_list
 from assignxg import get_detail
 from assignxg import get_cs
 from assignxg import milestone
-from assignxg import get_pct
-from assignxg import get_radar
 
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
@@ -52,10 +50,6 @@ csdata = get_cs(no_temp)
 curdata = df1[['Team','Assist','Yellow Card','Red Card']]
 curdata = curdata.groupby(['Team'], as_index=False).sum()
 curdata2 = pd.merge(curdata, csdata, on='Team', how='left')
-
-rank_pct = get_pct(df1, df2, 179)[0]
-rank_p90 = get_pct(df1, df2, 179)[1]
-rank_tot = get_pct(df1, df2, 179)[2]
 
 tab1, tab2, tab3 = st.tabs(['**Competitions**', '**Teams**', '**Players**'])
 
@@ -207,22 +201,3 @@ with tab2:
     
 with tab3:
     tab3.subheader('Players')
-    st.markdown('Ini masih test aja')
-    pprof, kpgen = st.tabs(['Profile', 'Generate Plot'])
-    with mstats:
-        col2, col3 = st.columns(3)
-        with col2:
-            pos = st.selectbox('Select Position', pd.unique(rank_pct['Position']), key='96')
-        with col3:
-            tempxx = rank_pct[rank_pct['Position']==pos] 
-            pla = st.selectbox('Select Position', pd.unique(tempxx), key='95')
-        col1, col2 = st.columns(2)
-        with col1:
-            ppage = get_radar(rank_pct,rank_p90,rank_tot,pos,pla)
-            st.data_editor(ppage,column_config={'pct_bar': st.column_config.ProgressColumn('Percentiles',
-                                                                                           format='{:.2%}',
-                                                                                           min_value=0,
-                                                                                           max_value=100,),
-                                               }, hide_index=True,)
-    with fstats:
-        a, b, c = st.tabs(['Attempts Map', 'Heat Map', 'Match Stats'])
