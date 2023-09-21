@@ -53,6 +53,10 @@ curdata = df1[['Team','Assist','Yellow Card','Red Card']]
 curdata = curdata.groupby(['Team'], as_index=False).sum()
 curdata2 = pd.merge(curdata, csdata, on='Team', how='left')
 
+rank_pct = get_pct(df1, df2, 179)[0]
+rank_p90 = get_pct(df1, df2, 179)[1]
+rank_tot = get_pct(df1, df2, 179)[2]
+
 tab1, tab2, tab3 = st.tabs(['**Competitions**', '**Teams**', '**Players**'])
 
 with tab1:
@@ -206,13 +210,7 @@ with tab3:
     st.markdown('Ini masih test aja')
     pprof, kpgen = st.tabs(['Profile', 'Generate Plot'])
     with mstats:
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            mins = st.number_input('Input minimum mins. played', min_value=0,
-                                   max_value=90*max(fulldata['Gameweek']), step=90, key=95)
-            rank_pct = get_pct(df1, df2, mins)[0]
-            rank_p90 = get_pct(df1, df2, mins)[1]
-            rank_tot = get_pct(df1, df2, mins)[2]
+        col2, col3 = st.columns(3)
         with col2:
             pos = st.selectbox('Select Position', pd.unique(rank_pct['Position']), key='96')
         with col3:
