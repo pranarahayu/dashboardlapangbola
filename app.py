@@ -26,6 +26,8 @@ from assignxg import get_list
 from assignxg import get_detail
 from assignxg import get_cs
 from assignxg import milestone
+from assignxg import get_pct
+from assignxg import get_radar
 
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
@@ -69,7 +71,7 @@ with tab1:
                 if (season == 'All Season'):
                     team = st.selectbox('Select Team', pd.unique(histdata['Team']), key='99')
                 else:
-                    team = st.selectbox('Select Team', pd.unique(no_temp['Team']), key='99')
+                    team = st.selectbox('Select Team', pd.unique(no_temp['Team']), key='97')
                 all_teams = st.checkbox('Select All Teams')
             col1, col2, col3, col4, col5, col6 = st.columns(6)
             if all_teams:
@@ -200,4 +202,29 @@ with tab2:
     tab2.subheader('Team Statistics')
     
 with tab3:
-    tab3.subheader('Player Statistics')
+    tab3.subheader('Players')
+    st.markdown('Ini masih test aja')
+    pprof, kpgen = st.tabs(['Profile', 'Generate Plot'])
+    with mstats:
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            mins = st.number_input('Input minimum mins. played', min_value=0,
+                                   max_value=90*max(fulldata['Gameweek']), step=90, key=95)
+            rank_pct = get_pct(df1, df2, mins)[0]
+            rank_p90 = get_pct(df1, df2, mins)[1]
+            rank_tot = get_pct(df1, df2, mins)[2]
+        with col2:
+            pos = st.selectbox('Select Position', pd.unique(rank_pct['Position']), key='96')
+        with col3:
+            tempxx = rank_pct[rank_pct['Position']==pos] 
+            pla = st.selectbox('Select Position', pd.unique(tempxx), key='95')
+        col1, col2 = st.columns(2)
+        with col1:
+            ppage = get_radar(rank_pct,rank_p90,rank_tot,pos,pla)
+            st.data_editor(ppage,column_config={'pct_bar': st.column_config.ProgressColumn('Percentiles',
+                                                                                           format='{:.2%}',
+                                                                                           min_value=0,
+                                                                                           max_value=100,),
+                                               }, hide_index=True,)
+    with fstats:
+        a, b, c = st.tabs(['Attempts Map', 'Heat Map', 'Match Stats'])
