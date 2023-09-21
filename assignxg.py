@@ -623,27 +623,6 @@ def milestone(data, data2):
 
   return mstone
 
-posdict = {'gk':{'position':'Goalkeeper',
-                 'metrics':['Name','Long Goal Kick Ratio','Pass Accuracy','Cross Claim',
-                            'Keeper - Sweeper','Saves','Save ratio','Penalty Save']},
-           'cb':{'position':'Center Back',
-                 'metrics':['Name','Shots','Goals','Assist','Pass Accuracy',
-                            'Tackle','Intercept','Recovery','Blocks','Aerial Won Ratio']},
-           'fb':{'position':'Fullback',
-                 'metrics':['Name','Shots','Goals','Create Chance','Assist','Pass Accuracy','Dribble',
-                            'Cross','Tackle','Intercept','Recovery','Blocks','Aerial Won Ratio']},
-           'cm':{'position':'Midfielder',
-                 'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio','Assist',
-                            'Pass Accuracy','Dribble','Tackle','Intercept','Recovery','Blocks']},
-           'cam/w':{'position':'Attacking 10/Winger',
-                    'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio',
-                               'Conversion Ratio','Assist','Pass Accuracy','Dribble','Cross',
-                               'Tackle','Intercept','Recovery']},
-           'fw':{'position':'Forward',
-                 'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio',
-                            'Conversion Ratio','Assist','Pass Accuracy','Dribble','Tackle',
-                            'Intercept','Recovery','Aerial Won Ratio']}}
-
 def get_pct(data, data2, min):
   df = data.copy()
   db = data2.copy()
@@ -778,6 +757,27 @@ def get_pct(data, data2, min):
   rank_liga1 = pd.concat([rank_cm, rank_gk, rank_fw, rank_cam, rank_cb, rank_fb, rank_w]).reset_index(drop=True)
 
   return rank_liga1,data_full,df_sum
+
+posdict = {'gk':{'position':'Goalkeeper',
+                 'metrics':['Name','Long Goal Kick Ratio','Pass Accuracy','Cross Claim',
+                            'Keeper - Sweeper','Saves','Save ratio','Penalty Save']},
+           'cb':{'position':'Center Back',
+                 'metrics':['Name','Shots','Goals','Assist','Pass Accuracy',
+                            'Tackle','Intercept','Recovery','Blocks','Aerial Won Ratio']},
+           'fb':{'position':'Fullback',
+                 'metrics':['Name','Shots','Goals','Create Chance','Assist','Pass Accuracy','Dribble',
+                            'Cross','Tackle','Intercept','Recovery','Blocks','Aerial Won Ratio']},
+           'cm':{'position':'Midfielder',
+                 'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio','Assist',
+                            'Pass Accuracy','Dribble','Tackle','Intercept','Recovery','Blocks']},
+           'cam/w':{'position':'Attacking 10/Winger',
+                    'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio',
+                               'Conversion Ratio','Assist','Pass Accuracy','Dribble','Cross',
+                               'Tackle','Intercept','Recovery']},
+           'fw':{'position':'Forward',
+                 'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio',
+                            'Conversion Ratio','Assist','Pass Accuracy','Dribble','Tackle',
+                            'Intercept','Recovery','Aerial Won Ratio']}}
 
 def get_radar(data1, data2, data3, pos, player):
   df1 = data1.copy()
