@@ -26,6 +26,7 @@ from assignxg import get_list
 from assignxg import get_detail
 from assignxg import get_cs
 from assignxg import milestone
+from assignxg import get_sum90
 from assignxg import get_pct
 
 @st.cache_data(ttl=600)
@@ -204,5 +205,7 @@ with tab3:
     tab3.subheader('Players')
     mins = st.number_input('Input minimum mins. played', min_value=0,
                            max_value=90*max(fulldata['Gameweek']), step=90, key=96)
-    df_full = get_pct(no_temp, df2, mins)
-    st.dataframe(df_full)
+    rank_p90 = get_sum90(no_temp, df2, mins)[0]
+    rank_tot = get_sum90(no_temp, df2, mins)[1]
+    rank_pct = get_pct(rank_p90)
+    st.dataframe(rank_pct)
