@@ -675,7 +675,7 @@ def get_sum90(data, data2, min):
   data_full = pd.merge(pos, p90, on='Name', how='left')
   data_full = data_full.loc[(data_full['MoP']>min)]
 
-  return data_full, data_sum
+  return data_full, df_sum
 
 def get_pct(data):
   data_full = data.copy()
