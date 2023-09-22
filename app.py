@@ -204,8 +204,3 @@ with tab3:
     tab3.subheader('Players')
     mins = st.number_input('Input minimum mins. played', min_value=0,
                            max_value=90*max(fulldata['Gameweek']), step=90, key=96)
-    rank_pct = get_pct(no_temp, df2, 179)[0]
-    rank_p90 = get_pct(no_temp, df2, 179)[1]
-    rank_tot = get_pct(no_temp, df2, 179)[2]
-
-    st.dataframe(rank_pct)
