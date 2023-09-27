@@ -202,8 +202,23 @@ with tab2:
     
 with tab3:
     tab3.subheader('Players')
-    mins = st.number_input('Input minimum mins. played', min_value=0,
-                           max_value=90*max(fulldata['Gameweek']), step=90, key=96)
-    rank_p90 = get_sum90(no_temp, df2, mins)[0]
-    rank_tot = get_sum90(no_temp, df2, mins)[1]
-    st.dataframe(rank_p90)
+    pro, plo = st.tabs(['Player Profile', 'Plot Statistics'])
+    with pro:
+        mins = st.number_input('Input minimum mins. played', min_value=0,
+                               max_value=90*max(fulldata['Gameweek']), step=90, key=96)
+        rank_p90 = get_sum90(no_temp, df2, mins)[0]
+        rank_tot = get_sum90(no_temp, df2, mins)[1]
+        st.dataframe(rank_p90)
+    with plo:
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='89')
+        with col2:
+            temp_sd = shots_data[shots_data['Kompetisi']==komp]
+            gws = st.multiselect('Select Gameweeks', pd.unique(temp_sd['GW']), key='86')
+        with col3:
+            temp_sd = temp_sd[temp_sd['GW'].isin(gws)]
+            team = st.selectbox('Select Team', pd.unique(temp_sd['Team']), key='88')
+        with col4:
+            temp_sd = temp_sd[temp_sd['Team']==team]
+            pla = st.selectbox('Select Player', pd.unique(temp_sd['Act Name']), key='87')
