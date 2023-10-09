@@ -211,18 +211,17 @@ with tab2:
             team = st.selectbox('Select Team', pd.unique(fulldata['Team']), key='51')
         with col3:
             gw = st.multiselect('Select GWs', pd.unique(fulldata['Gameweek']), key='52')
-        ssn, lmt = st.columns(2)
-        with ssn:
-            st.write('sabar')
-        with lmt:
-            ds = get_pssw(fulldata, th, team, gw)
-            ps = ['PS1','PS2','PS3','PS4','PS5']
-            s = ['S1','S2','S3','S4','S5','S6','S7']
-            w = ['W1','W2','W3','W4','W5','W6','W7']
+        ds = get_pssw(fulldata, th, team, gw)
+        ps = ['PS1','PS2','PS3','PS4','PS5']
+        s = ['S1','S2','S3','S4','S5','S6','S7']
+        w = ['W1','W2','W3','W4','W5','W6','W7']
 
-            
-            
-            st.write(ds)
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.caption('**Play Style**')
+            for col in ds[ps]:
+                if (ds[col].isnull().values.any() == False):
+                    st.markdown(':large_yelloe_square:'+' **'+list(ds[col])[0]+'**')
     
 with tab3:
     tab3.subheader('Players')
