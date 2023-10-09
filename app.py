@@ -210,7 +210,7 @@ with tab2:
         with col2:
             team = st.selectbox('Select Team', pd.unique(fulldata['Team']), key='51')
         with col3:
-            team = st.multiselect('Select GWs', pd.unique(fulldata['Gameweek']), key='52')
+            gw = st.multiselect('Select GWs', pd.unique(fulldata['Gameweek']), key='52')
         ssn, lmt = st.columns(2)
         with ssn:
             st.write('sabar')
