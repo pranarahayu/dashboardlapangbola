@@ -27,6 +27,7 @@ from assignxg import get_detail
 from assignxg import get_cs
 from assignxg import milestone
 from assignxg import get_sum90
+from assignxg import get_pssw
 
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
@@ -39,6 +40,8 @@ fixt1['GW'] = fixt1['GW'].astype(int)
 df1 = load_data(st.secrets["testaja"])
 df2 = load_data(st.secrets["datapemain"])
 histdata = load_data(st.secrets["hist"])
+th = load_data(st.secrets["th"])
+
 from datetime import date
 df1['Date'] = pd.to_datetime(df1.Date)
 df1['Month'] = df1['Date'].dt.strftime('%B')
@@ -201,16 +204,19 @@ with tab2:
     tab2.subheader('Teams')
     pro, plo = st.tabs(['Team Profile', 'Plot Statistics'])
     with pro:
-        col1, col2 = st.columns(2)
+        col1, col2, col3 = st.columns(3)
         with col1:
             komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='50')
         with col2:
             team = st.selectbox('Select Team', pd.unique(fulldata['Team']), key='51')
+        with col3:
+            team = st.multiselect('Select GWs', pd.unique(fulldata['Gameweek']), key='52')
         ssn, lmt = st.columns(2)
         with ssn:
             st.write('sabar')
         with lmt:
-            st.write('coming soon')
+            baba = get_pssw(fulldata, th, team, gw)
+            st.write(baba)
     
 with tab3:
     tab3.subheader('Players')
