@@ -761,3 +761,84 @@ def get_pct(data):
   rank_liga = pd.concat([rank_cm, rank_gk, rank_fw, rank_cam, rank_cb, rank_fb, rank_w]).reset_index(drop=True)
 
   return rank_liga
+
+def get_pssw(data, data2, team, gw):
+  df = data.copy()
+  th = data2.copy()
+  gw_list = gw
+  df = df[df['Team']==team]
+  df = df[df['Gameweek'].isin(gw_list)]
+
+  df_rel = df[['Gameweek','Match','Team','Opponent','Shot off','Shot on','Shot Blocked',
+               'Shot off - Inside Box','Shot off - Outside Box','Shot on - Inside Box',
+               'Shot on - Outside Box','Ball Possession','Foul','Tackle Fail','Tackle',
+               'Pass','Pass Fail','Dribble Fail','Loose Ball','Touch','Goal','Offside',
+               'Intercept','Recovery','Aerial Won','Aerial Lost','Pass - Long Ball',
+               'Pass - Short Pass','Fouled','Cross','Cross Fail','Cross Blocked','Penalty Goal']]
+  
+  dfx = df_rel.drop(['Opponent'], axis=1)
+  dfx['Shots'] = dfx['Shot on'] + dfx['Shot off'] + dfx['Shot Blocked']
+  dfx['Goals'] = dfx['Goal'] + dfx['Penalty Goal']
+  df1 = dfx.groupby(['Gameweek','Match','Team'], as_index=False).sum()
+
+  df3 = df_rel.drop(['Match','Opponent'], axis=1)
+  df3 = df3.groupby(['Gameweek','Team'], as_index=False).sum()
+
+  df4 = df_rel.drop(['Match','Team'], axis=1)
+  df4 = df4.groupby(['Gameweek','Opponent'], as_index=False).sum()
+
+  df_x = dfx.groupby(['Gameweek','Match'], as_index=False)['Ball Possession'].max()
+  df_y = dfx.groupby(['Gameweek','Match'], as_index=False)['Ball Possession'].min()
+  df_z = pd.merge(df_x, df_y, how='left', on=['Gameweek','Match'])
+
+  df2 = pd.DataFrame()
+  df2['Gameweek'] = df1['Gameweek']
+  df2['Match'] = df1['Match']
+  df2['Team'] = df1['Team']
+
+  df2['PS_Att - Shot-Inside'] = df1['Shot off - Inside Box']+df1['Shot on - Inside Box']
+  df2['PS_Att - Shot-Outside'] = df1['Shot off - Outside Box']+df1['Shot on - Outside Box']
+  df2['PS_Att - Shot-Freq'] = df1['Shot off']+df1['Shot on']+df1['Shot Blocked']
+  df2['PS_Att - Cross-Freq'] = round(((df1['Cross']+df1['Cross Fail']+df1['Cross Blocked'])/df1['Touch']),2)
+  df2['PS_Att - Long Pass/Short Pass'] = df1['Pass - Long Ball']/df1['Pass - Short Pass']
+  df2['PS_Deff - Agg.'] = df1['Foul']+df1['Tackle']+df1['Tackle Fail']
+
+  df2['SW_Att - Offside'] = df1['Offside']/df1['Touch']
+  df2['SW_Att - Poss-Eff.'] = round(((df1['Pass']+df1['Pass Fail'])/df2['PS_Att - Shot-Freq']),2)
+  df2['SW_Att - Poss-RTT.'] = round(((df1['Loose Ball']+df1['Pass Fail']+df1['Dribble Fail'])/df1['Touch']),2)
+  df2['SW_Att - Fin.'] = abs(df1['Goals'].mean()-df1['Goals'])+abs(df1['Shots'].mean()-df1['Shots'])
+  df2['SW_Deff - Regain'] = round(((df1['Intercept']+df1['Tackle']+df1['Recovery'])/df4['Touch']),2)
+  df2['SW_Deff - Aerial'] = round((df1['Aerial Won']/(df1['Aerial Won']+df1['Aerial Lost'])),2)
+  df2['SW_Deff - Tackle'] = round((df1['Tackle']/(df1['Tackle']+df1['Tackle Fail'])),2)
+
+  df2.fillna(0, inplace=True)
+
+  dfx = df_rel.drop(['Team','Opponent'], axis=1)
+  df1 = dfx.groupby(['Gameweek','Match'], as_index=False).sum()
+
+  df3 = df_rel.drop(['Match','Opponent'], axis=1)
+  df3 = df3.groupby(['Gameweek','Team'], as_index=False).sum()
+
+  df4 = df_rel.drop(['Match','Team'], axis=1)
+  df4 = df4.groupby(['Gameweek','Opponent'], as_index=False).sum()
+
+  df_x = dfx.groupby(['Gameweek','Match'], as_index=False)['Ball Possession'].max()
+  df_y = dfx.groupby(['Gameweek','Match'], as_index=False)['Ball Possession'].min()
+  df_z = pd.merge(df_x, df_y, how='left', on=['Gameweek','Match'])
+
+  df23 = pd.DataFrame()
+
+  df23['Gameweek'] = df1['Gameweek']
+  df23['Match'] = df1['Match']
+  df23['SW_Att - Poss-Dom.'] = df_z['Ball Possession_x']-df_z['Ball Possession_y']
+
+  dfk = pd.concat([df23, df2], ignore_index=True)
+  dfk.replace([np.inf, -np.inf], 0, inplace=True)
+  dfk.fillna(0, inplace=True)
+
+  dfk = dfk.drop(['Gameweek','Match'], axis=1).groupby(['Team'], as_index=False).sum()
+  tmp = dfk.drop('Team', axis=1)
+  tmp = dfk/len(gw_list)
+  tmp['Team'] = dfk['Team']
+
+  return tmp
