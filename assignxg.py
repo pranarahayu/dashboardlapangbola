@@ -838,7 +838,8 @@ def get_pssw(data, data2, team, gw):
 
   dfk = dfk.drop(['Gameweek','Match'], axis=1).groupby(['Team'], as_index=False).sum()
   tmp = dfk.drop('Team', axis=1)
-  tmp = dfk/len(gw_list)
+  tmp = tmp/len(gw_list)
   tmp['Team'] = dfk['Team']
+  tmp = tmp[tmp['Team']==team].reset_index(drop=True)
 
   return tmp
