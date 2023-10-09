@@ -217,24 +217,22 @@ with tab2:
         s = ['S1','S2','S3','S4','S5','S6','S7']
         w = ['W1','W2','W3','W4','W5','W6','W7']
         
-        ct2 = st.container()
-        
-        col1, col2, col3 = ct2.columns(3)
+        col1, col2, col3 = st.columns(3)
         with col1:
-            ct2.markdown('**Play Style**')
+            st.markdown('**Play Style**')
             for col in ds[ps]:
                 if (ds[col].isnull().values.any() == False):
-                    ct2.markdown(':large_yellow_square:'+' '+list(ds[col])[0])
+                    st.markdown(':large_yellow_square:'+' '+list(ds[col])[0])
         with col2:
-            ct2.markdown('**Strengths**')
+            st.markdown('**Strengths**')
             for col in ds[s]:
                 if (ds[col].isnull().values.any() == False):
-                    ct2.markdown(':large_green_square:'+' '+list(ds[col])[0])
+                    st.markdown(':large_green_square:'+' '+list(ds[col])[0])
         with col3:
-            ct2.markdown('**Weaknesses**')
+            st.markdown('**Weaknesses**')
             for col in ds[w]:
                 if (ds[col].isnull().values.any() == False):
-                    ct2.markdown(':large_red_square:'+' '+list(ds[col])[0])
+                    st.markdown(':large_red_square:'+' '+list(ds[col])[0])
     
 with tab3:
     tab3.subheader('Players')
