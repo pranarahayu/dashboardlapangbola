@@ -198,7 +198,14 @@ with tab1:
             
 
 with tab2:
-    tab2.subheader('Team Statistics')
+    tab2.subheader('Teams')
+    pro, plo = st.tabs(['Team Profile', 'Plot Statistics'])
+    with pro:
+        col1, col2 = st.columns(2)
+        with col1:
+            komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='50')
+        with col2:
+            team = st.selectbox('Select Team', pd.unique(fulldata['Team']), key='51')
     
 with tab3:
     tab3.subheader('Players')
