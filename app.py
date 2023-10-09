@@ -218,10 +218,11 @@ with tab2:
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.caption('**Play Style**')
+            st.markdown('**Play Style**')
+            st.divider()
             for col in ds[ps]:
                 if (ds[col].isnull().values.any() == False):
-                    st.markdown(':large_yelloe_square:'+' **'+list(ds[col])[0]+'**')
+                    st.markdown(':large_yellow_square:'+list(ds[col])[0])
     
 with tab3:
     tab3.subheader('Players')
