@@ -764,6 +764,7 @@ def get_pct(data):
 
 def get_pssw(data, data2, team, gw):
   df = data.copy()
+  #df['Gameweek'] = df['Gameweek'].astype(str)
   th = data2.copy()
   gw_list = gw
   df = df[df['Team']==team]
@@ -830,7 +831,7 @@ def get_pssw(data, data2, team, gw):
 
   df23['Gameweek'] = df1['Gameweek']
   df23['Match'] = df1['Match']
-  df23['SW_Att - Poss-Dom.'] = df_z['Ball Possession_x']-df_z['Ball Possession_y']
+  df23['PS_Poss - Poss-Dom.'] = df_z['Ball Possession_x']-df_z['Ball Possession_y']
 
   dfk = pd.concat([df23, df2], ignore_index=True)
   dfk.replace([np.inf, -np.inf], 0, inplace=True)
@@ -842,4 +843,161 @@ def get_pssw(data, data2, team, gw):
   tmp['Team'] = dfk['Team']
   tmp = tmp[tmp['Team']==team].reset_index(drop=True)
 
-  return tmp
+  ts = tmp.copy()
+  def pstyle(row):  
+    if row['PS_Att - Shot-Inside'] > th.iloc[0]['upper'] and row['PS_Att - Shot-Outside'] < th.iloc[1]['under']:
+        return 'Work ball into box'
+    elif row['PS_Att - Shot-Outside'] > th.iloc[1]['upper'] and row['PS_Att - Shot-Inside'] < th.iloc[0]['under']:
+        return 'Shots on sight'
+    else:
+        return ''
+  ts['PS1'] = ts.apply(lambda row: pstyle(row), axis=1)
+
+  def pstyle(row):  
+    if row['PS_Att - Shot-Freq'] > th.iloc[2]['upper']:
+        return 'Shot more often'
+    elif row['PS_Att - Shot-Freq'] < th.iloc[2]['under']:
+        return 'Shot less often'
+    else:
+        return ''
+  ts['PS2'] = ts.apply(lambda row: pstyle(row), axis=1)
+
+  def pstyle(row):  
+    if row['PS_Att - Cross-Freq'] > th.iloc[3]['upper']:
+        return 'Cross more often'
+    elif row['PS_Att - Cross-Freq'] < th.iloc[3]['under']:
+        return 'Cross less often'
+    else:
+        return ''
+  ts['PS3'] = ts.apply(lambda row: pstyle(row), axis=1)
+
+  def pstyle(row):  
+    if row['PS_Att - Long Pass/Short Pass'] > th.iloc[4]['upper']:
+        return 'Direct passing'
+    elif row['PS_Att - Long Pass/Short Pass'] < th.iloc[4]['under']:
+        return 'Shorter passing'
+    else:
+        return 'Mixed passing'
+  ts['PS4'] = ts.apply(lambda row: pstyle(row), axis=1)
+
+  def pstyle(row):  
+    if row['PS_Poss - Poss-Dom.'] > th.iloc[5]['upper']:
+        return 'Possession football'
+    elif row['PS_Poss - Poss-Dom.'] < th.iloc[5]['under']:
+        return 'Counter-attack'
+    else:
+        return ''
+  ts['PS5'] = ts.apply(lambda row: pstyle(row), axis=1)
+
+  def pstyle(row):  
+    if row['PS_Deff - Agg.'] > th.iloc[6]['upper']:
+        return 'Get stuck in'
+    elif row['PS_Deff - Agg.'] < th.iloc[6]['under']:
+        return 'Stay on feet'
+    else:
+        return ''
+  ts['PS5'] = ts.apply(lambda row: pstyle(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Att - Offside'] < th.iloc[7]['under']:
+        return 'Beating offside trap'
+    else:
+        return ''
+  ts['S1'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Att - Offside'] > th.iloc[7]['upper']:
+        return 'Beating offside trap'
+    else:
+        return ''
+  ts['W1'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Att - Poss-Eff.'] > th.iloc[8]['upper']:
+        return 'Effective in possession'
+    else:
+        return ''
+  ts['S2'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Att - Poss-Eff.'] < th.iloc[8]['under']:
+        return 'Ineffective in possession'
+    else:
+        return ''
+  ts['W2'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Att - Poss-RTT.'] > th.iloc[9]['upper']:
+        return 'Retaining possession'
+    else:
+        return ''
+  ts['S3'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Att - Poss-RTT.'] < th.iloc[9]['under']:
+        return 'Retaining possession'
+    else:
+        return ''
+  ts['W3'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Att - Fin.'] > th.iloc[10]['upper']:
+        return 'Finishing scoring chances'
+    else:
+        return ''
+  ts['S4'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Att - Fin.'] < th.iloc[10]['under']:
+        return 'Finishing scoring chances'
+    else:
+        return ''
+  ts['W4'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Deff - Regain'] > th.iloc[11]['upper']:
+        return 'Regaining possesion'
+    else:
+        return ''
+  ts['S5'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Deff - Regain'] < th.iloc[11]['under']:
+        return 'Regaining possesion'
+    else:
+        return ''
+  ts['W5'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Deff - Aerial'] > th.iloc[12]['upper']:
+        return 'Aerial duels'
+    else:
+        return ''
+  ts['S6'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Deff - Aerial'] < th.iloc[12]['under']:
+        return 'Aerial duels'
+    else:
+        return ''
+  ts['W6'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Deff - Tackle'] > th.iloc[13]['upper']:
+        return 'Tackling effectiveness'
+    else:
+        return ''
+  ts['S7'] = ts.apply(lambda row: sw(row), axis=1)
+
+  def sw(row):  
+    if row['SW_Deff - Tackle'] < th.iloc[13]['under']:
+        return 'Tackling effectiveness'
+    else:
+        return ''
+  ts['W7'] = ts.apply(lambda row: sw(row), axis=1)
+
+  desc = ts[['Team','PS1','PS2','PS3','PS4','PS5', 
+             'S1','S2','S3','S4','S5','S6','S7',
+             'W1','W2','W3','W4','W5','W6','W7']]
+
+  return desc
