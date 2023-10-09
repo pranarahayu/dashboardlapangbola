@@ -206,6 +206,11 @@ with tab2:
             komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='50')
         with col2:
             team = st.selectbox('Select Team', pd.unique(fulldata['Team']), key='51')
+        ssn, lmt = st.columns(2)
+        with ssn:
+            st.write('sabar')
+        with lmt:
+            st.write('coming soon')
     
 with tab3:
     tab3.subheader('Players')
