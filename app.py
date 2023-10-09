@@ -212,6 +212,7 @@ with tab2:
         with col3:
             gw = st.multiselect('Select GWs', pd.unique(fulldata['Gameweek']), key='52')
         ds = get_pssw(fulldata, th, team, gw)
+        ds = ds.replace('', pd.NA)
         ps = ['PS1','PS2','PS3','PS4','PS5']
         s = ['S1','S2','S3','S4','S5','S6','S7']
         w = ['W1','W2','W3','W4','W5','W6','W7']
@@ -222,7 +223,7 @@ with tab2:
             st.divider()
             for col in ds[ps]:
                 if (ds[col].isnull().values.any() == False):
-                    st.markdown(':large_yellow_square:'+'**'+list(ds[col])[0]+'**')
+                    st.markdown(':large_yellow_square:'+' **'+list(ds[col])[0]+'**')
     
 with tab3:
     tab3.subheader('Players')
