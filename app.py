@@ -215,8 +215,14 @@ with tab2:
         with ssn:
             st.write('sabar')
         with lmt:
-            baba = get_pssw(fulldata, th, team, gw)
-            st.write(baba)
+            ds = get_pssw(fulldata, th, team, gw)
+            ps = ['PS1','PS2','PS3','PS4','PS5']
+            s = ['S1','S2','S3','S4','S5','S6','S7']
+            w = ['W1','W2','W3','W4','W5','W6','W7']
+
+            
+            
+            st.write(ds)
     
 with tab3:
     tab3.subheader('Players')
