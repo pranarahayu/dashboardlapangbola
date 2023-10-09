@@ -216,13 +216,25 @@ with tab2:
         ps = ['PS1','PS2','PS3','PS4','PS5']
         s = ['S1','S2','S3','S4','S5','S6','S7']
         w = ['W1','W2','W3','W4','W5','W6','W7']
-
-        col1, col2, col3 = st.columns(3)
+        
+        ct2 = st.container()
+        
+        col1, col2, col3 = ct2.columns(3)
         with col1:
-            st.markdown('**Play Style**')
+            ct2.markdown('**Play Style**')
             for col in ds[ps]:
                 if (ds[col].isnull().values.any() == False):
-                    st.markdown(':large_yellow_square:'+' '+list(ds[col])[0])
+                    ct2.markdown(':large_yellow_square:'+' '+list(ds[col])[0])
+        with col2:
+            ct2.markdown('**Strengths**')
+            for col in ds[s]:
+                if (ds[col].isnull().values.any() == False):
+                    ct2.markdown(':large_green_square:'+' '+list(ds[col])[0])
+        with col3:
+            ct2.markdown('**Weaknesses**')
+            for col in ds[w]:
+                if (ds[col].isnull().values.any() == False):
+                    ct2.markdown(':large_red_square:'+' '+list(ds[col])[0])
     
 with tab3:
     tab3.subheader('Players')
