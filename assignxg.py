@@ -807,7 +807,8 @@ def get_pssw(data, data2, team, gw):
   df2['SW_Att - Offside'] = df1['Offside']/df1['Touch']
   df2['SW_Att - Poss-Eff.'] = round(((df1['Pass']+df1['Pass Fail'])/df2['PS_Att - Shot-Freq']),2)
   df2['SW_Att - Poss-RTT.'] = round(((df1['Loose Ball']+df1['Pass Fail']+df1['Dribble Fail'])/df1['Touch']),2)
-  df2['SW_Att - Fin.'] = abs(df1['Goals'].mean()-df1['Goals'])+abs(df1['Shots'].mean()-df1['Shots'])
+  #df2['SW_Att - Fin.'] = abs(df1['Goals'].mean()-df1['Goals'])+abs(df1['Shots'].mean()-df1['Shots'])
+  df2['SW_Att - Fin.'] = round((df1['Goals']/df2['PS_Att - Shot-Freq']),2)
   df2['SW_Deff - Regain'] = round(((df1['Intercept']+df1['Tackle']+df1['Recovery'])/df4['Touch']),2)
   df2['SW_Deff - Aerial'] = round((df1['Aerial Won']/(df1['Aerial Won']+df1['Aerial Lost'])),2)
   df2['SW_Deff - Tackle'] = round((df1['Tackle']/(df1['Tackle']+df1['Tackle Fail'])),2)
