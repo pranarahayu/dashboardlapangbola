@@ -39,6 +39,9 @@ f.close()
 
 reg = fm.FontProperties(fname=f.name)
 
+path_eff = [path_effects.Stroke(linewidth=2, foreground='#ffffff'),
+            path_effects.Normal()]
+
 def plot_skuad(data, data2, team):
   df = data.copy()
   db = data2.copy()
