@@ -218,7 +218,7 @@ with tab2:
         s = ['S1','S2','S3','S4','S5','S6','S7']
         w = ['W1','W2','W3','W4','W5','W6','W7']
 
-        rslt = get_wld(fulldata, team)
+        rslt = get_wdl(fulldata, team)
         st.dataframe(rslt)
         
         col1, col2, col3 = st.columns(3)
