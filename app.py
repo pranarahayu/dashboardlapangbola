@@ -231,6 +231,10 @@ with tab2:
             st.subheader(team+'\'s Results')
             rslt = get_wdl(fulldata, team)
             st.dataframe(rslt, hide_index=True)
+        with col2:
+            st.subheader(team+'\'s Squad List')
+            skd = get_skuad(df1, df2, team)
+            st.dataframe(skd)
 
         st.subheader(team+'\'s Characteristics')
         col1, col2, col3 = st.columns(3)
@@ -258,9 +262,6 @@ with tab2:
         with col2:
             sksc = plot_skuad(df1, df2, team)
             st.pyplot(sksc)
-        st.subheader(team+'\'s Squad List')
-        skd = get_skuad(df1, df2, team)
-        st.dataframe(skd)
     
 with tab3:
     tab3.subheader('Players')
