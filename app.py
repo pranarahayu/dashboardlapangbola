@@ -28,6 +28,7 @@ from assignxg import get_cs
 from assignxg import milestone
 from assignxg import get_sum90
 from assignxg import get_pssw
+from assignxg import get_wld
 
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
@@ -216,6 +217,9 @@ with tab2:
         ps = ['PS1','PS2','PS3','PS4','PS5']
         s = ['S1','S2','S3','S4','S5','S6','S7']
         w = ['W1','W2','W3','W4','W5','W6','W7']
+
+        rslt = get_wld(fulldata, team)
+        st.dataframe(rslt)
         
         col1, col2, col3 = st.columns(3)
         with col1:
