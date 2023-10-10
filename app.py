@@ -222,9 +222,11 @@ with tab2:
 
         col1, col2 = st.columns(2)
         with col1:
+            st.subheader(team+'\'s Results')
             rslt = get_wdl(fulldata, team)
             st.dataframe(rslt, hide_index=True)
-        
+
+        st.subheader(team+'\'s Characteristics')
         col1, col2, col3 = st.columns(3)
         with col1:
             st.markdown('**Play Style**')
