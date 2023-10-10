@@ -31,6 +31,11 @@ from assignxg import get_pssw
 from assignxg import get_wdl
 from assignxg import get_skuad
 
+sys.path.append("fungsiplot.py")
+import fungsiplot
+from fungsiplot import plot_skuad
+from fungsiplot import plot_skuadbar
+
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
     xlsx_url = sheets_url.replace("/edit#gid=", "/export?format=xlsx&gid=")
@@ -246,6 +251,12 @@ with tab2:
                     st.markdown(':large_red_square:'+' '+list(ds[col])[0])
 
         col1, col2 = st.columns(2)
+        with col1:
+            st.subheader(team+'\'s Minutes Allocation')
+            skbr = plot_skuadbar(df1, df2, team)
+            sksc = plot_skuad(df1, df2, team)
+            st.pyplot(skbr)
+            st.pyplot(sksc)
         with col2:
             st.subheader(team+'\'s Squad List')
             skd = get_skuad(df1, df2, team)
