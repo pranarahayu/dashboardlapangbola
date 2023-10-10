@@ -247,8 +247,9 @@ with tab2:
 
         col1, col2 = st.columns(2)
         with col2:
+            st.subheader(team+'\'s Squad List')
             skd = get_skuad(df1, df2, team)
-            st.dataframe(skd, hide_index=True)
+            st.dataframe(skd)
     
 with tab3:
     tab3.subheader('Players')
