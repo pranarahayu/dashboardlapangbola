@@ -254,13 +254,13 @@ with tab2:
         with col1:
             st.subheader(team+'\'s Minutes Allocation')
             skbr = plot_skuadbar(df1, df2, team)
-            sksc = plot_skuad(df1, df2, team)
             st.pyplot(skbr)
-            st.pyplot(sksc)
         with col2:
-            st.subheader(team+'\'s Squad List')
-            skd = get_skuad(df1, df2, team)
-            st.dataframe(skd)
+            sksc = plot_skuad(df1, df2, team)
+            st.pyplot(sksc)
+        st.subheader(team+'\'s Squad List')
+        skd = get_skuad(df1, df2, team)
+        st.dataframe(skd)
     
 with tab3:
     tab3.subheader('Players')
