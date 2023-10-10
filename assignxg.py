@@ -1001,3 +1001,53 @@ def get_pssw(data, data2, team, gw):
              'W1','W2','W3','W4','W5','W6','W7']]
 
   return desc
+
+def get_wdl(data, team):
+  df = data.copy()
+  df = df[df['Team']==team]
+
+  uk = df[['Match', 'Result', 'Date', 'Gameweek']]
+  uk = uk.groupby(['Match', 'Result', 'Date', 'Gameweek'], as_index=False).nunique()
+
+  uk['Home'] = uk['Match'].str.split(' -').str[0]
+  uk['Away'] = uk['Match'].str.split('- ').str[1]
+  uk['FTHG'] = uk['Result'].str.split(' -').str[0]
+  uk['FTAG'] = uk['Result'].str.split('- ').str[1]
+  uk['FTHG'] = uk['FTHG'].astype(int)
+  uk['FTAG'] = uk['FTAG'].astype(int)
+  uk['GW'] = uk['Gameweek']
+  uk['Rslt'] = 'S'
+  uk['AR'] = 'W'
+
+  for i in range(len(uk)):
+    if (uk['FTHG'][i] > uk['FTAG'][i]):
+      uk['Rslt'][i] = 'W'
+      uk['AR'][i] = 'L'
+    elif (uk['FTHG'][i] < uk['FTAG'][i]):
+      uk['Rslt'][i] = 'L'
+      uk['AR'][i] = 'W'
+    else:
+      uk['Rslt'][i] = 'D'
+      uk['AR'][i] = 'D'
+
+  for i in range(len(uk)):
+    if (uk['Home'][i]!=team) and (uk['Rslt'][i]=='W'):
+      uk['Rslt'][i] = 'L'
+    elif (uk['Home'][i]!=team) and (uk['Rslt'][i]=='L'):
+      uk['Rslt'][i] = 'W'
+
+
+  uk = uk[['Date', 'GW', 'Rslt', 'Home', 'FTHG', 'FTAG', 'Away']]
+  uk = uk.sort_values(by='GW').reset_index(drop=True)
+
+  def bg_col(val):
+    if val == 'W':
+      color = 'green'
+    elif val == 'L':
+      color = 'red'
+    else:
+      color = 'white'
+    return 'background-color: %s' % color
+  uk = uk.style.applymap(bg_col)
+
+  return uk
