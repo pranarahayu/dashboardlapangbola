@@ -251,8 +251,8 @@ with tab2:
                     st.markdown(':large_red_square:'+' '+list(ds[col])[0])
 
         col1, col2 = st.columns(2)
+        st.subheader(team+'\'s Minutes Allocation')
         with col1:
-            st.subheader(team+'\'s Minutes Allocation')
             skbr = plot_skuadbar(df1, df2, team)
             st.pyplot(skbr)
         with col2:
