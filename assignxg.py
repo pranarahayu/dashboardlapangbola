@@ -1052,3 +1052,24 @@ def get_wdl(data, team):
   uk = uk.style.applymap(bg_col)
 
   return uk
+
+def get_skuad(data, data2, team):
+  df = data.copy()
+  db = data2.copy()
+
+  import datetime as dt
+  from datetime import date
+
+  today = date.today()
+  db['Age'] = db['DoB'].apply(lambda x: today.year - x.year - ((today.month, today.day) < (x.month, x.day)))
+
+  df = df[df['Team']==team]
+  df = df[['Player ID','MoP','Goal','Penalty Goal','Assist','Yellow Card','Red Card']]
+  df['Goals'] = df['Goal']+df['Penalty Goal']
+
+  df = df.groupby('Player ID', as_index=False).sum()
+  fin = pd.merge(df, db, on='Player ID', how='left')
+  fin = fin[['Name','Age','Nationality','Position','MoP',
+             'Goals','Assist','Yellow Card','Red Card']]
+  
+  return fin
