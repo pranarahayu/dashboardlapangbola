@@ -28,7 +28,7 @@ from assignxg import get_cs
 from assignxg import milestone
 from assignxg import get_sum90
 from assignxg import get_pssw
-from assignxg import get_wld
+from assignxg import get_wdl
 
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
