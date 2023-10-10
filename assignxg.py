@@ -1069,7 +1069,7 @@ def get_skuad(data, data2, team):
 
   df = df.groupby('Player ID', as_index=False).sum()
   fin = pd.merge(df, db, on='Player ID', how='left')
-  fin = fin[['Name','Age','Nationality','Position','MoP',
+  fin = fin[['Nickname','Age','Nationality','Position','MoP',
              'Goals','Assist','Yellow Card','Red Card']]
   
   return fin
