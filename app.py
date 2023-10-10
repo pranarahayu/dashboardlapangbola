@@ -209,9 +209,11 @@ with tab2:
         with col1:
             komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='50')
         with col2:
-            team = st.selectbox('Select Team', pd.unique(fulldata['Team']), key='51')
+            smt = fulldata[fulldata['Kompetisi']==komp]
+            team = st.selectbox('Select Team', pd.unique(smt['Team']), key='51')
         with col3:
-            gw = st.multiselect('Select GWs', pd.unique(fulldata['Gameweek']), key='52')
+            smt = smt[smt['Team']==team]
+            gw = st.multiselect('Select GWs', pd.unique(smt['Gameweek']), key='52')
         ds = get_pssw(fulldata, th, team, gw)
         ds = ds.replace('', pd.NA)
         ps = ['PS1','PS2','PS3','PS4','PS5']
