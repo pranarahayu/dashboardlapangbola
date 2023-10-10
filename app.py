@@ -29,6 +29,7 @@ from assignxg import milestone
 from assignxg import get_sum90
 from assignxg import get_pssw
 from assignxg import get_wdl
+from assignxg import get_skuad
 
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
@@ -243,6 +244,11 @@ with tab2:
             for col in ds[w]:
                 if (ds[col].isnull().values.any() == False):
                     st.markdown(':large_red_square:'+' '+list(ds[col])[0])
+
+        col1, col2 = st.columns(2)
+        with col2:
+            skd = get_skuad(df1, df2, team)
+            st.dataframe(skd, hide_index=True)
     
 with tab3:
     tab3.subheader('Players')
