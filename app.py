@@ -30,11 +30,13 @@ from assignxg import get_sum90
 from assignxg import get_pssw
 from assignxg import get_wdl
 from assignxg import get_skuad
+from assignxg import get_formasi
 
 sys.path.append("fungsiplot.py")
 import fungsiplot
 from fungsiplot import plot_skuad
 from fungsiplot import plot_skuadbar
+from fungsiplot import plot_form
 
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
@@ -48,6 +50,8 @@ df1 = load_data(st.secrets["testaja"])
 df2 = load_data(st.secrets["datapemain"])
 histdata = load_data(st.secrets["hist"])
 th = load_data(st.secrets["th"])
+cf = load_data(st.secrets["cf"])
+cd = load_data(st.secrets["cd"])
 
 from datetime import date
 df1['Date'] = pd.to_datetime(df1.Date)
@@ -262,6 +266,13 @@ with tab2:
             for col in ds[w]:
                 if (ds[col].isnull().values.any() == False):
                     st.markdown(':large_red_square:'+' '+list(ds[col])[0])
+
+        st.subheader(team+'\'s Starting Formation')
+        gw2 = st.selectbox('Select GW', pd.unique(smt['Gameweek']), key='53')
+        full_form = get_formasi(df1, cd)
+        sf = plot_form(full_form, cf, team, gw2)
+
+        st.pyplot(sf)
 
     
 with tab3:
