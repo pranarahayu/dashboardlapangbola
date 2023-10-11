@@ -1075,3 +1075,48 @@ def get_skuad(data, data2, team):
              'Goals','Assist','Yellow Card','Red Card']]
   
   return fin
+
+def get_formasi(data, data2):
+  df = data.copy()
+  cd = data2.copy()
+
+  df_ft = df[df['Position (in match)'].notna()]
+  df_ft = df_ft[['Gameweek', 'Name', 'Position (in match)', 'Team', 'Opponent', 'Match']]
+  #df_ft = df_ft[(df_ft['Gameweek']==gw) & (df_ft['Team']==team)]
+  df_ft = pd.merge(df_ft, cd, on='Position (in match)', how='left')
+  df_ft['Formation'] = ''
+  df_ft = df_ft.reset_index()
+
+  x = 0
+  y = 11
+  for i in range(len(df_ft)):
+    for j in range(x, y):
+      tpr = df_ft[(df_ft['index'] >= x) & (df_ft['index'] < y)]
+      a = list(tpr['Kode'].unique())
+      fms = []
+      old_stdout = sys.stdout
+      new_stdout = io.StringIO()
+      sys.stdout = new_stdout
+
+      for m in a:
+        temp = tpr[(tpr['Kode']==m)]['Kode'].count()
+        fms.append(temp)
+
+      for n in range(len(fms)):
+        if (n != (len(fms)-1)):
+          print(fms[n], end='-')
+        else:
+          print(fms[n], end='')
+
+      df_ft['Formation'][j] = new_stdout.getvalue()
+      sys.stdout = old_stdout
+    x += 11
+    y += 11
+
+  fixdata = df_ft[['Gameweek', 'Team', 'Match', 'Formation']]
+  fixdata = fixdata.groupby(['Gameweek', 'Match', 'Team'])['Formation'].unique().reset_index()
+  for k in range(len(fixdata)):
+    fixdata['Formation'][k] = list(fixdata['Formation'][k])[0]
+  fixdata = fixdata[['Gameweek', 'Team', 'Match', 'Formation']]
+
+  return fixdata
