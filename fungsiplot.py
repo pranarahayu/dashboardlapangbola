@@ -181,3 +181,43 @@ def plot_skuadbar(data, data2, team):
   plt.savefig('skuadbar.jpg', dpi=500, bbox_inches='tight', facecolor=fig.get_facecolor(), edgecolor='none')
   
   return fig
+
+def plot_form(data, data2, team, gw):
+  df = data.copy()
+  cf = data2.copy()
+
+  dft = df[df['Team']==team].reset_index(drop=True)
+  temp = dft[dft['Gameweek']==gw].reset_index(drop=True)
+  temp['Formation'] = temp['Formation'].astype(str)
+  cf = cf[cf['Formation']==temp['Formation'][0]].reset_index(drop=True)
+
+  fig, ax = plt.subplots(figsize=(20, 20), dpi=500)
+  pitch = VerticalPitch(half=True, pitch_type='wyscout', corner_arcs=True,
+                        pitch_color='#ffffff', line_color='#000000',
+                        stripe_color='#fcf8f7', goal_type='box', pad_bottom=5,
+                        pad_right=0.5, pad_left=0.5, stripe=True, linewidth=3.5)
+  pitch.draw(ax=ax)
+  ax.add_patch(FancyBboxPatch((0, 45), 200, 4.5, fc='#ffffff', ec='#ffffff', lw=2))
+
+  #cf['X'] = 100 - cf['X']
+  ax.scatter(cf['Y'], cf['X'], color='#7ed957', s=2500, edgecolors='#f2ff00', lw=4)
+  for i in range(len(cf)):
+    pitch.annotate(cf['Position'][i], xy=(cf['X'][i], cf['Y'][i]), c='#000000', va='center', zorder=11,
+                   ha='center', size=16, weight='bold', ax=ax, path_effects=path_eff)
+  
+  mst = dft.drop(['Gameweek','Team'], axis=1).groupby('Formation', as_index=False).count()
+  mst = mst.sort_values(by='Match', ascending=False).reset_index(drop=True)
+  fmt = mst['Formation'][0]
+  jml = mst['Match'].max()
+
+  ax.annotate(text='Most Used Starting Formation: '+fmt+' ('+str(jml)+')',
+              size=24, xy=(0, 49), xytext=(0,-18),
+              textcoords='offset points', color='black', ha='left',
+              zorder=9, va='center', fontproperties=bold)
+  ax.annotate(text='Match: '+temp['Match'][0], size=24, xy=(0, 102), xytext=(0,-18),
+              textcoords='offset points', color='black', ha='left',
+              zorder=9, va='center', fontproperties=bold)
+  
+  plt.savefig('stafor.jpg', dpi=500, bbox_inches='tight', facecolor=fig.get_facecolor(), edgecolor='none')
+
+  return fig
