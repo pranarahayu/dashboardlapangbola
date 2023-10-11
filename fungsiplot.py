@@ -212,7 +212,7 @@ def plot_form(data, data2, team, gw):
   jml = mst['Match'].max()
 
   ax.annotate(text='Most Used Starting Formation: '+fmt+' ('+str(jml)+')',
-              size=14, xy=1, 49), xytext=(0,-18),
+              size=14, xy=(1, 49), xytext=(0,-18),
               textcoords='offset points', color='black', ha='left',
               zorder=9, va='center', fontproperties=bold)
   ax.annotate(text='Match: '+temp['Match'][0], size=14, xy=(0, 102), xytext=(0,-18),
