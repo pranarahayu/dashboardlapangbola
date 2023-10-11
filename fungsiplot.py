@@ -200,7 +200,7 @@ def plot_form(data, data2, team, gw):
   pitch.draw(ax=ax)
   #ax.add_patch(FancyBboxPatch((0, 45), 200, 4.5, fc='#ffffff', ec='#ffffff', lw=2))
 
-  #cf['X'] = 100 - cf['X']
+  cf['X'] = 100 - cf['X']
   ax.scatter(cf['Y'], cf['X'], color='#7ed957', s=2500, edgecolors='#f2ff00', lw=4)
   for i in range(len(cf)):
     pitch.annotate(cf['Position'][i], xy=(cf['X'][i], cf['Y'][i]), c='#000000', va='center', zorder=11,
@@ -212,10 +212,10 @@ def plot_form(data, data2, team, gw):
   jml = mst['Match'].max()
 
   ax.annotate(text='Most Used Starting Formation: '+fmt+' ('+str(jml)+')',
-              size=24, xy=(0, 49), xytext=(0,-18),
+              size=14, xy=1, 49), xytext=(0,-18),
               textcoords='offset points', color='black', ha='left',
               zorder=9, va='center', fontproperties=bold)
-  ax.annotate(text='Match: '+temp['Match'][0], size=24, xy=(0, 102), xytext=(0,-18),
+  ax.annotate(text='Match: '+temp['Match'][0], size=14, xy=(0, 102), xytext=(0,-18),
               textcoords='offset points', color='black', ha='left',
               zorder=9, va='center', fontproperties=bold)
   
