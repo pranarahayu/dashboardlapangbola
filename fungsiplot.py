@@ -13,6 +13,7 @@ from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import matplotlib.font_manager as fm
 from matplotlib.legend_handler import HandlerLine2D
 from matplotlib.patches import FancyArrowPatch
+from matplotlib.patches import FancyBboxPatch
 
 from PIL import Image
 from tempfile import NamedTemporaryFile
