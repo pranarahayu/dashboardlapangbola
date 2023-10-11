@@ -1043,9 +1043,11 @@ def get_wdl(data, team):
 
   def bg_col(val):
     if val == 'W':
-      color = 'green'
+      color = '#7ed957'
     elif val == 'L':
-      color = 'red'
+      color = '#d9577e'
+    elif val == 'D':
+      color = '#a6a6a6'
     else:
       color = 'white'
     return 'background-color: %s' % color
