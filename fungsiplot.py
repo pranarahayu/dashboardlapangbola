@@ -198,7 +198,7 @@ def plot_form(data, data2, team, gw):
                         stripe_color='#fcf8f7', goal_type='box', pad_bottom=5,
                         pad_right=0.5, pad_left=0.5, stripe=True, linewidth=3.5)
   pitch.draw(ax=ax)
-  ax.add_patch(FancyBboxPatch((0, 45), 200, 4.5, fc='#ffffff', ec='#ffffff', lw=2))
+  #ax.add_patch(FancyBboxPatch((0, 45), 200, 4.5, fc='#ffffff', ec='#ffffff', lw=2))
 
   #cf['X'] = 100 - cf['X']
   ax.scatter(cf['Y'], cf['X'], color='#7ed957', s=2500, edgecolors='#f2ff00', lw=4)
