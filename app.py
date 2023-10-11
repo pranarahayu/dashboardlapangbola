@@ -236,7 +236,7 @@ with tab2:
             skd = get_skuad(df1, df2, team)
             st.dataframe(skd)
 
-        st.subheader(team+'Squad's /% Minutes Played')
+        st.subheader(team+'\'s Squad - % of Minutes Played')
         col1, col2 = st.columns(2)
         with col1:
             skbr = plot_skuadbar(df1, df2, team)
