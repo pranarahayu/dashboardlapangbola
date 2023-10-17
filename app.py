@@ -28,6 +28,7 @@ from assignxg import get_detail
 from assignxg import get_cs
 from assignxg import milestone
 from assignxg import get_sum90
+from assignxg import get_pct
 from assignxg import get_pssw
 from assignxg import get_wdl
 from assignxg import get_skuad
@@ -284,7 +285,8 @@ with tab3:
                                max_value=90*max(fulldata['Gameweek']), step=90, key=96)
         rank_p90 = get_sum90(no_temp, df2, mins)[0]
         rank_tot = get_sum90(no_temp, df2, mins)[1]
-        st.dataframe(rank_p90)
+        rank_pct = get_pct(rank_p90)
+        st.dataframe(rank_pct)
     with plo:
         col1, col2, col3, col4 = st.columns(4)
         with col1:
