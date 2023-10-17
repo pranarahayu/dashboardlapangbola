@@ -295,7 +295,7 @@ with tab3:
             pos = st.selectbox('Select Position', pd.unique(tempp['Position']), key='103')
         with col4:
             tempp = tempp[tempp['Position']==pos]
-            ply = st.selectbox('Select Player', pd.unique(tempp['Player']), key='104')
+            ply = st.selectbox('Select Player', pd.unique(tempp['Name']), key='104')
 
         col5, col6 = st.columns(2)
         rank_p90 = get_sum90(no_temp, df2, mins)[0]
