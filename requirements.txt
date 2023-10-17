@@ -6,4 +6,4 @@ numpy
 scikit-learn
 statsmodels
 openpyxl
-scikit-yb
+yellowbrick
