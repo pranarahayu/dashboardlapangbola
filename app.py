@@ -305,7 +305,7 @@ with tab3:
             rdr = get_radar(rank_pct,rank_p90,rank_tot,pos,ply)
             rdr['Percentile'] = rdr['Percentile']/100
             st.subheader(ply+' Scouting Report')
-            st.caption('vs '+pos+' in '+komp+' | Min. '+mins+' mins played')
+            st.caption('vs '+pos+' in '+komp+' | Min. '+str(mins)+' mins played')
             st.data_editor(rdr, column_config={'Percentile':st.column_config.ProgressColumn('Percentile',width='medium',min_value=0,max_value=1)},hide_index=True)
     with plo:
         col1, col2, col3, col4 = st.columns(4)
