@@ -34,7 +34,6 @@ from assignxg import get_wdl
 from assignxg import get_skuad
 from assignxg import get_formasi
 from assignxg import get_radar
-from assignxg import get_simi
 
 sys.path.append("fungsiplot.py")
 import fungsiplot
