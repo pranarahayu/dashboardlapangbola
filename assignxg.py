@@ -20,7 +20,7 @@ from sklearn import preprocessing
 
 posdict = {'gk':{'position':'Goalkeeper',
                  'metrics':['Name','Long Goal Kick Ratio','Pass Accuracy','Cross Claim',
-                            'Keeper - Sweeper','Saves','Save ratio','Penalty Save']},
+                            'Keeper - Sweeper','Saves','Save Ratio','Penalty Save']},
            'cb':{'position':'Center Back',
                  'metrics':['Name','Shots','Goals','Assist','Pass Accuracy',
                             'Tackle','Intercept','Recovery','Blocks','Aerial Won Ratio']},
