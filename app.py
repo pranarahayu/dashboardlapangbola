@@ -304,7 +304,7 @@ with tab3:
         with col5:
             rdr = get_radar(rank_pct,rank_p90,rank_tot,pos,ply)
             rdr['Percentile'] = rdr['Percentile']/100
-            st.data_editor(rdr, column_config={'Percentile':st.column_config.ProgressColumn('Percentile',width='large',min_value=0,max_value=1)},hide_index=True)
+            st.data_editor(rdr, column_config={'Percentile':st.column_config.ProgressColumn('Percentile',width='medium',min_value=0,max_value=1)},hide_index=True)
     with plo:
         col1, col2, col3, col4 = st.columns(4)
         with col1:
