@@ -1229,5 +1229,4 @@ def get_radar(data1, data2, data3, pos, player):
 
   auxt4 = pd.merge(auxt3, auxt2, on='Metrics', how='left')
   auxt = pd.merge(auxt4, auxt1, on='Metrics', how='left')
-  auxt['pct_bar'] = auxt['Percentile']
   return auxt
