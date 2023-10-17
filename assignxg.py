@@ -20,7 +20,7 @@ import math
 
 from sklearn import preprocessing
 from sklearn.cluster import KMeans
-from yellowbrick.cluster import KElbowVisualizer
+#from yellowbrick.cluster import KElbowVisualizer
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
@@ -1236,80 +1236,3 @@ def get_radar(data1, data2, data3, pos, player):
   auxt4 = pd.merge(auxt3, auxt2, on='Metrics', how='left')
   auxt = pd.merge(auxt4, auxt1, on='Metrics', how='left')
   return auxt
-
-def get_simi(data, data2, player, pos):
-  df = data.copy()
-  df = df[df['Position']==pos]
-  db = data2.copy()
-  
-  if (pos=='Forward'):
-    temp = df[posdict['fw']['metrics']].reset_index(drop=True)
-  elif (pos=='Winger') or (pos=='Attacking 10'):
-    temp = df[posdict['cam/w']['metrics']].reset_index(drop=True)
-  elif (pos=='Midfielder'):
-    temp = df[posdict['cm']['metrics']].reset_index(drop=True)
-  elif (pos=='Fullback'):
-    temp = df[posdict['fb']['metrics']].reset_index(drop=True)
-  elif (pos=='Center Back'):
-    temp = df[posdict['cb']['metrics']].reset_index(drop=True)
-  elif (pos=='Goalkeeper'):
-    temp = df[posdict['gk']['metrics']].reset_index(drop=True)
-
-  dfx = temp.drop(['Name'], axis=1)
-
-  def create_scaler_model():
-    return StandardScaler()
-
-  scaler = create_scaler_model()
-  scaler.fit(dfx)
-  scaled_features = scaler.transform(dfx)
-  scaled_feat_df = pd.DataFrame(scaled_features)
-
-  X = np.array(scaled_feat_df)
-  calc_k_model = KMeans()
-  visualizer = KElbowVisualizer(calc_k_model, k=(1,10), timings= True)
-  visualizer.fit(X)
-
-  kmeans = KMeans(n_clusters=visualizer.elbow_value_)
-  kmeans.fit(X)
-
-  scaled_feat_df['cluster'] = kmeans.predict(X)
-  scaled_feat_df.insert(0, 'Name', temp['Name'])
-  
-  df_fin = scaled_feat_df.copy()
-  clus = df_fin[df_fin['Name'] == player]['cluster']
-
-  df_fin = df_fin[df_fin['cluster'] == int(clus)]
-  df_fin.reset_index(inplace=True)
-  df_fin.drop(['index'],axis=1,inplace=True)
-  
-  player_list = df_fin[df_fin['Name'] == player].values.tolist()
-  others_list = df_fin[df_fin['Name'] != player].values.tolist()
-
-  ind = df_fin[df_fin['Name'] == player_list[0][0]].index[0]
-  df_fin['Similarity Score'] = ''
-
-  df_fin['Similarity Score'][ind] = 0
-
-  for elem in others_list:
-    sim_score = 0
-  #Calculate similarity score using Euclidian distance
-    for i in range(1,len(player_list[0])-1):
-      sim_score += pow(player_list[0][i] - elem[i],2)
-    sim_score = math.sqrt(sim_score)
-    ind = df_fin[df_fin['Name'] == elem[0]].index
-    df_fin['Similarity Score'][ind] = sim_score
-  df_fin = df_fin.sort_values('Similarity Score').reset_index(drop=True)
-  df_fin = df_fin.iloc[1:, :].reset_index(drop=True)
-  df_fin = df_fin[['Name', 'Similarity Score']]
-
-  import datetime as dt
-  from datetime import date
-
-  today = date.today()
-  db['Age'] = db['DoB'].apply(lambda x: today.year - x.year - ((today.month, today.day) < (x.month, x.day)))
-
-  df_fix = pd.merge(df_fin, db, on='Name', how='left')
-  df_fix = df_fix[['Name', 'Nickname', 'Age', 'Nationality', 'Similarity Score']]
-
-  return df_fix
