@@ -18,6 +18,27 @@ from datetime import date
 import numpy as np
 from sklearn import preprocessing
 
+posdict = {'gk':{'position':'Goalkeeper',
+                 'metrics':['Name','Long Goal Kick Ratio','Pass Accuracy','Cross Claim',
+                            'Keeper - Sweeper','Saves','Save ratio','Penalty Save']},
+           'cb':{'position':'Center Back',
+                 'metrics':['Name','Shots','Goals','Assist','Pass Accuracy',
+                            'Tackle','Intercept','Recovery','Blocks','Aerial Won Ratio']},
+           'fb':{'position':'Fullback',
+                 'metrics':['Name','Shots','Goals','Create Chance','Assist','Pass Accuracy','Dribble',
+                            'Cross','Tackle','Intercept','Recovery','Blocks','Aerial Won Ratio']},
+           'cm':{'position':'Midfielder',
+                 'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio','Assist',
+                            'Pass Accuracy','Dribble','Tackle','Intercept','Recovery','Blocks']},
+           'cam/w':{'position':'Attacking 10/Winger',
+                    'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio',
+                               'Conversion Ratio','Assist','Pass Accuracy','Dribble','Cross',
+                               'Tackle','Intercept','Recovery']},
+           'fw':{'position':'Forward',
+                 'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio',
+                            'Conversion Ratio','Assist','Pass Accuracy','Dribble','Tackle',
+                            'Intercept','Recovery','Aerial Won Ratio']}}
+
 def assign_xg(data):
   df_match = data.copy()
 
@@ -1153,3 +1174,60 @@ def get_formasi(data, data2):
   fixdata = fixdata[['Gameweek', 'Team', 'Match', 'Formation']]
 
   return fixdata
+
+def get_radar(data1, data2, data3, pos, player):
+  df1 = data1.copy()
+  df2 = data2.copy()
+  df3 = data3.copy()
+
+  if (pos=='Forward'):
+    temp1 = df1[posdict['fw']['metrics']]
+    temp2 = df2[posdict['fw']['metrics']]
+    temp3 = df3[posdict['fw']['metrics']]
+  elif (pos=='Winger') or (pos=='Attacking 10'):
+    temp1 = df1[posdict['cam/w']['metrics']]
+    temp2 = df2[posdict['cam/w']['metrics']]
+    temp3 = df3[posdict['cam/w']['metrics']]
+  elif (pos=='Midfielder'):
+    temp1 = df1[posdict['cm']['metrics']]
+    temp2 = df2[posdict['cm']['metrics']]
+    temp3 = df3[posdict['cm']['metrics']]
+  elif (pos=='Fullback'):
+    temp1 = df1[posdict['fb']['metrics']]
+    temp2 = df2[posdict['fb']['metrics']]
+    temp3 = df3[posdict['fb']['metrics']]
+  elif (pos=='Center Back'):
+    temp1 = df1[posdict['cb']['metrics']]
+    temp2 = df2[posdict['cb']['metrics']]
+    temp3 = df3[posdict['cb']['metrics']]
+  elif (pos=='Goalkeeper'):
+    temp1 = df1[posdict['gk']['metrics']]
+    temp2 = df2[posdict['gk']['metrics']]
+    temp3 = df3[posdict['gk']['metrics']]
+
+  auxdata1 = temp1[temp1['Name']==player]
+  auxdata2 = temp2[temp2['Name']==player]
+  auxdata3 = temp3[temp3['Name']==player]
+  auxt1 = auxdata1.transpose().reset_index()
+  auxt2 = auxdata2.transpose().reset_index()
+  auxt3 = auxdata3.transpose().reset_index()
+
+  new_header = auxt1.iloc[0]
+  auxt1 = auxt1[2:]
+  auxt1.columns = new_header
+  auxt1 = auxt1.reset_index(drop=True).rename(columns={'Name':'Metrics',
+                                                       player:'Percentile'})
+  auxt2 = auxt2[2:]
+  auxt2.columns = new_header
+  auxt2 = auxt2.reset_index(drop=True).rename(columns={'Name':'Metrics',
+                                                       player:'per 90'})
+
+  auxt3 = auxt3[2:]
+  auxt3.columns = new_header
+  auxt3 = auxt3.reset_index(drop=True).rename(columns={'Name':'Metrics',
+                                                       player:'Total'})
+
+  auxt4 = pd.merge(auxt3, auxt2, on='Metrics', how='left')
+  auxt = pd.merge(auxt4, auxt1, on='Metrics', how='left')
+  auxt['pct_bar'] = auxt['Percentile']
+  return auxt
