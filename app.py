@@ -302,7 +302,7 @@ with tab3:
         rank_tot = get_sum90(no_temp, df2, mins)[1]
         rank_pct = get_pct(rank_p90)
         with col5:
-            rdr = get_radar(rank_pct,rank_90,rank_tot,pos,ply)
+            rdr = get_radar(rank_pct,rank_p90,rank_tot,pos,ply)
             st.dataframe(rdr)
     with plo:
         col1, col2, col3, col4 = st.columns(4)
