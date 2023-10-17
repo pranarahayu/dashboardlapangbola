@@ -33,6 +33,7 @@ from assignxg import get_pssw
 from assignxg import get_wdl
 from assignxg import get_skuad
 from assignxg import get_formasi
+from assignxg import get_radar
 
 sys.path.append("fungsiplot.py")
 import fungsiplot
@@ -283,10 +284,26 @@ with tab3:
     with pro:
         mins = st.number_input('Input minimum mins. played', min_value=0,
                                max_value=90*max(fulldata['Gameweek']), step=90, key=96)
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='101')
+        with col2:
+            tempp = fulldata[fulldata['Kompetisi']==komp]
+            klub = st.selectbox('Select Team', pd.unique(tempp['Team']), key='102')
+        with col3:
+            tempp = tempp[tempp['Team']==team]
+            pos = st.selectbox('Select Position', pd.unique(tempp['Position']), key='103')
+        with col4:
+            tempp = tempp[tempp['Position']==pos]
+            ply = st.selectbox('Select Player', pd.unique(tempp['Player']), key='104')
+
+        col5, col6 = st.columns(2)
         rank_p90 = get_sum90(no_temp, df2, mins)[0]
         rank_tot = get_sum90(no_temp, df2, mins)[1]
         rank_pct = get_pct(rank_p90)
-        st.dataframe(rank_pct)
+        with col5:
+            rdr = get_radar(rank_pct,rank_90,rank_tot,pos,ply)
+            st.dataframe(rdr)
     with plo:
         col1, col2, col3, col4 = st.columns(4)
         with col1:
