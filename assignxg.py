@@ -695,37 +695,65 @@ def get_pct(data):
 
   #calculating the average stats per position
   #winger
+  temp = winger.copy()
+  winger = winger.drop(['Name','Position'], axis=1)
   winger.loc['mean'] = round((winger.mean()),2)
+  winger['Name'] = temp['Name']
+  winger['Position'] = temp['Position']
   values1 = {"Name": 'Average W', "Position": 'Winger', "Team": 'League Average'}
   winger = winger.fillna(value=values1)
 
   #fb
+  temp = fullback.copy()
+  fullback = fullback.drop(['Name','Position'], axis=1)
   fullback.loc['mean'] = round((fullback.mean()),2)
+  fullback['Name'] = temp['Name']
+  fullback['Position'] = temp['Position']
   values2 = {"Name": 'Average FB', "Position": 'Fullback', "Team": 'League Average'}
   fullback = fullback.fillna(value=values2)
 
   #cb
+  temp = center_back.copy()
+  center_back = center_back.drop(['Name','Position'], axis=1)
   center_back.loc['mean'] = round((center_back.mean()),2)
+  center_back['Name'] = temp['Name']
+  center_back['Position'] = temp['Position']
   values3 = {"Name": 'Average CB', "Position": 'Center Back', "Team": 'League Average'}
   center_back = center_back.fillna(value=values3)
 
   #cam
+  temp = att_10.copy()
+  att_10 = att_10.drop(['Name','Position'], axis=1)
   att_10.loc['mean'] = round((att_10.mean()),2)
+  att_10['Name'] = temp['Name']
+  att_10['Position'] = temp['Position']
   values4 = {"Name": 'Average CAM', "Position": 'Attacking 10', "Team": 'League Average'}
   att_10 = att_10.fillna(value=values4)
 
   #forward
+  temp = forward.copy()
+  forward = forward.drop(['Name','Position'], axis=1)
   forward.loc['mean'] = round((forward.mean()),2)
+  forward['Name'] = temp['Name']
+  forward['Position'] = temp['Position']
   values5 = {"Name": 'Average FW', "Position": 'Forward', "Team": 'League Average'}
   forward = forward.fillna(value=values5)
 
   #gk
+  temp = goalkeeper.copy()
+  goalkeeper = goalkeeper.drop(['Name','Position'], axis=1)
   goalkeeper.loc['mean'] = round((goalkeeper.mean()),2)
+  goalkeeper['Name'] = temp['Name']
+  goalkeeper['Position'] = temp['Position']
   values6 = {"Name": 'Average GK', "Position": 'Goalkeeper', "Team": 'League Average'}
   goalkeeper = goalkeeper.fillna(value=values6)
 
   #cm
+  temp = midfielder.copy()
+  midfielder = midfielder.drop(['Name','Position'], axis=1)
   midfielder.loc['mean'] = round((midfielder.mean()),2)
+  midfielder['Name'] = temp['Name']
+  midfielder['Position'] = temp['Position']
   values7 = {"Name": 'Average CM', "Position": 'Midfielder', "Team": 'League Average'}
   midfielder = midfielder.fillna(value=values7)
 
