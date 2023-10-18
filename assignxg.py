@@ -666,14 +666,14 @@ def get_sum90(data, data2, min):
   df['Aerial Duels'] = df['Aerial Won']+df['Aerial Lost']
   df['Crosses'] = df['Cross']+df['Cross Fail']
 
-  df_data = df[['Name','MoP','Goals','Shots','Shot on',
+  df_data = df[['Name','Team','Kompetisi','MoP','Goals','Shots','Shot on',
                 'Create Chance','Assist','Pass','Total Pass',
                 'Pass - Progressive Pass', 'Pass - Through Pass',
                 'Cross','Dribble','Tackle','Intercept','Recovery','Blocks',
                 'Aerial Duels','Aerial Won','Saves','Shots on Target Faced',
                 'Penalty Save','Keeper - Sweeper','Cross Claim','Goal Kick',
                 'Goal Kick - Goal Kick Launch', 'Crosses']]
-  df_sum = df_data.groupby(['Name'], as_index=False).sum()
+  df_sum = df_data.groupby(['Name','Team','Kompetisi'], as_index=False).sum()
   df_sum['Conversion Ratio'] = round(df_sum['Goals']/df_sum['Shots'],2)
   df_sum['Shot on Target Ratio'] = round(df_sum['Shot on']/df_sum['Shots'],2)
   df_sum['Successful Cross Ratio'] = round(df_sum['Cross']/df_sum['Crosses'],2)
@@ -685,7 +685,7 @@ def get_sum90(data, data2, min):
   df_sum.replace([np.inf, -np.inf], 0, inplace=True)
   df_sum.fillna(0, inplace=True)
 
-  temp = df_sum.drop(['Name'], axis=1)
+  temp = df_sum.drop(['Name','Team','Kompetisi'], axis=1)
 
   def p90_Calculator(variable_value):
     p90_value = round((((variable_value/temp['MoP']))*90),2)
@@ -693,6 +693,8 @@ def get_sum90(data, data2, min):
   p90 = temp.apply(p90_Calculator)
 
   p90['Name'] = df_sum['Name']
+  p90['Team'] = df_sum['Team']
+  p90['Kompetisi'] = df_sum['Kompetisi']
   p90['MoP'] = df_sum['MoP']
   p90['Conversion Ratio'] = df_sum['Conversion Ratio']
   p90['Shot on Target Ratio'] = df_sum['Shot on Target Ratio']
@@ -705,12 +707,13 @@ def get_sum90(data, data2, min):
 
   pos = db[['Name','Position']]
   data_full = pd.merge(pos, p90, on='Name', how='left')
-  data_full = data_full.loc[(data_full['MoP']>min)]
+  data_full = data_full.loc[(data_full['MoP']>=min)].reset_index(drop=True)
 
   return data_full, df_sum
 
-def get_pct(data):
+def get_pct(data, komp):
   data_full = data.copy()
+  data_full = data_full[data_full['Kompetisi']==komp]
   df4 = data_full.groupby('Position', as_index=False)
   midfielder = df4.get_group('Midfielder')
   goalkeeper = df4.get_group('Goalkeeper')
@@ -723,65 +726,79 @@ def get_pct(data):
   #calculating the average stats per position
   #winger
   temp = winger.copy()
-  winger = winger.drop(['Name','Position'], axis=1)
+  winger = winger.drop(['Name','Position','Team','Kompetisi'], axis=1)
   winger.loc['mean'] = round((winger.mean()),2)
   winger['Name'] = temp['Name']
   winger['Position'] = temp['Position']
-  values1 = {"Name": 'Average W', "Position": 'Winger', "Team": 'League Average'}
+  winger['Team'] = temp['Team']
+  winger['Kompetisi'] = temp['Kompetisi']
+  values1 = {"Name": 'Average W', "Position": 'Winger', "Team": 'League Average', "Kompetisi": komp}
   winger = winger.fillna(value=values1)
 
   #fb
   temp = fullback.copy()
-  fullback = fullback.drop(['Name','Position'], axis=1)
+  fullback = fullback.drop(['Name','Position','Team','Kompetisi'], axis=1)
   fullback.loc['mean'] = round((fullback.mean()),2)
   fullback['Name'] = temp['Name']
   fullback['Position'] = temp['Position']
-  values2 = {"Name": 'Average FB', "Position": 'Fullback', "Team": 'League Average'}
+  fullback['Team'] = temp['Team']
+  fullback['Kompetisi'] = temp['Kompetisi']
+  values2 = {"Name": 'Average FB', "Position": 'Fullback', "Team": 'League Average', "Kompetisi": komp}
   fullback = fullback.fillna(value=values2)
 
   #cb
   temp = center_back.copy()
-  center_back = center_back.drop(['Name','Position'], axis=1)
+  center_back = center_back.drop(['Name','Position','Team','Kompetisi'], axis=1)
   center_back.loc['mean'] = round((center_back.mean()),2)
   center_back['Name'] = temp['Name']
   center_back['Position'] = temp['Position']
-  values3 = {"Name": 'Average CB', "Position": 'Center Back', "Team": 'League Average'}
+  center_back['Team'] = temp['Team']
+  center_back['Kompetisi'] = temp['Kompetisi']
+  values3 = {"Name": 'Average CB', "Position": 'Center Back', "Team": 'League Average', "Kompetisi": komp}
   center_back = center_back.fillna(value=values3)
 
   #cam
   temp = att_10.copy()
-  att_10 = att_10.drop(['Name','Position'], axis=1)
+  att_10 = att_10.drop(['Name','Position','Team','Kompetisi'], axis=1)
   att_10.loc['mean'] = round((att_10.mean()),2)
   att_10['Name'] = temp['Name']
   att_10['Position'] = temp['Position']
-  values4 = {"Name": 'Average CAM', "Position": 'Attacking 10', "Team": 'League Average'}
+  att_10['Team'] = temp['Team']
+  att_10['Kompetisi'] = temp['Kompetisi']
+  values4 = {"Name": 'Average CAM', "Position": 'Attacking 10', "Team": 'League Average', "Kompetisi": komp}
   att_10 = att_10.fillna(value=values4)
 
   #forward
   temp = forward.copy()
-  forward = forward.drop(['Name','Position'], axis=1)
+  forward = forward.drop(['Name','Position','Team','Kompetisi'], axis=1)
   forward.loc['mean'] = round((forward.mean()),2)
   forward['Name'] = temp['Name']
   forward['Position'] = temp['Position']
-  values5 = {"Name": 'Average FW', "Position": 'Forward', "Team": 'League Average'}
+  forward['Team'] = temp['Team']
+  forward['Kompetisi'] = temp['Kompetisi']
+  values5 = {"Name": 'Average FW', "Position": 'Forward', "Team": 'League Average', "Kompetisi": komp}
   forward = forward.fillna(value=values5)
 
   #gk
   temp = goalkeeper.copy()
-  goalkeeper = goalkeeper.drop(['Name','Position'], axis=1)
+  goalkeeper = goalkeeper.drop(['Name','Position','Team','Kompetisi'], axis=1)
   goalkeeper.loc['mean'] = round((goalkeeper.mean()),2)
   goalkeeper['Name'] = temp['Name']
   goalkeeper['Position'] = temp['Position']
-  values6 = {"Name": 'Average GK', "Position": 'Goalkeeper', "Team": 'League Average'}
+  goalkeeper['Team'] = temp['Team']
+  goalkeeper['Kompetisi'] = temp['Kompetisi']
+  values6 = {"Name": 'Average GK', "Position": 'Goalkeeper', "Team": 'League Average', "Kompetisi": komp}
   goalkeeper = goalkeeper.fillna(value=values6)
 
   #cm
   temp = midfielder.copy()
-  midfielder = midfielder.drop(['Name','Position'], axis=1)
+  midfielder = midfielder.drop(['Name','Position','Team','Kompetisi'], axis=1)
   midfielder.loc['mean'] = round((midfielder.mean()),2)
   midfielder['Name'] = temp['Name']
   midfielder['Position'] = temp['Position']
-  values7 = {"Name": 'Average CM', "Position": 'Midfielder', "Team": 'League Average'}
+  midfielder['Team'] = temp['Team']
+  midfielder['Kompetisi'] = temp['Kompetisi']
+  values7 = {"Name": 'Average CM', "Position": 'Midfielder', "Team": 'League Average', "Kompetisi": komp}
   midfielder = midfielder.fillna(value=values7)
 
   #percentile rank
@@ -809,6 +826,22 @@ def get_pct(data):
   rank_cb['Position'] = center_back['Position']
   rank_fb['Position'] = fullback['Position']
   rank_w['Position'] = winger['Position']
+
+  rank_cm['Team'] = midfielder['Team']
+  rank_gk['Team'] = goalkeeper['Team']
+  rank_fw['Team'] = forward['Team']
+  rank_cam['Team'] = att_10['Team']
+  rank_cb['Team'] = center_back['Team']
+  rank_fb['Team'] = fullback['Team']
+  rank_w['Team'] = winger['Team']
+
+  rank_cm['Kompetisi'] = midfielder['Kompetisi']
+  rank_gk['Kompetisi'] = goalkeeper['Kompetisi']
+  rank_fw['Kompetisi'] = forward['Kompetisi']
+  rank_cam['Kompetisi'] = att_10['Kompetisi']
+  rank_cb['Kompetisi'] = center_back['Kompetisi']
+  rank_fb['Kompetisi'] = fullback['Kompetisi']
+  rank_w['Kompetisi'] = winger['Kompetisi']
 
   rank_cm['MoP'] = midfielder['MoP']
   rank_gk['MoP'] = goalkeeper['MoP']
