@@ -308,6 +308,10 @@ with tab3:
             st.subheader(ply+' Scouting Report')
             st.caption('vs '+pos+' in '+komp+' | Min. '+str(mins)+' mins played')
             st.data_editor(rdr, column_config={'Percentile':st.column_config.ProgressColumn('Percentile',width='medium',min_value=0,max_value=1)},hide_index=True)
+        with col6:
+            smr = get_simi(rank_p90,df2,ply,pos)
+            st.subheader('Similar Players to '+ply)
+            st.dataframe(smr.head(7))
     with plo:
         col1, col2, col3, col4 = st.columns(4)
         with col1:
