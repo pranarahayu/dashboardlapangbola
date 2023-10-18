@@ -1,9 +1,9 @@
 streamlit
 pandas
 mplsoccer
-matplotlib == 3.4.3
+matplotlib == 3.7.2
 numpy
-scikit_learn==1.0.2
+scikit-learn
 statsmodels
 openpyxl
 yellowbrick==1.4
