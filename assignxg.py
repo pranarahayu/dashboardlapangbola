@@ -20,7 +20,7 @@ import math
 
 from sklearn import preprocessing
 from sklearn.cluster import KMeans
-#from yellowbrick.cluster import KElbowVisualizer
+from yellowbrick.cluster import KElbowVisualizer
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
