@@ -283,16 +283,18 @@ with tab3:
     tab3.subheader('Players')
     pro, plo = st.tabs(['Player Profile', 'Plot Statistics'])
     with pro:
-        mins = st.number_input('Input minimum mins. played', min_value=0,
-                               max_value=90*max(fulldata['Gameweek']), step=90, key=96)
+        col1, col2 = st.columns(2)
+        with col1:
+            mins = st.number_input('Input minimum mins. played', min_value=90,
+                                   max_value=90*max(fulldata['Gameweek']), step=90, key=96)
+        with col2:
+            komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='101')
         rank_p90 = get_sum90(df1, df2, mins)[0]
         rank_tot = get_sum90(df1, df2, mins)[1]
-        rank_pct = get_pct(rank_p90)
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='101')
+        rank_pct = get_pct(rank_p90, komp)
+        col2, col3, col4 = st.columns(3)
         with col2:
-            tempp = fulldata[fulldata['Kompetisi']==komp]
+            tempp = rank_p90[rank_p90['Kompetisi']==komp]
             klub = st.selectbox('Select Team', pd.unique(tempp['Team']), key='102')
         with col3:
             tempp = tempp[tempp['Team']==klub]
