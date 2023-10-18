@@ -285,6 +285,9 @@ with tab3:
     with pro:
         mins = st.number_input('Input minimum mins. played', min_value=0,
                                max_value=90*max(fulldata['Gameweek']), step=90, key=96)
+        rank_p90 = get_sum90(df1, df2, mins)[0]
+        rank_tot = get_sum90(df1, df2, mins)[1]
+        rank_pct = get_pct(rank_p90)
         col1, col2, col3, col4 = st.columns(4)
         with col1:
             komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='101')
@@ -299,9 +302,6 @@ with tab3:
             ply = st.selectbox('Select Player', pd.unique(tempp['Name']), key='104')
 
         col5, col6 = st.columns(2)
-        rank_p90 = get_sum90(no_temp, df2, mins)[0]
-        rank_tot = get_sum90(no_temp, df2, mins)[1]
-        rank_pct = get_pct(rank_p90)
         with col5:
             rdr = get_radar(rank_pct,rank_p90,rank_tot,pos,ply)
             rdr['Percentile'] = rdr['Percentile']/100
