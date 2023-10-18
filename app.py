@@ -292,7 +292,7 @@ with tab3:
             tempp = fulldata[fulldata['Kompetisi']==komp]
             klub = st.selectbox('Select Team', pd.unique(tempp['Team']), key='102')
         with col3:
-            tempp = tempp[tempp['Team']==team]
+            tempp = tempp[tempp['Team']==klub]
             pos = st.selectbox('Select Position', pd.unique(tempp['Position']), key='103')
         with col4:
             tempp = tempp[tempp['Position']==pos]
@@ -311,7 +311,7 @@ with tab3:
         with col6:
             smr = get_simi(rank_p90,df2,ply,pos)
             st.subheader('Similar Players to '+ply)
-            st.dataframe(smr.head(7))
+            st.dataframe(smr.head(7), hide_index=True)
     with plo:
         col1, col2, col3, col4 = st.columns(4)
         with col1:
