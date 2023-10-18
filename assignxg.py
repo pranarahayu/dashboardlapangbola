@@ -1343,6 +1343,8 @@ def get_simi(data, data2, player, pos):
   db['Age'] = db['DoB'].apply(lambda x: today.year - x.year - ((today.month, today.day) < (x.month, x.day)))
 
   df_fix = pd.merge(df_fin, db, on='Name', how='left')
-  df_fix = df_fix[['Name', 'Nickname', 'Age', 'Nationality', 'Similarity Score']]
+  df_fix = pd.merge(df_fix, df, on='Name', how='left')
+  df_fix = df_fix[['Nickname', 'Team', 'MoP', 'Age', 'Nationality', 'Similarity Score']]
+  df_fix['MoP'] = df_fix['MoP'].astype(int)
 
   return df_fix
