@@ -229,6 +229,9 @@ with tab2:
         with col3:
             smt = smt[smt['Team']==team]
             gw = st.multiselect('Select GWs', pd.unique(smt['Gameweek']), key='52')
+            all_gws = st.checkbox('Select All GWs')
+            if all_gws:
+                gw = pd.unique(smt['Gameweek'])
         ds = get_pssw(fulldata, th, team, gw)
         ds = ds.replace('', pd.NA)
         ps = ['PS1','PS2','PS3','PS4','PS5']
