@@ -238,20 +238,20 @@ with tab2:
         col1, col2 = st.columns(2)
         with col1:
             st.subheader(team+'\'s Results')
-            rslt = get_wdl(fulldata, team)
+            rslt = get_wdl(fulldata, team, gw)
             st.dataframe(rslt, hide_index=True)
         with col2:
             st.subheader(team+'\'s Squad List')
-            skd = get_skuad(df1, df2, team)
+            skd = get_skuad(df1, df2, team, gw)
             st.dataframe(skd)
 
         st.subheader(team+'\'s Squad - % of Minutes Played')
         col1, col2 = st.columns(2)
         with col1:
-            skbr = plot_skuadbar(df1, df2, team)
+            skbr = plot_skuadbar(df1, df2, team, gw)
             st.pyplot(skbr)
         with col2:
-            sksc = plot_skuad(df1, df2, team)
+            sksc = plot_skuad(df1, df2, team, gw)
             st.pyplot(sksc)
 
         st.subheader(team+'\'s Characteristics')
