@@ -319,7 +319,7 @@ with tab3:
         db_temp = get_detail(df2)
         db_temp2 = db_temp[['Name','Age Group','Nat. Status']]
         temple = pd.merge(rank_pct, db_temp2, on='Name', how='left')
-        templist = pct_rank.drop(['Name','Position','Team','MoP','Kompetisi'], axis=1)
+        templist = rank_pct.drop(['Name','Position','Team','MoP','Kompetisi'], axis=1)
         metlist = list(templist)
         col1, col2, col3 = st.columns(3)
         with col1:
