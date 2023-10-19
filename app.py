@@ -90,7 +90,7 @@ with tab1:
                     team = st.selectbox('Select Team', pd.unique(histdata['Team']), key='99')
                 else:
                     team = st.selectbox('Select Team', pd.unique(no_temp['Team']), key='97')
-                all_teams = st.checkbox('Select All Teams')
+                all_teams = st.checkbox('Select All Teams', key='300')
             col1, col2, col3, col4, col5, col6 = st.columns(6)
             if all_teams:
                 if (season == 'All Season'):
@@ -161,7 +161,7 @@ with tab1:
             with col2:
                 temp_full = fulldata[fulldata['Kompetisi']==komp]
                 month = st.multiselect('Select Month', pd.unique(temp_full['Month']), key='14')
-                all_mos = st.checkbox('Select All Months')
+                all_mos = st.checkbox('Select All Months', key='301')
                 if all_mos:
                     month = pd.unique(temp_full['Month'])
             with col3:
@@ -170,7 +170,7 @@ with tab1:
             with col4:
                 temp_full = temp_full[temp_full['Home/Away'].isin(venue)]
                 gw = st.multiselect('Select Gameweek', pd.unique(temp_full['Gameweek']), key='4')
-                all_gws = st.checkbox('Select All GWs')
+                all_gws = st.checkbox('Select All GWs', key='302')
                 if all_gws:
                     gw = pd.unique(temp_full['Gameweek'])
             with col5:
@@ -191,13 +191,13 @@ with tab1:
                 komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='6')
                 temp_pull = fulldata[fulldata['Kompetisi']==komp]
                 team = st.multiselect('Select Teams', pd.unique(temp_pull['Team']), key='10')
-                all_teams = st.checkbox('Select All Teams')
+                all_teams = st.checkbox('Select All Teams', key='303')
                 if all_teams:
                     team = pd.unique(temp_pull['Team'])
             with col2:
                 temp_pull = temp_pull[temp_pull['Team'].isin(team)]
                 pos = st.multiselect('Select Positions', pd.unique(temp_pull['Position']), key='7')
-                all_poss = st.checkbox('Select All Positions')
+                all_poss = st.checkbox('Select All Positions', key='304')
                 if all_poss:
                     pos = pd.unique(temp_pull['Position'])
                 temp_pull = temp_pull[temp_pull['Position'].isin(pos)]
@@ -207,7 +207,7 @@ with tab1:
                 nat = st.multiselect('Select Nationality', pd.unique(temp_pull['Nat. Status']), key='8')
                 temp_pull = temp_pull[temp_pull['Nat. Status'].isin(nat)]
                 month = st.multiselect('Select Month', pd.unique(temp_pull['Month']), key='12')
-                all_mos = st.checkbox('Select All Months')
+                all_mos = st.checkbox('Select All Months', key='305')
                 if all_mos:
                     month = pd.unique(temp_pull['Month'])
             with col4:
@@ -215,7 +215,7 @@ with tab1:
                 venue = st.multiselect('Select Venue', pd.unique(temp_pull['Home/Away']), key='9')
                 temp_pull = temp_pull[temp_pull['Home/Away'].isin(venue)]
                 gw = st.multiselect('Select Gameweek', pd.unique(temp_pull['Gameweek']), key='17')
-                all_gws = st.checkbox('Select All GWs')
+                all_gws = st.checkbox('Select All GWs', key='306')
                 if all_gws:
                     gw = pd.unique(temp_pull['Gameweek'])
             with col5:
@@ -247,7 +247,7 @@ with tab2:
         with col3:
             smt = smt[smt['Team']==team]
             gw = st.multiselect('Select GWs', pd.unique(smt['Gameweek']), key='52')
-            all_gws = st.checkbox('Select All GWs')
+            all_gws = st.checkbox('Select All GWs', key='307')
             if all_gws:
                 gw = pd.unique(smt['Gameweek'])
         ds = get_pssw(fulldata, th, team, gw)
