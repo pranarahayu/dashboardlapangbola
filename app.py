@@ -317,21 +317,4 @@ with tab3:
             st.dataframe(smr.head(7), hide_index=True)
     with pse:
         db_temp = get_detail(df2)
-        db_temp = db_temp[['Name','Age Group','Nat. Status']]
-        temple = pd.merge(rank_pct, db_temp, on='Name', how='left')
-        templist = pct_rank.drop(['Name','Position','Team','MoP','Kompetisi'], axis=1)
-        metlist = list(templist)
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            pos = st.selectbox('Select Position', pd.unique(temple['Position']), key='87')
-            komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='89')
-        with col2:
-            nats = st.multiselect('Select Nat. Status', ['Foreign', 'Local'], key='86')
-            ages = st.selectbox('Select Age Groups', ['Senior', 'U23'], key='88')
-        with col3:
-            mins = st.number_input('Input minimum mins. played', min_value=90,
-                                   max_value=90*max(fulldata['Gameweek']), step=90, key=85)
-            narr_met = st.multiselect('Select Metrics', metlist, key='84')
-            
-        playlist = get_playerlist(temple, komp, pos, mins, nats, ages, arr_met)
-        st.dataframe(playlist.head(10))
+        st.dataframe(db_temp)
