@@ -1096,9 +1096,11 @@ def get_pssw(data, data2, team, gw):
 
   return desc
 
-def get_wdl(data, team):
+def get_wdl(data, team, gws):
   df = data.copy()
+  gw_list = gws
   df = df[df['Team']==team]
+  df = df[df['Gameweek'].isin(gw_list)]
 
   uk = df[['Match', 'Result', 'Date', 'Gameweek']]
   uk = uk.groupby(['Match', 'Result', 'Date', 'Gameweek'], as_index=False).nunique()
@@ -1148,9 +1150,11 @@ def get_wdl(data, team):
 
   return uk
 
-def get_skuad(data, data2, team):
+def get_skuad(data, data2, team, gws):
   df = data.copy()
   db = data2.copy()
+
+  gw_list = gws
 
   import datetime as dt
   from datetime import date
@@ -1159,6 +1163,7 @@ def get_skuad(data, data2, team):
   db['Age'] = db['DoB'].apply(lambda x: today.year - x.year - ((today.month, today.day) < (x.month, x.day)))
 
   df = df[df['Team']==team]
+  df = df[df['Gameweek'].isin(gw_list)]
   df = df[['Player ID','MoP','Goal','Penalty Goal','Assist','Yellow Card','Red Card']]
   df['Goals'] = df['Goal']+df['Penalty Goal']
 
