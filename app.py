@@ -324,10 +324,10 @@ with tab3:
         col1, col2, col3 = st.columns(3)
         with col1:
             pos = st.selectbox('Select Position', pd.unique(temple['Position']), key='87')
-            komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='89')
+            komp = st.multiselect('Select Competition', ['Liga 1', 'Liga 2'], key='89')
         with col2:
             nats = st.multiselect('Select Nat. Status', ['Foreign', 'Local'], key='86')
-            ages = st.selectbox('Select Age Groups', ['Senior', 'U23'], key='88')
+            ages = st.multiselect('Select Age Groups', ['Senior', 'U23'], key='88')
         with col3:
             mins = st.number_input('Input minimum mins. played', min_value=90,
                                    max_value=90*max(fulldata['Gameweek']), step=90, key=85)
