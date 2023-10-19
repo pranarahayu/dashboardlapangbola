@@ -1348,3 +1348,27 @@ def get_simi(data, data2, player, pos):
   df_fix['MoP'] = df_fix['MoP'].astype(int)
 
   return df_fix
+
+def get_playerlist(data, komp, pos, mins, nat, age, arr_met):
+  df = data.copy()
+
+  ag_list = age
+  nt_list = nat
+  kp_list = komp
+
+  df = df[df['Kompetisi'].isin(kp_list)]
+  df = df[df['Nat. Status'].isin(nt_list)]
+  df = df[df['Age Group'].isin(ag_list)]
+  df = df[df['MoP']>=mins]
+  df = df[df['Position']==pos].reset_index(drop=True)
+
+  metrik = arr_met
+  data = df[metrik]
+  data['mean'] = round(data.mean(axis=1),2)
+  data.insert(0, column='Name', value=df['Name'])
+  data.insert(1, column='Team', value=df['Team'])
+  data.insert(2, column='MoP', value=df['MoP'])
+
+  data = data.sort_values(by=['mean'], ascending=False).reset_index(drop=True)
+  
+  return data
