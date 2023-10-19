@@ -43,9 +43,11 @@ reg = fm.FontProperties(fname=f.name)
 path_eff = [path_effects.Stroke(linewidth=2, foreground='#ffffff'),
             path_effects.Normal()]
 
-def plot_skuad(data, data2, team):
+def plot_skuad(data, data2, team, gws):
   df = data.copy()
   db = data2.copy()
+
+  gw_list = gws
 
   import datetime as dt
   from datetime import date
@@ -54,6 +56,7 @@ def plot_skuad(data, data2, team):
   db['Age'] = db['DoB'].apply(lambda x: today.year - x.year - ((today.month, today.day) < (x.month, x.day)))
 
   df = df[df['Team']==team]
+  df = df[df['Gameweek'].isin(gw_list)]
   fil = df[['Player ID','MoP']]
   fil = fil.groupby('Player ID', as_index=False).sum()
   fil = fil[fil['MoP']>0]
@@ -110,9 +113,11 @@ def plot_skuad(data, data2, team):
   return fig
   
 
-def plot_skuadbar(data, data2, team):
+def plot_skuadbar(data, data2, team, gws):
   df = data.copy()
   db = data2.copy()
+
+  gw_list = gws
 
   import datetime as dt
   from datetime import date
@@ -121,6 +126,7 @@ def plot_skuadbar(data, data2, team):
   db['Age'] = db['DoB'].apply(lambda x: today.year - x.year - ((today.month, today.day) < (x.month, x.day)))
 
   df = df[df['Team']==team]
+  df = df[df['Gameweek'].isin(gw_list)]
   fil = df[['Player ID','MoP']]
   fil = fil.groupby('Player ID', as_index=False).sum()
   fil = fil[fil['MoP']>0]
