@@ -331,7 +331,7 @@ with tab3:
         with col3:
             mins = st.number_input('Input minimum mins. played', min_value=90,
                                    max_value=90*max(fulldata['Gameweek']), step=90, key=85)
-            narr_met = st.multiselect('Select Metrics', metlist, key='84')
+            arr_met = st.multiselect('Select Metrics', metlist, key='84')
             
         playlist = get_playerlist(temple, komp, pos, mins, nats, ages, arr_met)
         st.dataframe(playlist.head(10))
