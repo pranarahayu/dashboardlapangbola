@@ -35,6 +35,7 @@ from assignxg import get_skuad
 from assignxg import get_formasi
 from assignxg import get_radar
 from assignxg import get_simi
+from assignxg import get_playerlist
 
 sys.path.append("fungsiplot.py")
 import fungsiplot
@@ -281,7 +282,7 @@ with tab2:
     
 with tab3:
     tab3.subheader('Players')
-    pro, plo = st.tabs(['Player Profile', 'Plot Statistics'])
+    pro, pse = st.tabs(['Player Profile', 'Player Search'])
     with pro:
         col1, col2 = st.columns(2)
         with col1:
@@ -314,16 +315,23 @@ with tab3:
             smr = get_simi(rank_p90,df2,ply,pos)
             st.subheader('Similar Players to '+ply)
             st.dataframe(smr.head(7), hide_index=True)
-    with plo:
-        col1, col2, col3, col4 = st.columns(4)
+    with pse:
+        db_temp = get_detail(df2)
+        db_temp = df2[['Name','Age Group','Nat. Status']]
+        temple = pd.merge(rank_pct, db_temp, on='Name, how='left')
+        templist = pct_rank.drop(['Name','Position','Team','MoP','Kompetisi'], axis=1)
+        metlist = list(templist)
+        col1, col2, col3 = st.columns(3)
         with col1:
+            pos = st.selectbox('Select Position', pd.unique(temple['Position']), key='87')
             komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='89')
         with col2:
-            temp_sd = shots_data[shots_data['Kompetisi']==komp]
-            gws = st.multiselect('Select Gameweeks', pd.unique(temp_sd['GW']), key='86')
+            nats = st.multiselect('Select Nat. Status', ['Foreign', 'Local'], key='86')
+            ages = st.selectbox('Select Age Groups', ['Senior', 'U23'], key='88')
         with col3:
-            temp_sd = temp_sd[temp_sd['GW'].isin(gws)]
-            team = st.selectbox('Select Team', pd.unique(temp_sd['Team']), key='88')
-        with col4:
-            temp_sd = temp_sd[temp_sd['Team']==team]
-            pla = st.selectbox('Select Player', pd.unique(temp_sd['Act Name']), key='87')
+            mins = st.number_input('Input minimum mins. played', min_value=90,
+                                   max_value=90*max(fulldata['Gameweek']), step=90, key=85)
+            narr_met = st.multiselect('Select Metrics', metlist, key='84')
+            
+        playlist = get_playerlist(temple, komp, pos, mins, nats, ages, arr_met)
+        st.dataframe(playlist.head(10))
