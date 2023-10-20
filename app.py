@@ -348,7 +348,7 @@ with tab3:
                                          file_name=fn, mime="image/jpg")
         with col8:
             mirip = smr.head(7)
-            ply2 = st.selectbox('Select Similar Player', pd.unique(mirip['Name']), key='105')
+            ply2 = st.selectbox('Select Similar Player', pd.unique(mirip['Nickname']), key='105')
             cpre = plot_compare(ply, ply2, pos, rank_p90)
             st.pyplot(cpre)
     with pse:
