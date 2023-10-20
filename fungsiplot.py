@@ -5,7 +5,7 @@ from datetime import date
 import numpy as np
 from sklearn import preprocessing
 
-from mplsoccer import Pitch, VerticalPitch, PyPizza
+from mplsoccer import Pitch, VerticalPitch, PyPizza, Radar, grid
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import matplotlib.patheffects as path_effects
@@ -377,4 +377,84 @@ def beli_pizza(komp, pos, klub, name, data, mins):
     
   plt.savefig('pizza.jpg', dpi=500, bbox_inches='tight', facecolor=fig.get_facecolor(), edgecolor='none')
   
+  return fig
+
+def plot_compare(p1, p2, pos, data):
+  df = data.copy()
+
+  if (pos=='Forward'):
+    temp = df[posdict['fw']['metrics']].reset_index(drop=True)
+    temp = temp[(temp['Name']==p1) | (temp['Name']==p2)].reset_index(drop=True)
+  elif (pos=='Winger') or (pos=='Attacking 10'):
+    temp = df[posdict['cam/w']['metrics']].reset_index(drop=True)
+    if (pos=='Winger'):
+      temp = temp[(temp['Name']==p1) | (temp['Name']==p2)].reset_index(drop=True)
+    else:
+      temp = temp[(temp['Name']==p1) | (temp['Name']==p2)].reset_index(drop=True)
+  elif (pos=='Midfielder'):
+    temp = df[posdict['cm']['metrics']].reset_index(drop=True)
+    temp = temp[(temp['Name']==p1) | (temp['Name']==p2)].reset_index(drop=True)
+  elif (pos=='Fullback'):
+    temp = df[posdict['fb']['metrics']].reset_index(drop=True)
+    temp = temp[(temp['Name']==p1) | (temp['Name']==p2)].reset_index(drop=True)
+  elif (pos=='Center Back'):
+    temp = df[posdict['cb']['metrics']].reset_index(drop=True)
+    temp = temp[(temp['Name']==p1) | (temp['Name']==p2)].reset_index(drop=True)
+  elif (pos=='Goalkeeper'):
+    temp = df[posdict['gk']['metrics']].reset_index(drop=True)
+    temp = temp[(temp['Name']==p1) | (temp['Name']==p2)].reset_index(drop=True)
+
+  params = list(temp.columns)
+  params = params[1:]
+
+  low = []
+  high = []
+  #ranges = []
+  p1_values = []
+  p2_values = []
+
+  #Form minimum and maximum values for radar plot
+  for x in params:
+    a = min(df[params][x])
+    a = a - (a*.1)
+    
+    b = max(df[params][x])
+    b = b + (b*.1)
+    
+    low.append(a)
+    high.append(b)
+    #ranges.append((a,b))
+
+  for x in range(len(temp['Name'])):
+    if temp['Name'][x] == p1:
+      p1_values = temp.iloc[x].values.tolist()
+    if temp['Name'][x] == p2:
+      p2_values = temp.iloc[x].values.tolist()
+
+  p1_values = p1_values[1:]
+  p2_values = p2_values[1:]
+
+  radar = Radar(params, low, high, num_rings=4,
+                ring_width=1, center_circle_radius=1)
+  
+  fig, axs = grid(figheight=14, grid_height=0.915, title_height=0.06, endnote_height=0.025,
+                  title_space=0, endnote_space=0, grid_key='radar', axis=False)
+  radar.setup_axis(ax=axs['radar'])
+  rings_inner = radar.draw_circles(ax=axs['radar'], facecolor='#e8e6e6', edgecolor='#000000')
+  radar_output = radar.draw_radar_compare(p1_values, p2_values, ax=axs['radar'],
+                                          kwargs_radar={'facecolor': '#7ed957', 'alpha': 0.5},
+                                          kwargs_compare={'facecolor': '#f2ff00', 'alpha': 0.5})
+  radar_poly, radar_poly2, vertices1, vertices2 = radar_output
+  range_labels = radar.draw_range_labels(ax=axs['radar'], fontproperties=reg, fontsize=15)
+  param_labels = radar.draw_param_labels(ax=axs['radar'], fontproperties=bold, fontsize=15)
+
+  endnote_text = axs['endnote'].text(0.99, 0.5, 'All stats are per 90 stats', fontsize=15,
+                                     fontproperties=reg, ha='right', va='center')
+  title1_text = axs['title'].text(0.01, 0.65, p1, fontsize=20, color='#7ed957',
+                                  fontproperties=bold, ha='left', va='center')
+  title3_text = axs['title'].text(0.99, 0.65, p2, fontsize=20, color='#f2ff00',
+                                  fontproperties=bold, ha='right', va='center')
+  
+  plt.savefig('radar.jpg', dpi=500, bbox_inches='tight', facecolor=fig.get_facecolor(), edgecolor='none')
+
   return fig
