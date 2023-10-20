@@ -338,6 +338,13 @@ with tab3:
             smr = get_simi(rank_p90,df2,ply,pos)
             st.subheader('Similar Players to '+ply)
             st.dataframe(smr.head(7), hide_index=True)
+        col7, col8 = st.columns(2)
+        with col7:
+            piz = beli_pizza(komp, pos, klub, ply, rank_pct, mins)
+            with open('pizza.jpg', 'rb') as img:
+                fn = 'Perf.Radar_'+ply+'.jpg'
+                btn = st.download_button(label="Download Report as a Radar!", data=img,
+                                         file_name=fn, mime="image/jpg")
     with pse:
         db_temp = get_detail(df2)
         db_temp2 = db_temp[['Name','Age Group','Nat. Status']]
