@@ -336,9 +336,9 @@ with tab3:
             piz = beli_pizza(komp, pos, klub, ply, rank_pct, mins)
 
             with open('pizza.jpg', 'rb') as img:
-            fn = 'Perf.Radar_'+ply+'.jpg'
-            btn = st.download_button(label="Download Report as a Radar!", data=img,
-                                     file_name=fn, mime="image/jpg")
+                fn = 'Perf.Radar_'+ply+'.jpg'
+                btn = st.download_button(label="Download Report as a Radar!", data=img,
+                                         file_name=fn, mime="image/jpg")
         
         with col6:
             smr = get_simi(rank_p90,df2,ply,pos)
