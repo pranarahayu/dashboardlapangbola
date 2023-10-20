@@ -20,6 +20,27 @@ from tempfile import NamedTemporaryFile
 import urllib
 import os
 
+posdict = {'gk':{'position':'Goalkeeper',
+                 'metrics':['Name','Long Goal Kick Ratio','Pass Accuracy','Cross Claim',
+                            'Keeper - Sweeper','Saves','Save Ratio','Penalty Save']},
+           'cb':{'position':'Center Back',
+                 'metrics':['Name','Shots','Goals','Assist','Pass Accuracy',
+                            'Tackle','Intercept','Recovery','Blocks','Aerial Won Ratio']},
+           'fb':{'position':'Fullback',
+                 'metrics':['Name','Shots','Goals','Create Chance','Assist','Pass Accuracy','Dribble',
+                            'Cross','Tackle','Intercept','Recovery','Blocks','Aerial Won Ratio']},
+           'cm':{'position':'Midfielder',
+                 'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio','Assist',
+                            'Pass Accuracy','Dribble','Tackle','Intercept','Recovery','Blocks']},
+           'cam/w':{'position':'Attacking 10/Winger',
+                    'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio',
+                               'Conversion Ratio','Assist','Pass Accuracy','Dribble','Cross',
+                               'Tackle','Intercept','Recovery']},
+           'fw':{'position':'Forward',
+                 'metrics':['Name','Shots','Goals','Create Chance','Shot on Target Ratio',
+                            'Conversion Ratio','Assist','Pass Accuracy','Dribble','Tackle',
+                            'Intercept','Recovery','Aerial Won Ratio']}}
+
 github_url = 'https://github.com/google/fonts/blob/main/ofl/poppins/Poppins-Bold.ttf'
 url = github_url + '?raw=true'
 
