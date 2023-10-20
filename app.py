@@ -43,6 +43,7 @@ from fungsiplot import plot_skuad
 from fungsiplot import plot_skuadbar
 from fungsiplot import plot_form
 from fungsiplot import beli_pizza
+from fungsiplot import plot_compare
 
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
@@ -345,6 +346,11 @@ with tab3:
                 fn = 'Perf.Radar_'+ply+'.jpg'
                 btn = st.download_button(label="Download Report as a Radar!", data=img,
                                          file_name=fn, mime="image/jpg")
+        with col8:
+            mirip = smr.head(7)
+            ply2 = st.selectbox('Select Similar Player', pd.unique(mirip['Name']), key='105')
+            cpre = plot_compare(ply, ply2, pos, rank_p90)
+            st.pyplot(cpre)
     with pse:
         db_temp = get_detail(df2)
         db_temp2 = db_temp[['Name','Age Group','Nat. Status']]
