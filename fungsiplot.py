@@ -344,7 +344,7 @@ def beli_pizza(komp, pos, klub, name, data, mins):
                       transform=fig.transFigure, figure=fig)
         ])
   else:
-    fig.text(0.398, 0.935, "Distribution                     Goalkeeping",
+    fig.text(0.398, 0.935, "Distribution                         Goalkeeping",
              fontproperties=reg, size=10, color="#FAFAFA", va='center')
     
     fig.patches.extend([
