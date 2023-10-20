@@ -333,12 +333,6 @@ with tab3:
             st.subheader(ply+' Scouting Report')
             st.caption('vs '+pos+' in '+komp+' | Min. '+str(mins)+' mins played')
             st.data_editor(rdr, column_config={'Percentile':st.column_config.ProgressColumn('Percentile',width='medium',min_value=0,max_value=1)},hide_index=True)
-            piz = beli_pizza(komp, pos, klub, ply, rank_pct, mins)
-
-            with open('pizza.jpg', 'rb') as img:
-                fn = 'Perf.Radar_'+ply+'.jpg'
-                btn = st.download_button(label="Download Report as a Radar!", data=img,
-                                         file_name=fn, mime="image/jpg")
         
         with col6:
             smr = get_simi(rank_p90,df2,ply,pos)
