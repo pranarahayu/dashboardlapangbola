@@ -5,7 +5,7 @@ from datetime import date
 import numpy as np
 from sklearn import preprocessing
 
-from mplsoccer import Pitch, VerticalPitch
+from mplsoccer import Pitch, VerticalPitch, PyPizza
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import matplotlib.patheffects as path_effects
@@ -227,4 +227,133 @@ def plot_form(data, data2, team, gw):
   
   plt.savefig('stafor.jpg', dpi=500, bbox_inches='tight', facecolor=fig.get_facecolor(), edgecolor='none')
 
+  return fig
+
+def beli_pizza(komp, pos, klub, name, data, mins):
+  df = data.copy()
+  df = df[df['Position']==pos]
+
+  #DATA 
+  if (pos=='Forward'):
+    temp = df[posdict['fw']['metrics']].reset_index(drop=True)
+    temp = temp[(temp['Name']==name) | (temp['Name']=='Average FW')].reset_index(drop=True)
+    slice_colors = ["#22af15"] * 5 + ["#adaf15"] * 1 + ["#a215af"] * 2 + ["#2115af"] * 4
+    text_colors = ["#FAFAFA"] * 5 + ["#0E1117"] * 1 + ["#FAFAFA"] * 6
+
+  elif (pos=='Winger') or (pos=='Attacking 10'):
+    temp = df[posdict['cam/w']['metrics']].reset_index(drop=True)
+    if (pos=='Winger'):
+      temp = temp[(temp['Name']==name) | (temp['Name']=='Average W')].reset_index(drop=True)
+    else:
+      temp = temp[(temp['Name']==name) | (temp['Name']=='Average CAM')].reset_index(drop=True)
+        
+    slice_colors = ["#22af15"] * 5 + ["#adaf15"] * 1 + ["#a215af"] * 3 + ["#2115af"] * 3
+    text_colors = ["#FAFAFA"] * 5 + ["#0E1117"] * 1 + ["#FAFAFA"] * 6
+
+  elif (pos=='Midfielder'):
+    temp = df[posdict['cm']['metrics']].reset_index(drop=True)
+    temp = temp[(temp['Name']==name) | (temp['Name']=='Average CM')].reset_index(drop=True)
+        
+    slice_colors = ["#22af15"] * 4 + ["#adaf15"] * 1 + ["#a215af"] * 2 + ["#2115af"] * 4
+    text_colors = ["#FAFAFA"] * 4 + ["#0E1117"] * 1 + ["#FAFAFA"] * 6
+
+  elif (pos=='Fullback'):
+    temp = df[posdict['fb']['metrics']].reset_index(drop=True)
+    temp = temp[(temp['Name']==name) | (temp['Name']=='Average FB')].reset_index(drop=True)
+        
+    slice_colors = ["#22af15"] * 3 + ["#adaf15"] * 1 + ["#a215af"] * 3 + ["#2115af"] * 5
+    text_colors = ["#FAFAFA"] * 3 + ["#0E1117"] * 1 + ["#FAFAFA"] * 8
+
+  elif (pos=='Center Back'):
+    temp = df[posdict['cb']['metrics']].reset_index(drop=True)
+    temp = temp[(temp['Name']==name) | (temp['Name']=='Average CB')].reset_index(drop=True)
+        
+    slice_colors = ["#22af15"] * 2 + ["#adaf15"] * 1 + ["#a215af"] * 1 + ["#2115af"] * 5
+    text_colors = ["#FAFAFA"] * 2 + ["#0E1117"] * 1 + ["#FAFAFA"] * 6
+
+  elif (pos=='Goalkeeper'):
+    temp = df[posdict['gk']['metrics']].reset_index(drop=True)
+    temp = temp[(temp['Name']==name) | (temp['Name']=='Average GK')].reset_index(drop=True)
+        
+    slice_colors = ["#22af15"] * 2 + ["#a215af"] * 5
+    text_colors = ["#FAFAFA"] * 7
+
+  #temp = temp.drop(['Team'], axis=1)
+
+  avg_player = temp[temp['Name'].str.contains('Average')]
+  av_name = list(avg_player['Name'])[0]
+  params = list(temp.columns)
+  params = params[1:]
+
+  a_values = []
+  b_values = []
+    
+  for x in range(len(temp['Name'])):
+    if temp['Name'][x] == name:
+      a_values = temp.iloc[x].values.tolist()
+    if temp['Name'][x] == av_name:
+      b_values = temp.iloc[x].values.tolist()
+        
+  a_values = a_values[1:]
+  b_values = b_values[1:]
+
+  values = [a_values,b_values]
+
+  #PLOT
+  baker = PyPizza(params=params, background_color="#0E1117", straight_line_color="#0E1117",
+                  straight_line_lw=2, last_circle_lw=0, other_circle_lw=0, inner_circle_size=5)
+   
+  fig, ax = baker.make_pizza(a_values, compare_values=b_values, figsize=(10, 10),
+                             color_blank_space="same", slice_colors=slice_colors,
+                             value_colors=text_colors, value_bck_colors=slice_colors,
+                             blank_alpha=0.35,
+                             
+                             kwargs_slices=dict(edgecolor="none", zorder=0, linewidth=2),
+                             kwargs_compare=dict(facecolor="none", edgecolor="#0E1117",
+                                                 zorder=8, linewidth=2, ls='--'),
+                             kwargs_params=dict(color="#FAFAFA", fontproperties=reg, fontsize=10, va="center"),
+                             kwargs_values=dict(color="#0E1117", fontproperties=reg, fontsize=11, zorder=3,
+                                                bbox=dict(edgecolor="#FAFAFA", boxstyle="round,pad=0.2", lw=1)),
+                             kwargs_compare_values=dict(color="#252627", fontproperties=reg, fontsize=11, zorder=3, alpha=0,
+                                                        bbox=dict(edgecolor="#252627", facecolor="#E1E2EF",
+                                                                  boxstyle="round,pad=0.2", lw=1, alpha=0)))
+  
+  fig.text(0.515, 0.975, name + ' - ' + klub, fontproperties=bold, size=16,
+           ha="center", color="#FAFAFA", weight='bold')
+  fig.text(0.515, 0.953, "Percentile Rank vs League Average "+pos,
+           fontproperties=bold, size=11, ha="center", color="#FAFAFA")
+
+  CREDIT_1 = "Data: Lapangbola.com"
+  CREDIT_2 = komp+" | Season 2022/23 | Min. "+str(mins)+" mins played"
+
+  fig.text(0.515, 0.02, f"{CREDIT_1}\n{CREDIT_2}", fontproperties=bold,
+           size=9, color="#FAFAFA", ha="center")
+             
+  if (pos != 'Goalkeeper'):
+    fig.text(0.268, 0.935, "Goal Threat                 Creativity                In Possession                Out of Possession",
+             fontproperties=reg, size=10, color="#FAFAFA", va='center')
+    
+    fig.patches.extend([
+        plt.Rectangle((0.247, 0.9275), 0.015, 0.015, fill=True, color="#22af15",
+                      transform=fig.transFigure, figure=fig),
+        plt.Rectangle((0.390, 0.9275), 0.015, 0.015, fill=True, color="#adaf15",
+                      transform=fig.transFigure, figure=fig),
+        plt.Rectangle((0.515, 0.9275), 0.015, 0.015, fill=True, color="#a215af",
+                      transform=fig.transFigure, figure=fig),
+        plt.Rectangle((0.668, 0.9275), 0.015, 0.015, fill=True, color="#2115af",
+                      transform=fig.transFigure, figure=fig)
+        ])
+  else:
+    fig.text(0.398, 0.935, "Distribution                     Goalkeeping",
+             fontproperties=reg, size=10, color="#FAFAFA", va='center')
+    
+    fig.patches.extend([
+        plt.Rectangle((0.375, 0.9275), 0.015, 0.015, fill=True, color="#22af15",
+                      transform=fig.transFigure, figure=fig),
+        plt.Rectangle((0.550, 0.9275), 0.015, 0.015, fill=True, color="#a215af",
+                      transform=fig.transFigure, figure=fig)
+        ])
+    
+  plt.savefig('pizza.jpg', dpi=500, bbox_inches='tight', facecolor=fig.get_facecolor(), edgecolor='none')
+  
   return fig
