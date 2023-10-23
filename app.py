@@ -347,8 +347,8 @@ with tab3:
                 btn = st.download_button(label="Download Report as a Radar!", data=img,
                                          file_name=fn, mime="image/jpg")
         with col8:
-            mirip = smr.head(7)
-            ply2 = st.selectbox('Select Similar Player', pd.unique(mirip['Name']), key='105')
+            #mirip = smr.head(7)
+            ply2 = st.selectbox('Select Similar Player', pd.unique(smr.head(7)['Name']), key='105')
             cpre = plot_compare(ply, ply2, pos, rank_p90)
             st.pyplot(cpre)
     with pse:
