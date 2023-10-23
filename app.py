@@ -337,8 +337,9 @@ with tab3:
         
         with col6:
             smr = get_simi(rank_p90,df2,ply,pos)
+            showmr = smr.drop(['Name'], axis=1)
             st.subheader('Similar Players to '+ply)
-            st.dataframe(smr.head(7), hide_index=True)
+            st.dataframe(showmr.head(7), hide_index=True)
         col7, col8 = st.columns(2)
         with col7:
             piz = beli_pizza(komp, pos, klub, ply, rank_pct, mins)
@@ -348,7 +349,7 @@ with tab3:
                                          file_name=fn, mime="image/jpg")
         with col8:
             mirip = smr.head(7)
-            ply2 = st.selectbox('Select Similar Player', pd.unique(mirip['Nickname']), key='105')
+            ply2 = st.selectbox('Select Similar Player', pd.unique(mirip['Name']), key='105')
             cpre = plot_compare(ply, ply2, pos, rank_p90)
             st.pyplot(cpre)
     with pse:
