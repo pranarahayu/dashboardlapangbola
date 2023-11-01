@@ -1257,16 +1257,16 @@ def get_radar(data1, data2, data3, pos, player):
   auxt3 = auxdata3.transpose().reset_index()
 
   new_header = auxt1.iloc[0]
-  auxt1 = auxt1[2:]
+  auxt1 = auxt1[2:].reset_index(drop=True)
   auxt1.columns = new_header
   auxt1 = auxt1.reset_index(drop=True).rename(columns={'Name':'Metrics',
                                                        player:'Percentile'})
-  auxt2 = auxt2[2:]
+  auxt2 = auxt2[2:].reset_index(drop=True)
   auxt2.columns = new_header
   auxt2 = auxt2.reset_index(drop=True).rename(columns={'Name':'Metrics',
                                                        player:'per 90'})
 
-  auxt3 = auxt3[2:]
+  auxt3 = auxt3[2:].reset_index(drop=True)
   auxt3.columns = new_header
   auxt3 = auxt3.reset_index(drop=True).rename(columns={'Name':'Metrics',
                                                        player:'Total'})
