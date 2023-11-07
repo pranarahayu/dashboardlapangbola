@@ -226,9 +226,9 @@ with tab1:
                                        max_value=90*max(fulldata['Gameweek']), step=90, key=18)
                 metrik = st.multiselect('Select Metrics', mlist, key='19')
             cat = st.selectbox('Select Category', ['Total', 'per 90'], key='16')
-            #show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat, df22)
-            #st.write(show_player_data)
-            st.write(df22)
+            show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat, df22)
+            st.write(show_player_data)
+            #st.write(df22)
 
             @st.cache
             def convert_df(df):
