@@ -555,7 +555,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
            'Unnamed: 297','Unnamed: 298','Unnamed: 299','Unnamed: 300','Unnamed: 301','Unnamed: 302','Unnamed: 303',
            'Fantasy Assist','Fantasy Assist - Penalty','Fantasy Assist - Free kick','Fantasy Assist - Goal by rebound',
            'Fantasy Assist - Own goal by pass/cross','Fantasy Assist - Own goal by rebound','Unnamed: 310','Kompetisi',
-           'Month','Nickname','DoB','Position','Nationality','Nat. Status','Age Group']
+           'Month','Nickname','DoB','Position','Nationality','Nat. Status','Age Group','Age']
 
   df = df.drop(jatuh, axis=1)
   df = df.groupby(['Name','Team'], as_index=False).sum()
@@ -568,7 +568,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   df['Goal Kick Grounded Ratio'] = round(df['Goal Kick - No Sub-action']/df['Goal Kick'],2)
   df['Long Ball Ratio'] = round(df['Pass - Long Ball']/df['Pass'],2)
 
-  temp = db[['Name', 'Position', 'Nationality']]
+  temp = db[['Name', 'Age', 'Position', 'Nationality']]
   dfx = pd.merge(df, temp, on='Name', how='left')
   datafull = dfx[dfx['MoP'] >= mins].reset_index(drop=True)
   datafull = datafull[mt_list]
