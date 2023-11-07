@@ -388,7 +388,7 @@ def data_team(data, komp, month, gw, venue, cat):
            'Blocks', 'Aerial Duels', 'Aerial Won', 'Saves',
            'Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
            'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside', 'Goal Kick - Goal Kick Launch',
-           'Goal Kick - No Sub-action', 'Goal Kick', 'Pass - Long Ball']]
+           'Goal Kick - No Sub-action', 'Goal Kick', 'Pass - Long Ball', 'Assist']]
   df = df.groupby('Team', as_index=False).sum()
   df['Conversion Ratio'] = round(df['Goals']/df['Shots'],2)
   df['Shot on Target Ratio'] = round(df['Shot on']/df['Shots'],2)
@@ -412,11 +412,11 @@ def data_team(data, komp, month, gw, venue, cat):
              'Blocks', 'Aerial Duels', 'Aerial Won', 'Aerial Won Ratio', 'Saves', 'Goals Conceded', 'Shots Allowed',
              'Errors', 'Error Goal - Error Led to Chance', 'Error Goal - Error Led to Goal',
              'Own Goal', 'Foul', 'Yellow Card', 'Red Card', 'Offside', 'Goal Kick Grounded Ratio', 'Long Ball Ratio',
-             'Goal Kick - Goal Kick Launch', 'Goal Kick - No Sub-action']]
+             'Goal Kick - Goal Kick Launch', 'Goal Kick - No Sub-action', 'Assist']]
 
   gt = ['Team', 'Shots', 'Shot on', 'Shot off', 'Shot Blocked', 'Shot on Target Ratio', 'Shots - Inside Box',
         'Shots - Outside Box', 'Goals', 'Penalties Awarded', 'Penalty Goal', 'Goals - Inside Box', 'Goal - Outside Box',
-        'Goals - Open Play', 'Goals - Set Pieces', 'Goal - Corner Kick', 'Goal - Own Goal']
+        'Goals - Open Play', 'Goals - Set Pieces', 'Goal - Corner Kick', 'Goal - Own Goal', 'Assist']
   
   ip = ['Team', 'Total Pass', 'Pass', 'Pass Accuracy', 'Chances Created',
         'Pass per Shot', 'Crosses', 'Cross', 'Successful Cross Ratio', 'Dribbles', 'Dribble']
