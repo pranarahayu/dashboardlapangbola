@@ -567,7 +567,7 @@ def data_player(data, komp, team, pos, month, venue, gw, age, nat, metrik, mins,
   df['Goal Kick Grounded Ratio'] = round(df['Goal Kick - No Sub-action']/df['Goal Kick'],2)
   df['Long Ball Ratio'] = round(df['Pass - Long Ball']/df['Pass'],2)
 
-  temp = db[['Name', 'Position', 'Nationality']]
+  temp = db[['Name', 'Age', 'Position', 'Nationality']]
   dfx = pd.merge(df, temp, on='Name', how='left')
   datafull = dfx[dfx['MoP'] >= mins].reset_index(drop=True)
   datafull = datafull[mt_list]
