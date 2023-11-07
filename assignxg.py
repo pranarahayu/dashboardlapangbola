@@ -466,7 +466,8 @@ def get_list(data):
            'Date','Result','Starter/Subs','Subs','Player Rating','Ball Possession','Pass Team','Kick In','Unnamed: 296','DoB',
            'Unnamed: 297','Unnamed: 298','Unnamed: 299','Unnamed: 300','Unnamed: 301','Unnamed: 302','Unnamed: 303',
            'Fantasy Assist','Fantasy Assist - Penalty','Fantasy Assist - Free kick','Fantasy Assist - Goal by rebound',
-           'Fantasy Assist - Own goal by pass/cross','Fantasy Assist - Own goal by rebound','Unnamed: 310','Kompetisi','Nickname']
+           'Fantasy Assist - Own goal by pass/cross','Fantasy Assist - Own goal by rebound','Unnamed: 310','Kompetisi','Nickname',
+           'DoB','Nat. Status','Age Group']
 
   df = df.drop(jatuh, axis=1)
   df['Conversion Ratio'] = round(df['Goals']/df['Shots'],2)
