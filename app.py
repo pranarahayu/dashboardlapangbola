@@ -63,9 +63,10 @@ cd = load_data(st.secrets["cd"])
 from datetime import date
 df1['Date'] = pd.to_datetime(df1.Date)
 df1['Month'] = df1['Date'].dt.strftime('%B')
+df22 = get_detail(df2)
 df = pd.merge(df1, df2.drop(['Name'], axis=1), on='Player ID', how='left')
 fulldata = get_detail(df)
-mlist = get_list(df)
+mlist = get_list(fulldata)
 no_temp = df1[df1['Kompetisi']=='Liga 1']
 histodata = milestone(histdata, no_temp)
 csdata = get_cs(no_temp)
@@ -225,7 +226,7 @@ with tab1:
                                        max_value=90*max(fulldata['Gameweek']), step=90, key=18)
                 metrik = st.multiselect('Select Metrics', mlist, key='19')
             cat = st.selectbox('Select Category', ['Total', 'per 90'], key='16')
-            show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat, df2)
+            show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat, df22)
             st.write(show_player_data)
 
             @st.cache
