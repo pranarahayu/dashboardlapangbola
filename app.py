@@ -27,7 +27,6 @@ from assignxg import get_list
 from assignxg import get_detail
 from assignxg import get_cs
 from assignxg import milestone
-from assignxg import get_sum90
 from assignxg import get_pct
 from assignxg import get_pssw
 from assignxg import get_wdl
@@ -315,9 +314,9 @@ with tab3:
                                    max_value=90*max(fulldata['Gameweek']), step=90, key=96)
         with col2:
             komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='101')
-        rank_p90 = get_sum90(df1, df2, mins)[0]
-        rank_tot = get_sum90(df1, df2, mins)[1]
-        rank_pct = get_pct(rank_p90, komp)
+        rank_p90 = get_pct(df1, df2, mins, komp)[0]
+        rank_tot = get_pct(df1, df2, mins, komp)[1]
+        rank_pct = get_pct(df1, df2, mins, komp)[2]
         col2, col3, col4 = st.columns(3)
         with col2:
             tempp = rank_p90[rank_p90['Kompetisi']==komp]
