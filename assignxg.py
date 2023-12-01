@@ -656,7 +656,7 @@ def milestone(data, data2):
 
   return mstone
 
-def get_sum90(data, data2, min):
+def get_pct(data, data2, min, komp):
   df = data.copy()
   db = data2.copy()
   df['Shots'] = df['Shot on']+df['Shot off']+df['Shot Blocked']
@@ -710,12 +710,9 @@ def get_sum90(data, data2, min):
   data_full = pd.merge(pos, p90, on='Name', how='left')
   data_full = data_full.loc[(data_full['MoP']>=min)].reset_index(drop=True)
 
-  return data_full, df_sum
-
-def get_pct(data, komp):
-  data_full = data.copy()
-  data_full = data_full[data_full['Kompetisi']==komp]
-  df4 = data_full.groupby('Position', as_index=False)
+  temp_full = data_full.copy()
+  temp_full = temp_full[temp_full['Kompetisi']==komp]
+  df4 = temp_full.groupby('Position', as_index=False)
   midfielder = df4.get_group('Midfielder')
   goalkeeper = df4.get_group('Goalkeeper')
   forward = df4.get_group('Forward')
@@ -853,8 +850,9 @@ def get_pct(data, komp):
   rank_w['MoP'] = winger['MoP']
 
   rank_liga = pd.concat([rank_cm, rank_gk, rank_fw, rank_cam, rank_cb, rank_fb, rank_w]).reset_index(drop=True)
+  rank_liga['MoP'] = rank_liga['MoP'].astype(int)
 
-  return rank_liga
+  return data_full, df_sum, rank_liga
 
 def get_pssw(data, data2, team, gw):
   df = data.copy()
