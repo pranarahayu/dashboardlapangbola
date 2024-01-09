@@ -222,7 +222,7 @@ with tab1:
                     gw = pd.unique(temp_pull['Gameweek'])
             with col5:
                 mins = st.number_input('Input minimum mins. played', min_value=0,
-                                       max_value=90*max(fulldata['Gameweek']), step=90, key=18)
+                                       max_value=3060, step=90, key=18)
                 metrik = st.multiselect('Select Metrics', mlist, key='19')
             cat = st.selectbox('Select Category', ['Total', 'per 90'], key='16')
             show_player_data = data_player(fulldata, komp, team, pos, month, venue, gw, age, nat, metrik, mins, cat, df22)
