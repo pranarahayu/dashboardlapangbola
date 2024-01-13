@@ -311,7 +311,7 @@ with tab3:
         col1, col2 = st.columns(2)
         with col1:
             mins = st.number_input('Input minimum mins. played', min_value=90,
-                                   max_value=90*max(fulldata['Gameweek']), step=90, key=96)
+                                   max_value=3060), step=90, key=96)
         with col2:
             komp = st.selectbox('Select Competition', ['Liga 1', 'Liga 2'], key='101')
         rank_p90 = get_pct(df1, df2, mins, komp)[0]
@@ -367,7 +367,7 @@ with tab3:
             ages = st.multiselect('Select Age Groups', ['Senior', 'U23'], key='88')
         with col3:
             mins = st.number_input('Input minimum mins. played', min_value=90,
-                                   max_value=90*max(fulldata['Gameweek']), step=90, key=85)
+                                   max_value=3060), step=90, key=85)
             arr_met = st.multiselect('Select Metrics', metlist, key='84')
             
         playlist = get_playerlist(temple, komp, pos, mins, nats, ages, arr_met)
