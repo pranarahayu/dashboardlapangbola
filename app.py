@@ -180,7 +180,7 @@ with tab1:
             show_tim_data = data_team(fulldata, komp, month, gw, venue, cat)
             st.write(show_tim_data)
 
-            @st.cache
+            @st.cache_data(ttl=600)
             def convert_df(df):
                 return df.to_csv().encode('utf-8')
             csv = convert_df(show_tim_data)
@@ -229,7 +229,7 @@ with tab1:
             st.write(show_player_data)
             #st.write(df22)
 
-            @st.cache
+            @st.cache_data(ttl=600)
             def convert_df(df):
                 return df.to_csv().encode('utf-8')
             csv = convert_df(show_player_data)
